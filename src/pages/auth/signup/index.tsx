@@ -76,7 +76,7 @@ const SignUp: NextPageWithLayout = () => {
       <TypographyH1 className="mb-4">Hi, create an account to get started</TypographyH1>
       <p className="">
             Already have an account?{" "}
-            <Link href="/Auth/login" className="text-[#A85334]">
+            <Link href="/auth/login" className="text-[#A85334]">
               Log in
             </Link>
           </p>
