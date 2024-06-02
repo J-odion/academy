@@ -132,7 +132,7 @@ const EmailVerification: NextPageWithLayout = () => {
   // }, [countdown, resendDisabled]);
 
   return (
-    <AuthSection>
+    <AuthSection className="h-[100vh]">
       <div className="flex justify-center flex-col mb-10">
         <Link href="/" className="text-[#A85334]">
           <Image

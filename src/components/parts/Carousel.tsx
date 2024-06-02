@@ -35,7 +35,7 @@ export function SPGCarousel() {
   }, [api])
 
   return (
-    <div className="w-full max-w-xs">
+    <div className="w-[80%] px-6">
       <Carousel setApi={setApi}>
         <CarouselContent>
           {imageUrls.map((imageUrl, index) => (
