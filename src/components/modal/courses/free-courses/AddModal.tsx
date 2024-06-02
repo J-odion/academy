@@ -11,10 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import { Image, Mic } from "lucide-react";
+import { Image, Loader2Icon, Mic } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useAddFreeCourses } from "../../../../../hooks/account/admin";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "../../../../../context/auth.context";
 
 type FreeCoursesModalProps = {
   className?: string;
@@ -338,8 +339,10 @@ const AddModal = ({
                   >
                     Previous
                   </CustomButton>
-                  <CustomButton className="bg-[#A85334] w-full" type="submit">
-                    Save
+                  <CustomButton className="bg-[#A85334] w-full" type="submit"
+                  disabled={isLoading}
+                  >
+                    {isLoading ? <Loader2Icon className="animate-spin" /> : "Save"}
                   </CustomButton>
                 </div>
               )}

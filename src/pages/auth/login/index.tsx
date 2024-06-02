@@ -10,7 +10,7 @@ import { NextPageWithLayout, queryClient } from "@/pages/_app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField } from "@/components/ui/form";
 import FormRender from "@/components/FormRender";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -31,7 +31,6 @@ const SignIn: NextPageWithLayout = () => {
   const { toast } = useToast();
   const { getItem } = useStorage();
   const router = useRouter();
-  // const { setUpLogin } = useAuth()!;
 
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -45,20 +44,24 @@ const SignIn: NextPageWithLayout = () => {
     mutationKey: [QUERY_KEYS.login],
     mutationFn: (data: LoginProps) => AuthLogin(data),
     onSuccess(res) {
-      console.log("Mutation success:", res);
       if (res.status === 200) {
         toast({
           title: `Logged in successfully`,
           className: "toast-success",
         });
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile] });
-        const userRole = localStorage.getItem("role");
-        console.log(userRole);
+        const userRole = localStorage.getItem('role');
         if (res.data.role === "admin") {
           router.push(`/dashboard/admin/account`);
         } else {
           router.push(`/dashboard/student/account`);
         }
+      } else if (res.status === 404) {
+        toast({
+          title: `User not found`,
+          description: res.data.message || "User not found",
+          className: "toast-error",
+        });
       } else {
         toast({
           title: `Something went wrong!`,
@@ -67,10 +70,16 @@ const SignIn: NextPageWithLayout = () => {
         });
       }
     },
+    onError(error) {
+      toast({
+        title: `Login failed`,
+        description: error.message || "An unexpected error occurred",
+        className: "toast-error",
+      });
+    },
   });
 
   const onSubmit = (values: z.infer<typeof signInFormSchema>) => {
-    console.log("Values:", values);
     mutate(values);
   };
 
@@ -144,7 +153,3 @@ const SignIn: NextPageWithLayout = () => {
 };
 
 export default SignIn;
-
-SignIn.getLayout = function getLayout(page: React.ReactElement) {
-  return <AuthLayout page={"signIn"}>{page}</AuthLayout>;
-};

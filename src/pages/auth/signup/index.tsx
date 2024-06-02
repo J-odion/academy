@@ -6,7 +6,7 @@ import { NextPageWithLayout } from "@/pages/_app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField } from "@/components/ui/form";
 import FormRender from "@/components/FormRender";
-import React, { useEffect, useState } from "react";
+import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -23,9 +23,8 @@ import { useAuth } from "../../../../context/auth.context";
 import Image from "next/image";
 
 const SignUp: NextPageWithLayout = () => {
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  // const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signUpFormSchema>>({
@@ -33,7 +32,6 @@ const SignUp: NextPageWithLayout = () => {
     defaultValues: {
       email: "",
       password: "",
-      // confirmPassword: "",
       firstName: "",
       lastName: "",
       username: "",
@@ -103,6 +101,7 @@ const SignUp: NextPageWithLayout = () => {
                   label="First Name"
                   placeholder="Enter your First Name"
                   field={field}
+                  className="w-full p-3 border border-gray-300 rounded"
                 />
               )}
             />
@@ -114,6 +113,7 @@ const SignUp: NextPageWithLayout = () => {
                   label="Last Name"
                   placeholder="Enter your Last Name"
                   field={field}
+                  className="w-full p-3 border border-gray-300 rounded"
                 />
               )}
             />
@@ -194,7 +194,3 @@ const SignUp: NextPageWithLayout = () => {
 };
 
 export default SignUp;
-
-SignUp.getLayout = function getLayout(page: React.ReactElement) {
-  return <AuthLayout page={"signUp"}>{page}</AuthLayout>;
-};
