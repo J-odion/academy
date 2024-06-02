@@ -6,7 +6,7 @@ import { NextPageWithLayout, queryClient } from "@/pages/_app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField } from "@/components/ui/form";
 import FormRender from "@/components/FormRender";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -21,12 +21,12 @@ import { AuthLogin } from "../../../../hooks/auth";
 import { QUERY_KEYS } from "@/lib/utils";
 import useStorage from "@/lib/useStorage";
 import { useAuth } from "../../../../context/auth.context";
+import Image from "next/image";
 
 const SignIn: NextPageWithLayout = () => {
   const { toast } = useToast();
   const { getItem } = useStorage();
   const router = useRouter();
-  // const { setUpLogin } = useAuth()!;
 
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -40,20 +40,24 @@ const SignIn: NextPageWithLayout = () => {
     mutationKey: [QUERY_KEYS.login],
     mutationFn: (data: LoginProps) => AuthLogin(data),
     onSuccess(res) {
-      console.log("Mutation success:", res);
-      if(res.status === 200) {
+      if (res.status === 200) {
         toast({
           title: `Logged in successfully`,
           className: "toast-success",
         });
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile] });
         const userRole = localStorage.getItem('role');
-        console.log(userRole)
         if (res.data.role === "admin") {
           router.push(`/dashboard/admin/account`);
         } else {
           router.push(`/dashboard/student/account`);
         }
+      } else if (res.status === 404) {
+        toast({
+          title: `User not found`,
+          description: res.data.message || "User not found",
+          className: "toast-error",
+        });
       } else {
         toast({
           title: `Something went wrong!`,
@@ -61,73 +65,74 @@ const SignIn: NextPageWithLayout = () => {
           className: "toast-error",
         });
       }
-
-
+    },
+    onError(error) {
+      toast({
+        title: `Login failed`,
+        description: error.message || "An unexpected error occurred",
+        className: "toast-error",
+      });
     },
   });
 
-
   const onSubmit = (values: z.infer<typeof signInFormSchema>) => {
-    console.log("Values:", values);
     mutate(values);
   };
 
   return (
-    <AuthSection>
-      <TypographyH1 className="mb-4">Welcome back</TypographyH1>
-      <p className="">
-            Don&apos;t have an account?{" "}
-            <Link href="/auth/signup" className="text-[#A85334]">
-              Sign up
-            </Link>
-          </p>
+    <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen p-4">
+      <div className="lg:w-1/2 w-full flex flex-col items-center lg:items-start mb-8 lg:mb-0 lg:pl-8">
+        <TypographyH1 className="mb-4 text-3xl lg:text-5xl">Welcome back</TypographyH1>
+        <p className="mb-4 text-lg">
+          Don't have an account?{" "}
+          <Link href="/auth/signup" className="text-[#A85334]">
+            Sign up
+          </Link>
+        </p>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormRender
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6 max-w-sm">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormRender
+                  placeholder="Enter email"
+                  field={field}
+                  className="w-full p-3 border border-gray-300 rounded"
+                />
+              )}
+            />
 
-                placeholder="Enter email"
-                field={field}
-              />
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormRender
+                  placeholder="Enter password"
+                  field={field}
+                  type="password"
+                  className="w-full p-3 border border-gray-300 rounded"
+                />
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormRender
-
-                placeholder="Enter password"
-                field={field}
-                type="password"
-              />
-            )}
-          />
-
-
-          <CustomButton
-            type="submit"
-            className=" bg-[#A85334] w-full"
-            disabled={isPending}
-            isLoading={isPending}
-          >
-            Log in
-          </CustomButton>
-
-
-        </form>
-      </Form>
-    </AuthSection>
+            <CustomButton
+              type="submit"
+              className="bg-[#A85334] w-full p-3 rounded text-white"
+              disabled={isPending}
+              isLoading={isPending}
+            >
+              Log in
+            </CustomButton>
+          </form>
+        </Form>
+      </div>
+      <div className="hidden lg:flex lg:w-1/2 justify-center">
+        <Image src='/images/guitar_bg.png' width={500} height={400} alt="Guitar" className="rounded-lg" />
+      </div>
+    </div>
   );
 };
 
 export default SignIn;
-
-SignIn.getLayout = function getLayout(page: React.ReactElement) {
-  return <AuthLayout page={"signIn"}>{page}</AuthLayout>;
-};
