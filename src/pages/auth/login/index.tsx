@@ -81,7 +81,7 @@ const SignIn: NextPageWithLayout = () => {
 
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen p-4">
-      <div className="lg:w-1/2 w-full flex flex-col items-center lg:items-start mb-8 lg:mb-0 lg:pl-8">
+      <div className="lg:w-1/2 flex flex-col items-center lg:items-start mb-8 lg:mb-0 lg:pl-8">
         <TypographyH1 className="mb-4 text-3xl lg:text-5xl">Welcome back</TypographyH1>
         <p className="mb-4 text-lg">
           Don't have an account?{" "}
