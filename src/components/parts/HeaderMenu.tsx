@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { Input } from "@/components/ui/input";
-import {
-  X,
-  AlignJustify,
-  UserCircle,
-} from "lucide-react";
+import { X, AlignJustify, UserCircle } from "lucide-react";
 
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { NavigationMenus } from "@/components/parts/Menus";
 import { Avatar } from "@/components/ui/avatar";
-
 
 type Props = {
   toggleSideBar: boolean;
@@ -40,13 +35,13 @@ const DashboardNav = ({ toggleSideBar, setToggleSideBar }: Props) => {
       <nav className=" top-0 z-40 w-full px-5 py-6 text-black md:px-10 lg:py-4">
         <div className="flex items-center justify-between">
           <div className="lg:hidden">
-          <Image
-                    className="h-[50px] w-[50px]"
-                    src="/SGALOGO.svg"
-                    width={50}
-                    height={50}
-                    alt="Picture of the author"
-                  />
+            <Image
+              className="h-[50px] w-[50px]"
+              src="/SGALOGO.svg"
+              width={50}
+              height={50}
+              alt="Picture of the author"
+            />
           </div>
           <div className="hidden  bg-none flex-1 lg:flex w-full items-center h-[50px] align-middle justify-between px-[100px] py-[50px]">
             <Image
@@ -65,7 +60,6 @@ const DashboardNav = ({ toggleSideBar, setToggleSideBar }: Props) => {
             </div>
           </div>
           <div className="flex fixed lg:hidden p-2 right-5 rounded-xl bg-black justify-end items-end space-x-6">
-            
             <div
               className="cursor-pointer lg:hidden "
               onClick={handleToggleSidebar}
@@ -84,7 +78,7 @@ const DashboardNav = ({ toggleSideBar, setToggleSideBar }: Props) => {
       </nav>
 
       {/* Mobile sidebar */}
-      <aside 
+      <aside
         className={`transition-width  fixed z-40 flex top-0 h-[100%] bg-[#000] shadow-lg duration-300 ease-in-out lg:hidden`}
       >
         {toggleSideBar && (
@@ -173,10 +167,13 @@ const DashboardNav = ({ toggleSideBar, setToggleSideBar }: Props) => {
                 </span>
                 Login
               </Link>
-              <Link href="/auth/signup" className="flex items-center" onClick={handleLogoutModal}>
-                
+              <Link
+                href="/auth/signup"
+                className="flex items-center"
+                onClick={handleLogoutModal}
+              >
                 Join For Free
-              </Link >
+              </Link>
             </div>
           </div>
         )}

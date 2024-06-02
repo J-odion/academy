@@ -35,34 +35,28 @@ const imagePath = "/images";
 const authInfo: AuthInfo = {
   signIn: {
     image: `${imagePath}/guitar_bg.png`,
-    width: 600,
-    height: 350,
+    
   },
   forgotPassword: {
     image: `${imagePath}/guitar_bg.png`,
-    width: 500,
-    height: 600,
+    
   },
   emailVerification: {
     image: `${imagePath}/guitar_bg.png`,
-    width: 600,
-    height: 600,
+    
   },
   resetPassword: {
     image: `${imagePath}/guitar_bg.png`,
-    width: 600,
-    height: 600,
+   
   },
   signUp: {
     image: `${imagePath}/guitar_bg.png`,
     className: "m-0 p-0",
-    width: 700,
-    height: 350,
+    
   },
   emailPasswordReset: {
     image: `${imagePath}/guitar_bg.png`,
-    width: 600,
-    height: 600,
+    
   },
 };
 
@@ -74,11 +68,11 @@ function AuthLayout({ children, page }: AuthLayoutProps) {
 
 
   return (
-    <main className="mx-auto grid lg:h-screen lg:grid-cols-12">
+    <main className="h-[100vh] mx-auto flex flex-col justify-center w-full my-auto lg:grid lg:h-screen lg:grid-cols-12">
       {children}
-      <section className="col-span-6">
-        <div className="p-5 lg:px-24">
-          <Image src={currentPageInfo.image} width={currentPageInfo.width} height={currentPageInfo.height} alt="Guitar" className="" />
+      <section className="col-span-6 justify-center my-auto object-contain ">
+        <div className="p-5 lg:px-24 hidden lg:flex justify-center align-middle items-center lg:h-[100vh] my-auto">
+          <Image  src={currentPageInfo.image} width={600} height={500} alt="Guitar" className="scale-75 " />
         </div>
       </section>
 

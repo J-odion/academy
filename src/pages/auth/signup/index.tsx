@@ -1,6 +1,6 @@
 import AuthLayout from "@/components/layout/auth/AuthLayout";
 import AuthSection from "@/components/layout/auth/AuthSection";
-import { TypographyH1 } from "@/components/typography";
+import { TypographyH1, TypographyH3 } from "@/components/typography";
 import { signUpFormSchema } from "@/lib/formSchema";
 import { NextPageWithLayout } from "@/pages/_app";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +20,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthSignUp, AuthConfirmOtp } from "../../../../hooks/auth";
 import { QUERY_KEYS } from "@/lib/utils";
 import { useAuth } from "../../../../context/auth.context";
-
+import Image from "next/image";
 
 const SignUp: NextPageWithLayout = () => {
   const { toast } = useToast();
@@ -41,9 +41,6 @@ const SignUp: NextPageWithLayout = () => {
     },
   });
 
-
-
-
   const onSubmit = async (values: z.infer<typeof signUpFormSchema>) => {
     const payload = {
       email: values.email,
@@ -54,12 +51,10 @@ const SignUp: NextPageWithLayout = () => {
       username: values.username,
     };
 
-
-
     try {
       await AuthConfirmOtp({ email: payload.email, otp_code: "" });
-      localStorage.setItem('signUpFormData', JSON.stringify(payload));
-      localStorage.setItem('role', payload.role);
+      localStorage.setItem("signUpFormData", JSON.stringify(payload));
+      localStorage.setItem("role", payload.role);
       router.push(`/auth/confirm?email=${payload.email}`);
     } catch (error) {
       toast({
@@ -70,19 +65,36 @@ const SignUp: NextPageWithLayout = () => {
     }
   };
 
-
   return (
-    <AuthSection>
-      <TypographyH1 className="mb-4">Hi, create an account to get started</TypographyH1>
-      <p className="">
-            Already have an account?{" "}
-            <Link href="/auth/login" className="text-[#A85334]">
-              Log in
-            </Link>
-          </p>
+    <AuthSection className="h-full relative py-16 lg:py-0">
+      <div className="flex justify-center flex-col mb-1 lg:mb-10 top-0">
+        <Link href="/" className="text-[#A85334]">
+          <Image
+            className="h-[100px] w-[100px] mx-auto lg:mx-0 mb-0 lg:mb-4 "
+            src="/SGALOGO.svg"
+            width={50}
+            height={50}
+            alt="Picture of the author"
+          />
+        </Link>
+
+        <Link href="/">
+          <TypographyH1 className="mb-4 w-full text-center lg:text-left">
+            Spicy Guitar Academy
+          </TypographyH1>
+        </Link>
+      </div>
+      <TypographyH1 className="mb-4 w-full text-center lg:text-left">
+        Hi, create an account to get started
+      </TypographyH1>
+      <TypographyH3 className="mb-4 w-full text-center lg:text-left">
+        Welcome to the largest guitar academy in africa. where we guide you
+        through every step of your guitar journey!
+      </TypographyH3>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-4 lg:space-y-0 lg:gap-5 lg:flex my-auto justify-center items-center align-middle">
             <FormField
               control={form.control}
               name="firstName"
@@ -105,58 +117,61 @@ const SignUp: NextPageWithLayout = () => {
                 />
               )}
             />
+          </div>
 
+          <div className="space-y-4 lg:space-y-0 lg:gap-5 lg:flex my-auto justify-center items-center align-middle">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormRender
+                  label="Email"
+                  placeholder="Enter your email"
+                  field={field}
+                />
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormRender
-                label="Email"
-                placeholder="Enter your email"
-                field={field}
-              />
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormRender
+                  label="Username *(Stage Name)"
+                  placeholder="Enter your username or Stage Name"
+                  field={field}
+                />
+              )}
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormRender
-                label="Username"
-                placeholder="Enter your username"
-                field={field}
-              />
-            )}
-          />
+          <div className="space-y-4 lg:space-y-0 lg:gap-5 lg:flex my-auto justify-center items-center align-middle">
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormRender
+                  label="Password"
+                  placeholder="Enter your password"
+                  field={field}
+                  type="password"
+                />
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormRender
-                label="Password"
-                placeholder="Enter your password"
-                field={field}
-                type="password"
-              />
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormRender
-                label="role"
-                placeholder="role"
-                field={field}
-                type="role"
-              />
-            )}
-          />
-
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormRender
+                  label="role *(Temporary. Type Admin or blank (student)"
+                  placeholder="role"
+                  field={field}
+                  type="role"
+                />
+              )}
+            />
+          </div>
 
           <CustomButton
             type="submit"
@@ -166,10 +181,14 @@ const SignUp: NextPageWithLayout = () => {
           >
             Sign Up
           </CustomButton>
-
-
         </form>
       </Form>
+      <div className="mt-4 flex gap-2 justify-center lg:justify-start">
+        <p className="">Already have an account?</p>
+        <Link href="/auth/login" className="text-[#A85334]">
+          Log in
+        </Link>
+      </div>
     </AuthSection>
   );
 };

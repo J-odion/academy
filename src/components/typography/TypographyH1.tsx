@@ -9,7 +9,7 @@ interface TypographyH1Props extends React.ComponentProps<"h1"> {
 function TypographyH1({ children, className }: TypographyH1Props) {
   return (
     <h1
-      className={`text-4xl font-bold tracking-tight lg:text-4xl ${cn(
+      className={`text-3xl font-bold tracking-tight lg:text-4xl ${cn(
         className,
       )}`}
     >
