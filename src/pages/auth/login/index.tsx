@@ -1,10 +1,6 @@
 import AuthLayout from "@/components/layout/auth/AuthLayout";
 import AuthSection from "@/components/layout/auth/AuthSection";
-import {
-  TypographyH1,
-  TypographyH2,
-  TypographyH3,
-} from "@/components/typography";
+import { TypographyH1, TypographyH3 } from "@/components/typography";
 import { signInFormSchema } from "@/lib/formSchema";
 import { NextPageWithLayout, queryClient } from "@/pages/_app";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -84,7 +80,8 @@ const SignIn: NextPageWithLayout = () => {
   };
 
   return (
-    <AuthSection className="h-[100vh]">
+    <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen p-4">
+      <div className="lg:w-1/2 flex flex-col items-center lg:items-start mb-8 lg:mb-0 lg:pl-8">
       <div className="flex justify-center flex-col mb-10">
         <Link href="/" className="text-[#A85334]">
           <Image
@@ -95,60 +92,70 @@ const SignIn: NextPageWithLayout = () => {
             alt="Picture of the author"
           />
         </Link>
-
-        <Link href="/">
-          <TypographyH1 className="mb-4 w-full text-center lg:text-left">
-            Spicy Guitar Academy
-          </TypographyH1>
-        </Link>
       </div>
       <TypographyH1 className="mb-4 w-full text-center lg:text-left">
         Welcome back
       </TypographyH1>
 
-      <TypographyH3 className="mb-4 w-full text-center lg:text-left">
+      <p className="mb-4 w-full text-center lg:text-left">
         Continue from where you left off. There are a lot to learn today!
-      </TypographyH3>
+      </p>
+        {/* <TypographyH1 className="mb-4 text-3xl lg:text-5xl">Welcome back</TypographyH1>
+        <p className="mb-4 text-lg">
+          Don't have an account?{" "}
+          <Link href="/auth/signup" className="text-[#A85334]">
+            Sign up
+          </Link>
+        </p> */}
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormRender placeholder="Enter email" field={field} />
-            )}
-          />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6 max-w-sm">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormRender
+                  placeholder="Enter email"
+                  field={field}
+                  className="w-full p-3 border border-gray-300 rounded"
+                />
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormRender
-                placeholder="Enter password"
-                field={field}
-                type="password"
-              />
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormRender
+                  placeholder="Enter password"
+                  field={field}
+                  type="password"
+                  className="w-full p-3 border border-gray-300 rounded"
+                />
+              )}
+            />
 
-          <CustomButton
-            type="submit"
-            className=" bg-[#A85334] w-full"
-            disabled={isPending}
-            isLoading={isPending}
-          >
-            Log in
-          </CustomButton>
-        </form>
-      </Form>
-      <div className="mt-4 flex gap-2 justify-center lg:justify-start">
+            <CustomButton
+              type="submit"
+              className="bg-[#A85334] w-full p-3 rounded text-white"
+              disabled={isPending}
+              isLoading={isPending}
+            >
+              Log in
+            </CustomButton>
+          </form>
+        </Form>
+        <div className="mt-4 flex gap-2 justify-center lg:justify-start">
         <p className="">Don&apos;t have an account?</p>
-        <Link href="/auth/signup" className="text-[#A85334]">
+        <Link href="/auth/signup" className="text-[#A85334] hover:underline">
           Sign up
         </Link>
       </div>
-    </AuthSection>
+      </div>
+      <div className="hidden lg:flex lg:w-1/2 justify-center">
+        <Image src='/images/guitar_bg.png' width={400} height={400} alt="Guitar" className="rounded-lg" />
+      </div>
+    </div>
   );
 };
 

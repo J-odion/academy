@@ -6,7 +6,7 @@ import { NextPageWithLayout } from "@/pages/_app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField } from "@/components/ui/form";
 import FormRender from "@/components/FormRender";
-import React, {useState} from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,6 @@ import { useAuth } from "../../../../context/auth.context";
 import Image from "next/image";
 
 const SignUp: NextPageWithLayout = () => {
-  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -64,132 +63,144 @@ const SignUp: NextPageWithLayout = () => {
   };
 
   return (
-    <AuthSection className="h-full relative py-16 lg:py-0">
-      <div className="flex justify-center flex-col mb-1 lg:mb-10 top-0">
-        <Link href="/" className="text-[#A85334]">
-          <Image
-            className="h-[100px] w-[100px] mx-auto lg:mx-0 mb-0 lg:mb-4 "
-            src="/SGALOGO.svg"
-            width={50}
-            height={50}
-            alt="Picture of the author"
-          />
-        </Link>
+    <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen p-4 bg-gray-50">
+      <div className="lg:w-1/2 flex flex-col items-center lg:items-start my-8 lg:mb-8 lg:pl-8 ">
+        {/* <TypographyH1 className="mb-4 text-3xl lg:text-5xl">Hi, create an account to get started</TypographyH1>
+        <p className="mb-4 text-lg">
+          Already have an account?{" "}
+          <Link href="/auth/login" className="text-[#A85334]">
+            Log in
+          </Link>
+        </p> */}
 
-        <Link href="/">
-          <TypographyH1 className="mb-4 w-full text-center lg:text-left">
-            Spicy Guitar Academy
-          </TypographyH1>
-        </Link>
-      </div>
-      <TypographyH1 className="mb-4 w-full text-center lg:text-left">
-        Hi, create an account to get started
-      </TypographyH1>
-      <TypographyH3 className="mb-4 w-full text-center lg:text-left">
-        Welcome to the largest guitar academy in africa. where we guide you
-        through every step of your guitar journey!
-      </TypographyH3>
-
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-4 lg:space-y-0 lg:gap-5 lg:flex my-auto justify-center items-center align-middle">
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormRender
-                  label="First Name"
-                  placeholder="Enter your First Name"
-                  field={field}
-                  className="w-full p-3 border border-gray-300 rounded"
-                />
-              )}
+        <div className="flex justify-center flex-col mb-1 lg:mb-10 top-0">
+          <Link href="/" className="text-[#A85334]">
+            <Image
+              className="h-[100px] w-[100px] mx-auto lg:mx-0 mb-0 lg:mb-4 "
+              src="/SGALOGO.svg"
+              width={50}
+              height={50}
+              alt="Picture of the author"
             />
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormRender
-                  label="Last Name"
-                  placeholder="Enter your Last Name"
-                  field={field}
-                  className="w-full p-3 border border-gray-300 rounded"
-                />
-              )}
-            />
-          </div>
+          </Link>
+        </div>
+        <TypographyH1 className="mb-4 w-full text-center lg:text-left">
+          Hi, create an account to get started
+        </TypographyH1>
+        <p className="mb-4 lg:w-full w-[400px]  text-center lg:text-left">
+          Welcome to the largest guitar academy in Africa where we guide you
+          through every step of your guitar journey!
+        </p>
 
-          <div className="space-y-4 lg:space-y-0 lg:gap-5 lg:flex my-auto justify-center items-center align-middle">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormRender
-                  label="Email"
-                  placeholder="Enter your email"
-                  field={field}
-                />
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormRender
-                  label="Username *(Stage Name)"
-                  placeholder="Enter your username or Stage Name"
-                  field={field}
-                />
-              )}
-            />
-          </div>
-
-          <div className="space-y-4 lg:space-y-0 lg:gap-5 lg:flex my-auto justify-center items-center align-middle">
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormRender
-                  label="Password"
-                  placeholder="Enter your password"
-                  field={field}
-                  type="password"
-                />
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormRender
-                  label="role *(Temporary. Type Admin or blank (student)"
-                  placeholder="role"
-                  field={field}
-                  type="role"
-                />
-              )}
-            />
-          </div>
-
-          <CustomButton
-            type="submit"
-            className=" bg-[#A85334] w-full hover:bg-[#A85334]/50 "
-            // disabled={isPending}
-            // isLoading={isPending}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full space-y-4"
           >
-            Sign Up
-          </CustomButton>
-        </form>
-      </Form>
-      <div className="mt-4 flex gap-2 justify-center lg:justify-start">
-        <p className="">Already have an account?</p>
-        <Link href="/auth/login" className="text-[#A85334]">
-          Log in
-        </Link>
+            <div className="space-y-4 lg:space-y-0 lg:gap-5 lg:flex my-auto justify-center items-center align-middle w-full">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormRender
+                    label="First Name"
+                    placeholder="Enter your First Name"
+                    field={field}
+                  />
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormRender
+                    label="Last Name"
+                    placeholder="Enter your Last Name"
+                    field={field}
+                  />
+                )}
+              />
+            </div>
+
+            <div className="space-y-4 lg:space-y-0 lg:gap-5 lg:flex my-auto justify-center items-center align-middle">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormRender
+                    label="Email"
+                    placeholder="Enter your email"
+                    field={field}
+                  />
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormRender
+                    label="Username *(Stage Name)"
+                    placeholder="Enter your username or Stage Name"
+                    field={field}
+                  />
+                )}
+              />
+            </div>
+
+            <div className="space-y-4 lg:space-y-0 lg:gap-5 lg:flex my-auto justify-center items-center align-middle">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormRender
+                    label="Password"
+                    placeholder="Enter your password"
+                    field={field}
+                    type="password"
+                  />
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormRender
+                    label="Role *(Temporary. Type Admin or blank (student)"
+                    placeholder="role"
+                    field={field}
+                    type="role"
+                  />
+                )}
+              />
+            </div>
+
+            <CustomButton
+              type="submit"
+              className="bg-[#A85334] w-full mx-auto flex justify-center p-3 rounded text-white hover:bg-[#A85334]/50"
+            >
+              Sign Up
+            </CustomButton>
+          </form>
+        </Form>
+        <div className="mt-4 flex gap-2 justify-center lg:justify-start">
+          <p className="">Already have an account?</p>
+          <Link href="/auth/login" className="text-[#A85334] hover:underline">
+            Log in
+          </Link>
+        </div>
       </div>
-    </AuthSection>
+      <div className="hidden lg:flex lg:w-1/2 justify-center">
+        <Image
+          src="/images/guitar_bg.png"
+          width={400}
+          height={400}
+          alt="Guitar"
+          className="rounded-lg"
+        />
+      </div>
+    </div>
   );
 };
 
