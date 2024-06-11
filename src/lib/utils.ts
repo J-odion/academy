@@ -7,6 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 
 export const QUERY_KEYS = {
   signUp: "signup",
+  adminSignUp: "adminSignUp",
+  superAdminSignUp: "superAdminSignUp",
+  adminLogin: "adminLogin",
   login: "login",
   profile: "profile",
   confirmOtp: "confirmOtp",

@@ -1,46 +1,72 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+// import { axiosInstance } from "../../axiosInstance";
 import { axiosInstance } from "../../axiosInstance";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/router";
+import useStorage from "@/lib/useStorage";
 
 // const router = useRouter();
 
 
 export const useAddFreeCourses = () => {
-    const { toast } = useToast();
+  const { toast } = useToast();
+  const { getItem } = useStorage();
 
-    const mutationFn = async (data: FormData) => {
-        const response = await axiosInstance.post("/courses/addFreeCourse", data, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+  const mutationFn = async (data: any) => {
+    const response = await axiosInstance.post("/courses/addFreeCourse", data, {
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': `Bearer ${getItem("access-token")}`,
+      }
+    });
+    return response.data;
+  };
+
+  return useMutation({
+    mutationFn,
+    onSuccess: (response: any) => {
+      console.log('Response:', response);
+
+      const { message, error } = response;
+
+      if (message) {
+        toast({
+          title: "Courses successfully added",
+          description: message,
+          className: "toast-success",
         });
-        return response.data;
-      };
-
-      return useMutation({
-        mutationFn,
-        onSuccess: (response: any) => {
-          if (response.status_code === 201 || response.status_code === 200) {
-               toast({
-              title: "Courses successfully added",
-              description: `${response.message}`,
-              className: "toast-success",
-            });
-          } else {
-            console.log(response.error)
-            toast({
-              title: "Something went wrong... Try Again",
-
-              description:
-                response.errors && response.errors.length > 0
-                  ? response.errors[0].error
-                  : response.error,
-              className: "toast-error",
-            });
-          }
-        },
+      } else {
+        toast({
+          title: "Something went wrong",
+          description: error || "An unexpected error occurred",
+          className: "toast-error",
+        });
+      }
+    },
+    onError: (error) => {
+      console.error("Error:", error);
+      toast({
+        title: "Error",
+        description: "An error occurred, please try again",
+        className: "toast-error",
       });
+    },
+  });
+};
+
+
+export const useGetFreeCourses = () => {
+  const queryFn = async () => {
+    const response = await axiosInstance.get("/courses/freeCourses");
+    return response.data;
+  };
+
+  return useQuery({
+    queryKey: ["freeCourses"],
+    queryFn,
+    retry: 1,
+});
+
 }
 
 
@@ -74,20 +100,20 @@ export const useUpdateFreeCourses = (accountId: any) => {
     });
 }
 
-export const useDeleteFreeCourses = (accountId: any) => {
+export const useDeleteFreeCourses = (itemId: any) => {
     const { toast } = useToast();
     const router = useRouter();
-    const queryClient = useQueryClient();
 
     const mutationFn = async () => {
-        const response = await axiosInstance.delete(`/courses/deleteFreeCourse/${accountId}`);
+        const response = await axiosInstance.delete(`/courses/deleteFreeCourse/${itemId}`);
+        console.log(itemId)
         return response.data;
     };
 
     return useMutation({
         mutationFn,
         onSuccess: (response: any) => {
-            if(response.status === 200 || response.status === 201 || response.status_code === 204){
+            if(response.message){
                 toast({
                     title: "Course deleted successfully",
                     description: `${response.message}`,
@@ -166,6 +192,20 @@ export const useAddShopperCourse = () => {
               }
         }
     });
+}
+
+export const useGetShopperCourses = () => {
+    const queryFn = async () => {
+        const response = await axiosInstance.get("/courses/shopperCourses");
+        return response.data;
+    };
+
+    return useQuery({
+        queryKey: ["shopperCourses"],
+        queryFn,
+        retry: 1,
+    });
+
 }
 
 

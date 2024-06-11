@@ -1,14 +1,14 @@
 import AuthLayout from "@/components/layout/auth/AuthLayout";
 import AuthSection from "@/components/layout/auth/AuthSection";
 import { TypographyH1, TypographyH3 } from "@/components/typography";
-import { signUpFormSchema } from "@/lib/formSchema";
+import { adminSignupFormSchema, signUpFormSchema } from "@/lib/formSchema";
 import { NextPageWithLayout } from "@/pages/_app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField } from "@/components/ui/form";
 import FormRender from "@/components/FormRender";
-import React, {useState} from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { set, z } from "zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
@@ -17,18 +17,16 @@ import CustomButton from "@/components/CustomButton";
 import { Input } from "@/components/ui/input";
 import { SignUpProps, ConfirmOtpProps } from "../../../../hooks/auth/types";
 import { useMutation } from "@tanstack/react-query";
-import { AuthSignUp, AuthConfirmOtp } from "../../../../hooks/auth";
+import { AuthConfirmOtp } from "../../../../hooks/auth";
 import { QUERY_KEYS } from "@/lib/utils";
 import { useAuth } from "../../../../context/auth.context";
-import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
 
 const SignUp: NextPageWithLayout = () => {
-  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof signUpFormSchema>>({
+  const form = useForm<z.infer<typeof adminSignupFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       email: "",
@@ -36,30 +34,28 @@ const SignUp: NextPageWithLayout = () => {
       firstName: "",
       lastName: "",
       username: "",
-      role: "",
       telephone: "",
+      role: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof signUpFormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof adminSignupFormSchema>) => {
     const payload = {
       email: values.email,
       password: values.password,
       firstName: values.firstName,
       lastName: values.lastName,
-      role: 'student',
+      role: 'admin',
       username: values.username,
       telephone: values.telephone,
     };
 
     try {
-      // setLoading(true);
       await AuthConfirmOtp({ email: payload.email, otp_code: "" });
       localStorage.setItem("signUpFormData", JSON.stringify(payload));
       localStorage.setItem("role", payload.role);
-      router.push(`/auth/confirm?email=${payload.email}`);
+      router.push(`/auth/confirm/adminConfirm?email=${payload.email}`);
     } catch (error) {
-      setLoading(false);
       toast({
         title: `User already exists`,
         description: "Please try again.",
@@ -185,16 +181,14 @@ const SignUp: NextPageWithLayout = () => {
             <CustomButton
               type="submit"
               className="bg-[#A85334] w-full mx-auto flex justify-center p-3 rounded text-white hover:bg-[#A85334]/50"
-              disabled={loading}
-              isLoading={loading}
             >
-              {loading ? (<Loader2Icon size={20} />) : "Sign Up"}
+              Sign Up
             </CustomButton>
           </form>
         </Form>
         <div className="mt-4 flex gap-2 justify-center lg:justify-start">
           <p className="">Already have an account?</p>
-          <Link href="/auth/login" className="text-[#A85334] hover:underline">
+          <Link href="/auth/login/adminLogin" className="text-[#A85334] hover:underline">
             Log in
           </Link>
         </div>

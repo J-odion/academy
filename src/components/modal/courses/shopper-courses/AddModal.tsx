@@ -13,9 +13,9 @@ import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Image, Loader2Icon, Mic } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { useAddFreeCourses } from "../../../../../hooks/account/admin";
+import { useAddShopperCourse } from "../../../../../hooks/account/admin";
 import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "../../../../../context/auth.context";
+
 
 type FreeCoursesModalProps = {
   className?: string;
@@ -39,7 +39,7 @@ const AddModal = ({
   const [selectedLoop, setSelectedLoop] = useState<File | null>(null);
   const [selectedAudio, setSelectedAudio] = useState<File | null>(null);
 
-  const { mutate, isPending } = useAddFreeCourses();
+  const { mutate, isPending } = useAddShopperCourse();
   const { toast } = useToast();
 
   const onSubmitStep1 = async (data: any) => {
@@ -51,6 +51,7 @@ const AddModal = ({
     let dataObject: { [key: string]: any } = {
       courseTitle: data.courseTitle,
       courseOrder: Number(data.courseOrder),
+    coursePrice: Number(data.coursePrice),
       videoLink: data.videoLink,
       description: data.description,
       assignmentQuestion1: data.assignmentQuestion1,
@@ -147,6 +148,16 @@ const AddModal = ({
                       className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
                       id="courseOrder"
                       {...register("courseOrder")}
+                      disabled={isLoading}
+                    />
+                  </div>
+                  <div className="mb-3 grid w-full items-center gap-1.5">
+                    <Label htmlFor="coursePrice">Course Price</Label>
+                    <Input
+                      type="text"
+                      className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
+                      id="coursePrice"
+                      {...register("coursePrice")}
                       disabled={isLoading}
                     />
                   </div>

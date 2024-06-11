@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function Headers() {
     return (
         <div className='relative bg-none flex w-full items-center h-[50px] align-middle justify-between px-[100px] py-[50px]'>
-            <Link href='/dashboard/admin/account'>
+            <Link href='/auth/signup/adminSignup' className='cursor-pointer'>
             <Image className="h-[50px] w-[50px]"
                 src="/SGALOGO.svg"
                 width={50}

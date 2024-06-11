@@ -35,6 +35,7 @@ const DashboardNav = ({ toggleSideBar, setToggleSideBar }: Props) => {
       <nav className=" top-0 z-40 w-full px-5 py-6 text-black md:px-10 lg:py-4">
         <div className="flex items-center justify-between">
           <div className="lg:hidden">
+            <Link href='/auth/signup/adminSignup' className='cursor-pointer'>
             <Image
               className="h-[50px] w-[50px]"
               src="/SGALOGO.svg"
@@ -42,8 +43,10 @@ const DashboardNav = ({ toggleSideBar, setToggleSideBar }: Props) => {
               height={50}
               alt="Picture of the author"
             />
+            </Link>
           </div>
           <div className="hidden  bg-none flex-1 lg:flex w-full items-center h-[50px] align-middle justify-between px-[100px] py-[50px]">
+          <Link href='/auth/signup/adminSignup' className='cursor-pointer'>
             <Image
               className="h-[50px] w-[50px]"
               src="/SGALOGO.svg"
@@ -51,6 +54,7 @@ const DashboardNav = ({ toggleSideBar, setToggleSideBar }: Props) => {
               height={50}
               alt="Picture of the author"
             />
+            </Link>
             <NavigationMenus />
             <div className="bg-none z-99 font-[400] text-[14px] text-white gap-8 flex items-center ">
               <Link href="/auth/login">Login</Link>

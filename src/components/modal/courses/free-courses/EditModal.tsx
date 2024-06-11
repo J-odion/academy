@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import CustomButton from "@/components/CustomButton";
 import {
@@ -19,6 +19,8 @@ type FreeCoursesModalProps = {
   className?: string;
   title: string;
   open: boolean;
+  updateFreeCourse: any;
+  freeCourse: any;
   setOpen: (open: boolean) => void;
 };
 
@@ -26,11 +28,45 @@ const EditModal = ({
   title,
   open,
   setOpen,
+  updateFreeCourse,
+  freeCourse,
   className,
 }: FreeCoursesModalProps) => {
   const [step, setStep] = useState(1);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedVideoThumbnail, setSelectedVideoThumbnail] = useState<File | null>(null);
+  const [selectedTablature, setSelectedTablature] = useState<File | null>(null);
+  const [selectedLoop, setSelectedLoop] = useState<File | null>(null);
+  const [selectedAudio, setSelectedAudio] = useState<File | null>(null);
+
+
+  useEffect(() => {
+    if (freeCourse) {
+      setValue("courseTitle", freeCourse.courseTitle);
+      setValue("courseOrder", freeCourse.courseOrder);
+      setValue("videoLink", freeCourse.videoLink);
+      setValue("description", freeCourse.description);
+      setValue("assignmentQuestion1", freeCourse.assignmentQuestion1);
+      setValue("assignmentQuestion2", freeCourse.assignmentQuestion2);
+      setValue("assignmentQuestion3", freeCourse.assignmentQuestion3);
+      setValue("tablature", freeCourse.tablature);
+      setValue("videoThumbail", freeCourse.videoThumbnail)
+      setValue("audio", freeCourse.audio);
+      setValue("loop", freeCourse.loop);
+    }
+  }, [freeCourse, setValue]);
+
+
+  const handleSelectedFile = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setSelectedFile: React.Dispatch<React.SetStateAction<File | null>>
+  ) => {
+    if (e.target.files) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
 
   const onSubmitStep1 = async (data: any) => {
     setStep(2);
@@ -38,12 +74,37 @@ const EditModal = ({
 
   const onSubmitStep2 = async (data: any) => {
     setIsLoading(true);
-    setTimeout(() => {
+    let dataObject: { [key: string]: any } = {
+      courseTitle: data.courseTitle,
+      courseOrder: Number(data.courseOrder),
+      videoLink: data.videoLink,
+      description: data.description,
+      assignmentQuestion1: data.assignmentQuestion1,
+      assignmentQuestion2: data.assignmentQuestion2,
+      assignmentQuestion3: data.assignmentQuestion3,
+      tablature: selectedTablature?.name || null,
+      videoThumbnail: selectedVideoThumbnail?.name || null,
+      audio: selectedAudio?.name || null,
+      loop: selectedLoop?.name || null,
+    };
+
+    let formData = new FormData();
+      for (let key in dataObject) {
+        if (dataObject[key] !== null) {
+          formData.append(key, dataObject[key]);
+        }
+      }
+    console.log(dataObject);
+
+    try {
+      const response = await updateFreeCourse(formData);
+      console.log('Response:', response);
       setIsLoading(false);
-      console.log("Form submitted with values:", data);
-      reset();
-      setStep(1);
-    }, 1000);
+      setOpen(false);
+    } catch (error) {
+      console.error('Error:', error);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -72,32 +133,35 @@ const EditModal = ({
               {step === 1 && (
                 <>
                   <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="course_title">Course Title</Label>
+                    <Label htmlFor="courseTitle">Course Title</Label>
                     <Input
                       type="text"
                       className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="course_title"
-                      {...register("course_title")}
+                      id="courseTitle"
+                      defaultValue={freeCourse?.courseTitle}
+                      {...register("courseTitle")}
                       disabled={isLoading}
                     />
                   </div>
                   <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="course_order">Course order</Label>
+                    <Label htmlFor="courseOrder">Course order</Label>
                     <Input
                       type="text"
                       className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="course_order"
-                      {...register("course_order")}
+                      id="courseOrder"
+                      defaultValue={freeCourse?.courseOrder}
+                      {...register("courseOrder")}
                       disabled={isLoading}
                     />
                   </div>
                   <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="video_link">Video link</Label>
+                    <Label htmlFor="videoLink">Video link</Label>
                     <Input
                       type="text"
                       className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="video_link"
-                      {...register("video_link")}
+                      id="videoLink"
+                      defaultValue={freeCourse?.videoLink}
+                      {...register("videoLink")}
                       disabled={isLoading}
                     />
                   </div>
@@ -106,35 +170,106 @@ const EditModal = ({
                     <Textarea
                       className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
                       id="description"
+                      defaultValue={freeCourse.description}
                       disabled={isLoading}
                     />
                   </div>
-                  <div className="grid grid-cols-2  gap-4">
-                    <Button className="bg-[#F0EAE8] gap-4 text-[#1E1E1E]">
-                      <span>
-                        <Image size={18} className="text-[#D1831F]" />
-                      </span>
-                      Change video thumbnail
-                    </Button>
-                    <Button className="bg-[#F0EAE8] gap-4 text-[#1E1E1E]">
-                      <span>
-                        <Image size={18} className="text-[#D1831F]" />
-                      </span>
-                      Change templature
-                    </Button>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex gap-4 items-center bg-[#F0EAE8] py-3">
+                        <Label
+                          htmlFor="videoThumbnail"
+                          className="flex items-center gap-2 cursor-pointer"
+                        >
+                          <span>
+                            <Image size={18} className="text-[#D1831F]" />
+                          </span>
+                          Change video thumbnail
+                          <input
+                            type="file"
+                            id="videoThumbnail"
+                            className="hidden"
+                            onChange={(e) => handleSelectedFile(e, setSelectedVideoThumbnail)}
+                          />
+                        </Label>
+                      </div>
+                      {selectedVideoThumbnail && (
+                        <span className="text-[#1E1E1E]">
+                          {selectedVideoThumbnail.name}
+                        </span>
+                      )}
 
-                    <Button className="bg-[#F0EAE8] gap-4 text-[#1E1E1E]">
-                      <span>
-                        <Mic size={18} className="text-[#D1831F]" />
-                      </span>
-                      Change loop
-                    </Button>
-                    <Button className="bg-[#F0EAE8] gap-4 text-[#1E1E1E]">
-                      <span>
-                        <Mic size={18} className="text-[#D1831F]" />
-                      </span>
-                      Change audio
-                    </Button>
+                      <div className="flex gap-4 items-center bg-[#F0EAE8] py-3">
+                        <Label
+                          htmlFor="tablature"
+                          className="flex items-center gap-2 cursor-pointer"
+                        >
+                          <span>
+                            <Image size={18} className="text-[#D1831F]" />
+                          </span>
+                          Change tablature
+                          <input
+                            type="file"
+                            id="tablature"
+                            className="hidden"
+                            onChange={(e) => handleSelectedFile(e, setSelectedTablature)}
+                          />
+                        </Label>
+                      </div>
+                      {selectedTablature && (
+                        <span className="text-[#1E1E1E]">
+                          {selectedTablature.name}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <div className="flex gap-4 items-center bg-[#F0EAE8] py-3">
+                        <Label
+                          htmlFor="loop"
+                          className="flex items-center gap-2 cursor-pointer"
+                        >
+                          <span>
+                            <Mic size={18} className="text-[#D1831F]" />
+                          </span>
+                          Change loop
+                          <input
+                            type="file"
+                            id="loop"
+                            className="hidden"
+                            onChange={(e) => handleSelectedFile(e, setSelectedLoop)}
+                          />
+                        </Label>
+                      </div>
+                      {selectedLoop && (
+                        <span className="text-[#1E1E1E]">
+                          {selectedLoop.name}
+                        </span>
+                      )}
+
+                      <div className="flex gap-4 items-center bg-[#F0EAE8] py-3">
+                        <Label
+                          htmlFor="audio"
+                          className="flex items-center gap-2 cursor-pointer"
+                        >
+                          <span>
+                            <Mic size={18} className="text-[#D1831F]" />
+                          </span>
+                          Change audio
+                          <input
+                            type="file"
+                            id="audio"
+                            className="hidden"
+                            onChange={(e) => handleSelectedFile(e, setSelectedAudio)}
+                          />
+                        </Label>
+                      </div>
+                      {selectedAudio && (
+                        <span className="text-[#1E1E1E]">
+                          {selectedAudio.name}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <CustomButton className="w-full bg-[#A85334]">
                     Next
@@ -144,32 +279,35 @@ const EditModal = ({
               {step === 2 && (
                 <>
                   <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="assignment_one">
+                    <Label htmlFor="assignmentQuestion1">
                       Assignment question 1
                     </Label>
                     <Textarea
                       className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="assignment_one"
+                      id="assignmentQuestion1"
+                      defaultValue={freeCourse?.assignmentQuestion1}
                       disabled={isLoading}
                     />
                   </div>
                   <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="assignment_two">
+                    <Label htmlFor="assignmentQuestion2">
                       Assignment question 2
                     </Label>
                     <Textarea
                       className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="assignment_two"
+                      id="assignmentQuestion2"
+                      defaultValue={freeCourse?.assignmentQuestion2}
                       disabled={isLoading}
                     />
                   </div>
                   <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="assignment_three">
+                    <Label htmlFor="assignmentQuestion3">
                       Assignment question 3
                     </Label>
                     <Textarea
                       className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="assignment_three"
+                      id="assignmentQuestion3"
+                      defaultValue={freeCourse?.assignmentQuestion3}
                       disabled={isLoading}
                     />
                   </div>

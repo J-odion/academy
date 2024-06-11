@@ -10,6 +10,7 @@ import { Table, TableHeader, TableHead, TableBody, TableCell, TableRow } from "@
 import Moment from 'react-moment';
 import Datapagination from '@/components/pagination/Data-Pagination';
 import AddModal from '@/components/modal/tutors/AddModal'
+import { useGetPendingAdmins, useOnboardPendingAdmin, useOnboardedAdmins } from '../../../../../hooks/tutors'
 
 
 const itemsPerPage = 5;
@@ -17,6 +18,12 @@ const itemsPerPage = 5;
 const Tutors: NextPageWithLayout = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [addModal, setAddModal] = useState<boolean>(false);
+
+  const { data: pendingAdmins, error: pendingError, isLoading: pendingLoading } = useGetPendingAdmins();
+  console.log('Pending Admins:', pendingAdmins);
+
+  const { data: onboardedAdmins, error: onboardedError, isLoading: onboardedLoading } = useOnboardedAdmins();
+  console.log('Onboarded Admins:', onboardedAdmins);
 
   const acceptedTutors = tutors.filter(tutor => tutor.status === 'accepted');
 
@@ -29,6 +36,9 @@ const Tutors: NextPageWithLayout = () => {
   const getButtonBorderColor = (status: string) => {
     return status === 'accepted' ? 'border-red-500 text-red-500' : 'border-green-500 text-red-500';
   };
+
+  // if (pendingLoading || onboardedLoading) return <div>Loading...</div>;
+  // if (pendingError || onboardedError) return <div>Error loading data</div>;
 
   return (
     <DashboardSidebar>

@@ -6,7 +6,7 @@ import { NextPageWithLayout, queryClient } from "@/pages/_app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField } from "@/components/ui/form";
 import FormRender from "@/components/FormRender";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -17,16 +17,18 @@ import CustomButton from "@/components/CustomButton";
 import { Input } from "@/components/ui/input";
 import { LoginProps } from "../../../../hooks/auth/types";
 import { useMutation } from "@tanstack/react-query";
-import { AuthLogin } from "../../../../hooks/auth";
+import { AdminAuthLogin, AuthLogin } from "../../../../hooks/auth";
 import { QUERY_KEYS } from "@/lib/utils";
 import useStorage from "@/lib/useStorage";
-import { useAuth } from "../../../../context/auth.context";
+// import { useAuth } from "../../../../context/auth.context";
+import { AuthContext } from "../../../../context/auth.context";
 import Image from "next/image";
 
 const SignIn: NextPageWithLayout = () => {
   const { toast } = useToast();
-  const { getItem } = useStorage();
+  const { getItem, setItem, removeItem } = useStorage();
   const router = useRouter();
+  const { setAuthTokens } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -38,7 +40,7 @@ const SignIn: NextPageWithLayout = () => {
 
   const { mutate, isPending } = useMutation({
     mutationKey: [QUERY_KEYS.login],
-    mutationFn: (data: LoginProps) => AuthLogin(data),
+    mutationFn: (data: LoginProps) => AdminAuthLogin(data),
     onSuccess(res) {
       if (res.status === 200) {
         console.log('Login response:', res.data);
@@ -47,10 +49,11 @@ const SignIn: NextPageWithLayout = () => {
           className: "toast-success",
         });
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile] });
-        localStorage.setItem('accessToken', res.data.accessToken);
-        localStorage.setItem('refreshToken', res.data.refreshToken);
+        setAuthTokens(res.data.accessToken, res.data.refreshToken);
+        // setItem('accessToken', res.data.accessToken);
+        // setItem('refreshToken', res.data.refreshToken);
         const userRole = localStorage.getItem('role');
-        if (res.data.role === "admin") {
+        if (res?.data?.Admin_Details?.role === "admin") {
           router.push(`/dashboard/admin/account`);
         } else {
           router.push(`/dashboard/student/account`);
@@ -69,13 +72,13 @@ const SignIn: NextPageWithLayout = () => {
         });
       }
     },
-    // onError(error) {
-    //   toast({
-    //     title: `Login failed`,
-    //     description: error.message || "An unexpected error occurred",
-    //     className: "toast-error",
-    //   });
-    // },
+    onError(error) {
+      toast({
+        title: `Login failed`,
+        description: error.message || "An unexpected error occurred",
+        className: "toast-error",
+      });
+    },
   });
 
   const onSubmit = (values: z.infer<typeof signInFormSchema>) => {
@@ -150,7 +153,7 @@ const SignIn: NextPageWithLayout = () => {
         </Form>
         <div className="mt-4 flex gap-2 justify-center lg:justify-start">
         <p className="">Don&apos;t have an account?</p>
-        <Link href="/auth/signup" className="text-[#A85334] hover:underline">
+        <Link href="/auth/signup/adminSignup" className="text-[#A85334] hover:underline">
           Sign up
         </Link>
       </div>

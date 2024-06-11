@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/input-otp";
 import VerifyModal from "@/components/modal/auth/VerifyModal";
 import { useMutation } from "@tanstack/react-query";
-import { AuthConfirmOtp, AuthSignUp, ResendOtp } from "../../../../hooks/auth";
+import { AdminAuthSignUp, ResendOtp } from "../../../../hooks/auth";
 import useStorage from "@/lib/useStorage";
 import { QUERY_KEYS } from "@/lib/utils";
 import { ConfirmOtpProps, SignUpProps } from "../../../../hooks/auth/types";
@@ -43,9 +43,11 @@ const EmailVerification: NextPageWithLayout = () => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationKey: [QUERY_KEYS.signUp],
-    mutationFn: (data: SignUpProps) => AuthSignUp(data),
+    mutationKey: [QUERY_KEYS.adminSignUp],
+    mutationFn: (data: SignUpProps) => AdminAuthSignUp(data),
     onSuccess: () => {
+      // localStorage.setItem("accessToken",  "res.data.accessToken");
+      // localStorage.setItem("refreshToken", "res.data.refreshToken");
       setModalOpen(true);
     },
     onError: (error) => {

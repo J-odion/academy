@@ -22,6 +22,8 @@ import { Plus } from 'lucide-react';
 import DeleteModal from '@/components/modal/courses/DeleteModal';
 import EditModal from '@/components/modal/courses/EditModal';
 import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 
 const Courses: NextPageWithLayout = () => {
   const router = useRouter();
