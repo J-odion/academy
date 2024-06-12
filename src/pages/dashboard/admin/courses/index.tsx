@@ -84,6 +84,7 @@ const Courses: NextPageWithLayout = () => {
         message='This will delete all courses under this categories'
         open={deleteModal}
         setOpen={setDeleteModal}
+        isPending={false}
       />
 
       <EditModal
