@@ -20,7 +20,7 @@ import {
 import VerifyModal from "@/components/modal/auth/VerifyModal";
 import { useMutation } from "@tanstack/react-query";
 import { AdminAuthSignUp, ResendOtp } from "../../../../hooks/auth";
-import useStorage from "@/lib/useStorage";
+import {useStorage} from "@/lib/useStorage";
 import { QUERY_KEYS } from "@/lib/utils";
 import { ConfirmOtpProps, SignUpProps } from "../../../../hooks/auth/types";
 import Image from "next/image";
@@ -33,7 +33,7 @@ const EmailVerification: NextPageWithLayout = () => {
   const { toast } = useToast();
   const router = useRouter();
   const email = router.query.email as string;
-  const { getItem } = useStorage();
+  // const { getItem } = useStorage();
 
   const form = useForm<z.infer<typeof emailVerificationSchema>>({
     resolver: zodResolver(emailVerificationSchema),
@@ -61,11 +61,9 @@ const EmailVerification: NextPageWithLayout = () => {
   });
 
   const onSubmit = (values: z.infer<typeof emailVerificationSchema>) => {
-    const storedFormData = localStorage.getItem("signUpFormData");
+    const storedFormData = useStorage.getItem("signUpFormData");
     console.log(storedFormData);
-    localStorage.getItem("role");
-    // const accountId = localStorage.getItem('accountId');
-
+    useStorage.getItem("role");
     if (!storedFormData) {
       toast({
         title: "Something went wrong!",
@@ -84,20 +82,6 @@ const EmailVerification: NextPageWithLayout = () => {
     console.log(payload);
     mutate(payload);
 
-    // confirmOtpMutation.mutate(payload, {
-    //   onSuccess: () => {
-    //     setModalOpen(true);
-    //     router.push(`/dashboard/${localStorage.getItem('role')}/account`);
-    //   },
-    //   onError: (error) => {
-    //     console.error("Mutation error:", error);
-    //     toast({
-    //       title: "Something went wrong!",
-    //       description: "Unable to verify OTP. Please try again.",
-    //       variant: "destructive",
-    //     });
-    //   }
-    // });
   };
 
   const handleResendClick = async () => {
@@ -106,7 +90,7 @@ const EmailVerification: NextPageWithLayout = () => {
       setCountdown(59);
 
       try {
-        await ResendOtp({ storedFormData: getItem("signUpFormData")});
+        await ResendOtp({ storedFormData: useStorage.getItem("signUpFormData")});
         toast({
           title: "OTP Resent",
           description: `A new OTP has been sent to ${email}`,
@@ -121,17 +105,6 @@ const EmailVerification: NextPageWithLayout = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (countdown > 0 && resendDisabled) {
-  //     const timer = setInterval(() => {
-  //       setCountdown(countdown - 1);
-  //     }, 1000);
-
-  //     return () => clearInterval(timer);
-  //   } else if (countdown === 0 && resendDisabled) {
-  //     setResendDisabled(false);
-  //   }
-  // }, [countdown, resendDisabled]);
 
   return (
     <AuthSection className="h-[100vh]">
