@@ -83,7 +83,8 @@ const ShopperCourses: NextPageWithLayout = () => {
         title='Edit Course'
         open={editModal}
         setOpen={setEditModal}
-        handleEditModal={handleEditModal}
+        updateFreeCourse={handleEditModal}
+        freeCourse={freecourses[0]}
        />
        <AddModal
        title='Add shopper course'
@@ -95,6 +96,7 @@ const ShopperCourses: NextPageWithLayout = () => {
        message='This action can not be reversed'
        open={deleteModal}
        setOpen={setDeleteModal}
+       isPending={false}
       />
     </DashboardSidebar>
   );
