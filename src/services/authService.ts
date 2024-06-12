@@ -1,25 +1,24 @@
 import { axiosInstance } from "../../hooks/axiosInstance";
 import useStorage from "@/lib/useStorage";
-const { setItem, getItem, removeItem } = useStorage();
 
 export const setAccessToken = (token: string) => {
-    return setItem("access-token", token);
+    return localStorage.setItem("access-token", token);
 }
 
 export const getAccessToken = () => {
-    return getItem("access-token");
+    return localStorage.getItem("access-token");
 }
 
 export const removeAccessToken = () => {
-    return removeItem("access-token");
+    return localStorage.removeItem("access-token");
 }
 
 export const setRefreshToken = (token: string) => {
-    return setItem("refresh-token", token);
+    return localStorage.setItem("refresh-token", token);
 }
 
 export const getRefreshToken = () => {
-    return getItem("refresh-token");
+    return localStorage.getItem("refresh-token");
 }
 
 
