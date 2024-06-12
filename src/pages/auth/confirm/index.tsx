@@ -20,7 +20,7 @@ import {
 import VerifyModal from "@/components/modal/auth/VerifyModal";
 import { useMutation } from "@tanstack/react-query";
 import { AuthConfirmOtp, AuthSignUp, ResendOtp } from "../../../../hooks/auth";
-import useStorage from "@/lib/useStorage";
+import {useStorage} from "@/lib/useStorage";
 import { QUERY_KEYS } from "@/lib/utils";
 import { ConfirmOtpProps, SignUpProps } from "../../../../hooks/auth/types";
 import Image from "next/image";
@@ -33,7 +33,7 @@ const EmailVerification: NextPageWithLayout = () => {
   const { toast } = useToast();
   const router = useRouter();
   const email = router.query.email as string;
-  const { getItem } = useStorage();
+  // const { getItem } = useStorage();
 
   const form = useForm<z.infer<typeof emailVerificationSchema>>({
     resolver: zodResolver(emailVerificationSchema),
@@ -104,7 +104,7 @@ const EmailVerification: NextPageWithLayout = () => {
       setCountdown(59);
 
       try {
-        await ResendOtp({ storedFormData: getItem("signUpFormData")});
+        await ResendOtp({ storedFormData: useStorage.getItem("signUpFormData")});
         toast({
           title: "OTP Resent",
           description: `A new OTP has been sent to ${email}`,
