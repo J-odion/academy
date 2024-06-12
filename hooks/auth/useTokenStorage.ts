@@ -1,15 +1,15 @@
-import useStorage from "@/lib/useStorage";
+import { useStorage } from "@/lib/useStorage";
 
 const useTokenStorage = () => {
-  const { getItem, setItem, removeItem } = useStorage();
+  // const { getItem, setItem, removeItem } = useStorage();
 
-  const setAccessToken = (token: string) => setItem("access-token", token);
-  const getAccessToken = () => getItem("access-token");
-  const removeAccessToken = () => removeItem("access-token");
+  const setAccessToken = (token: string) => useStorage.setItem("access-token", token);
+  const getAccessToken = () => useStorage.getItem("access-token");
+  const removeAccessToken = () => useStorage.removeItem("access-token");
 
-  const setRefreshToken = (token: string) => setItem("refresh-token", token);
-  const getRefreshToken = () => getItem("refresh-token");
-  const removeRefreshToken = () => removeItem("refresh-token");
+  const setRefreshToken = (token: string) => useStorage.setItem("refresh-token", token);
+  const getRefreshToken = () => useStorage.getItem("refresh-token");
+  const removeRefreshToken = () => useStorage.removeItem("refresh-token");
 
   return {
     setAccessToken,
