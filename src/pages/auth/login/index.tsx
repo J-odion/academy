@@ -19,13 +19,12 @@ import { LoginProps } from "../../../../hooks/auth/types";
 import { useMutation } from "@tanstack/react-query";
 import { AuthLogin } from "../../../../hooks/auth";
 import { QUERY_KEYS } from "@/lib/utils";
-import useStorage from "@/lib/useStorage";
+import { useStorage } from "@/lib/useStorage";
 import { useAuth } from "../../../../context/auth.context";
 import Image from "next/image";
 
 const SignIn: NextPageWithLayout = () => {
   const { toast } = useToast();
-  const { getItem } = useStorage();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signInFormSchema>>({

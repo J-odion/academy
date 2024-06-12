@@ -19,14 +19,13 @@ import { LoginProps } from "../../../../hooks/auth/types";
 import { useMutation } from "@tanstack/react-query";
 import { AdminAuthLogin, AuthLogin } from "../../../../hooks/auth";
 import { QUERY_KEYS } from "@/lib/utils";
-import useStorage from "@/lib/useStorage";
+import {useStorage} from "@/lib/useStorage";
 // import { useAuth } from "../../../../context/auth.context";
 import { AuthContext } from "../../../../context/auth.context";
 import Image from "next/image";
 
 const SignIn: NextPageWithLayout = () => {
   const { toast } = useToast();
-  const { getItem, setItem, removeItem } = useStorage();
   const router = useRouter();
   const { setAuthTokens } = useContext(AuthContext);
 

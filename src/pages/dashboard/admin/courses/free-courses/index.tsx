@@ -48,6 +48,7 @@ const FreeCourses: NextPageWithLayout = () => {
   const { mutate: updateFreeCourse } = useUpdateFreeCourses(selectedCourse?.freeCourseId);
 
 
+
   const handleMenuClick = (courseId: string) => {
     setMenuOpen(courseId === menuOpen ? null : courseId);
   };

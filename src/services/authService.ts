@@ -1,29 +1,24 @@
 import { axiosInstance } from "../../hooks/axiosInstance";
-import useStorage from "@/lib/useStorage";
+import { useStorage } from "@/lib/useStorage";
 
 export const setAccessToken = (token: string) => {
-    const { setItem } = useStorage();
-    return setItem("access-token", token);
+    return useStorage.setItem("access-token", token);
 }
 
 export const getAccessToken = () => {
-    const { getItem } = useStorage();
-    return getItem("access-token");
-}
+    return useStorage.getItem("access-token");
+  };
 
-export const removeAccessToken = () => {
-    const { removeItem } = useStorage();
-    return removeItem("access-token");
-}
+  export const removeAccessToken = () => {
+    return useStorage.removeItem("access-token");
+  };
 
-export const setRefreshToken = (token: string) => {
-    const { setItem } = useStorage();
-    return setItem("refresh-token", token);
-}
+  export const setRefreshToken = (token: string) => {
+    return useStorage.setItem("refresh-token", token);
+  };
 
 export const getRefreshToken = () => {
-    const { getItem } = useStorage();
-    return getItem("refresh-token");
+    return useStorage.getItem("refresh-token");
 }
 
 
@@ -50,5 +45,5 @@ export const getRefreshToken = () => {
 };
 
 export const removeRefreshToken = () => {
-    localStorage.removeItem("refresh-token");
-}
+    return useStorage.removeItem("refresh-token");
+  };

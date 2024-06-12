@@ -3,14 +3,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../axiosInstance";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/router";
-import useStorage from "@/lib/useStorage";
+import {useStorage} from "@/lib/useStorage";
 
 // const router = useRouter();
 
 
 export const useAddFreeCourses = () => {
   const { toast } = useToast();
-  const { getItem } = useStorage();
+  // const { getItem } = useStorage();
+  const router = useRouter();
 
   const mutationFn = async (data: any) => {
     const response = await axiosInstance.post("/courses/addFreeCourse", data, {
@@ -35,6 +36,7 @@ export const useAddFreeCourses = () => {
           description: message,
           className: "toast-success",
         });
+        router.push("/dashboard/admin/courses");
       } else {
         toast({
           title: "Something went wrong",

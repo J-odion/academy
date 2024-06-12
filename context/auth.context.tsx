@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
-import useStorage from "@/lib/useStorage";
+import { useStorage } from "@/lib/useStorage";
 import { useRouter } from "next/router";
 import { axiosInstance } from "../hooks/axiosInstance";
 import { setAccessToken, getAccessToken, setRefreshToken, getRefreshToken, removeAccessToken, removeRefreshToken } from "@/services/authService";
@@ -23,7 +23,6 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }: React.PropsWithChildren) => {
-  const { getItem, setItem, removeItem } = useStorage();
   const router = useRouter();
 
   const [accessToken, setAccessTokenState] = useState<string | null>(getAccessToken());

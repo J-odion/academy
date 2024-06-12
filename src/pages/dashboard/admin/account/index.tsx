@@ -18,19 +18,19 @@ import { data } from "@/components/layout/admin_dashboard/Cards";
 import { BookOpen } from "lucide-react";
 import { requests, transactions, support } from "@/data/data";
 import { useRouter } from "next/router";
-import useStorage from "@/lib/useStorage";
+import { useStorage } from "@/lib/useStorage";
 
 const Dashboard: NextPageWithLayout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showAllTransactions, setShowAllTransactions] = useState(false);
   const [showAllTutorialRequests, setShowAllTutorialRequests] = useState(false);
   const [showAllSupport, setShowAllSupport] = useState(false);
-  const { getItem } = useStorage();
+
 
   const router = useRouter();
   // const { accountId } = router.query;
   // console.log(accountId)
-  const refresh = getItem("refresh-token")
+  const refresh = useStorage.getItem("refresh-token")
   console.log(refresh)
 
   const recentTransactions = showAllTransactions
