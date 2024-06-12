@@ -2,14 +2,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../axiosInstance";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/router";
-import useStorage from "@/lib/useStorage";
+import {useStorage} from "@/lib/useStorage";
 
 
 export const useGetPendingAdmins = () => {
-    const {getItem} = useStorage();
+    // const {getItem} = useStorage();
     const queryFn = async () => {
         const response = await axiosInstance.get("/getPendingAdmins");
-        console.log(getItem("refreshToken"))
+        console.log(useStorage.getItem("refreshToken"))
         return response?.data;
     };
 
