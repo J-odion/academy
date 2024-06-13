@@ -32,7 +32,7 @@ const SubscriptionPlans: NextPageWithLayout = () => {
 
         {subscriptionPlans?.length === 0 ? (
           <NoDataCard
-            img="/images/no-data.svg"
+            img="/images/no-data.png"
             header="No subscription plans available"
             message="You have not added any subscription plans yet. Click the button below to add a new subscription plan."
             buttonText="Add subscription plan"
