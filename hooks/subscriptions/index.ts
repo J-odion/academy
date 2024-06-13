@@ -33,7 +33,7 @@ export const useAddSubscriptionPlan = () => {
 
 export const useGetSubscriptionPlans = () => {
     const queryFn = async () => {
-        const response = await axiosInstance.get("subscription/getSubscriptionPlans");
+        const response = await axiosInstance.get("subscription/getSubscriptionPlan");
         return response?.data;
     };
 
