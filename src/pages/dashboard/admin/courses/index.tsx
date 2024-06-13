@@ -19,10 +19,32 @@ import {
 } from "@/components/ui/table";
 import categories from '@/data/categories.json';
 import { Plus } from 'lucide-react';
-import DeleteModal from '@/components/modal/courses/DeleteModal';
+import DeleteModal from '@/components/modal/courses/category-courses/DeleteModal';
 import EditModal from '@/components/modal/courses/EditModal';
 import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import AddModal from '@/components/modal/courses/category-courses/AddModal';
+import { useDeleteCategory, useGetFreeCourses } from '../../../../../hooks/account/admin';
+
+type EnrolledStudents = {
+  id: number;
+  name: string;
+  email: string;
+};
+
+type FreeCoursesProps = {
+  _id: number;
+  courseTitle: string;
+  courseOrder: number;
+  videoLink: string;
+  description: string;
+  assignmentQuestion1: string;
+  assignmentQuestion2: string;
+  assignmentQuestion3: string;
+  adminId: number;
+  enrolledStudents: EnrolledStudents[];
+  freeCourseId: number;
+};
 
 
 const Courses: NextPageWithLayout = () => {
@@ -30,13 +52,23 @@ const Courses: NextPageWithLayout = () => {
   const [loading, setLoading] = useState(true);
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [addModal, setAddModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<FreeCoursesProps | null>(null);
+
+  const { data: freecourses, isLoading } = useGetFreeCourses();
+  const { mutate: deleteCategory, isPending } = useDeleteCategory(selectedCategory?.freeCourseId);
 
   const handleDeleteModal = () => {
+    setSelectedCategory(selectedCategory);
     setDeleteModal(!deleteModal);
   }
 
   const handleEditModal = () => {
     setEditModal(!editModal);
+  }
+
+  const handleAddModal = () => {
+    setAddModal(!addModal);
   }
 
   const handleViewCategory = (category: string) => {
@@ -57,6 +89,15 @@ const Courses: NextPageWithLayout = () => {
                 <TableHead>Enrolled students</TableHead>
               </TableRow>
             </TableHeader>
+            {categories.length === 0 ? (
+              <NoDataCard
+                img='/images/no-data.png'
+                header='No categories found'
+                message='Create a category to add courses'
+                buttonText='Add category'
+                handleClick={handleAddModal}
+              />
+            ) : (
             <TableBody>
               {categories.map((category) => (
                 <TableRow key={category.id}>
@@ -70,27 +111,38 @@ const Courses: NextPageWithLayout = () => {
                 </TableRow>
               ))}
             </TableBody>
+            )}
           </Table>
         </div>
 
         <div className='py-4 flex flex-col gap-4 sm:flex-row lg:flex-row'>
-          <Button variant={'outline'} className='border-[1px] border-[#A85334] text-[#A85334] sm:ml-0 lg:ml-0'><span><Plus size={18} /></span>{" "}Add category</Button>
+          <Button variant={'outline'} className='border-[1px] border-[#A85334] text-[#A85334] sm:ml-0 lg:ml-0' onClick={handleAddModal}><span><Plus size={18} /></span>{" "}Add category</Button>
           <Button className='bg-[#A85334]'><span><Plus size={18} /></span>{" "}Add course</Button>
         </div>
       </div>
 
+      {selectedCategory && (
       <DeleteModal
         title='Are you sure you want to delete this category'
         message='This will delete all courses under this categories'
         open={deleteModal}
         setOpen={setDeleteModal}
-        isPending={false}
+        deleteCategory={deleteCategory}
+        freeCourse={selectedCategory}
+        isPending={isPending}
       />
+      )}
 
       <EditModal
         title='Edit category name'
         open={editModal}
         setOpen={setEditModal}
+      />
+
+      <AddModal
+        title='Add category'
+        open={addModal}
+        setOpen={setAddModal}
       />
     </DashboardSidebar>
   )
