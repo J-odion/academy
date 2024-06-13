@@ -97,7 +97,7 @@ const ShopperCourses: NextPageWithLayout = () => {
           )}
 
 
-          {!isLoading && currentItems.map((course: ShopperCoursesProps) => (
+          {!isLoading && currentItems?.map((course: ShopperCoursesProps) => (
             <div key={course?._id} className='flex flex-col gap-2 rounded-[6px] justify-between py-4 relative'>
               <div className='flex items-center gap-4'>
                 <video className='rounded-md w-full' controls>
