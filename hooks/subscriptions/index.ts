@@ -79,6 +79,7 @@ export const useUpdateSubscriptionPlan = (subscriptionPlanId: any) => {
 export const useDeleteSubscriptionPlan = (subscriptionPlanId: any) => {
     const { toast } = useToast();
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const mutationFn = async () => {
         const response = await axiosInstance.delete(`subscription/deleteSubscriptionPlan/${subscriptionPlanId}`);
@@ -88,13 +89,14 @@ export const useDeleteSubscriptionPlan = (subscriptionPlanId: any) => {
     return useMutation({
         mutationFn,
         onSuccess: (response: any) => {
-            if (response.status_code === 201 || response.status_code === 200) {
+            if (response.message) {
                 toast({
                     title: "Subscription Plan successfully deleted",
                     description: `${response.message}`,
                     className: "toast-success",
                 });
                 queryClient.invalidateQueries({ queryKey: ["subscriptionPlans"] });
+                router.push("/dashboard/admin/subscription-plans");
             } else {
                 console.log(response.error);
                 toast({
