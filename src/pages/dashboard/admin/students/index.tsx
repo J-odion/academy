@@ -35,38 +35,16 @@ type StudentsProps = {
   updatedAt: string;
 };
 
-const plans = [
-  {
-    id: 1,
-    name: "1 Month",
-    price: 670,
-    color: "#895543",
-  },
-  {
-    id: 2,
-    name: "3 Month",
-    price: 670,
-    color: "#BA751B",
-  },
-  {
-    id: 3,
-    name: "6 Month",
-    price: 670,
-    color: "#6B2B14"
-  },
-  {
-    id: 4,
-    name: "12 Month",
-    price: 670,
-    color: "#744911",
-  },
-  {
-    id: 5,
-    name: "Without plan",
-    price: 670,
-    color: "#200D06"
-  }
-];
+type SubscriptionPlansProps = {
+  _id: number;
+  name: string;
+  price: number;
+  peak1: string;
+  peak2: string;
+  peak3: string;
+  subscriptionPlanId: string;
+};
+
 
 const itemsPerPage = 5;
 
@@ -76,15 +54,29 @@ const Students: NextPageWithLayout = () => {
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
   const [addModal, setAddModal] = useState(false);
   const [clientLoaded, setClientLoaded] = useState(false);
+  const [colorMap, setColorMap] = useState<{ [key: string]: string }>({});
 
   const { data: studentsData, isLoading } = useGetAllStudents();
   console.log(studentsData);
-  const { data: subscriptionPlans } = useGetAllAdminSubscriptionPlans();
+  const { data: subscriptionPlans, isLoading: isLoadingData } = useGetAllAdminSubscriptionPlans();
   console.log(subscriptionPlans);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = studentsData?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const colors = ["#895543", "#BA751B", "#6B2B14", "#744911", "#200D06"];
+
+  useEffect(() => {
+    if (subscriptionPlans) {
+      const newColorMap: { [key: string]: string } = {};
+      subscriptionPlans.forEach((plan: SubscriptionPlansProps) => {
+        newColorMap[plan._id] = colors[Math.floor(Math.random() * colors.length)];
+      });
+      setColorMap(newColorMap);
+    }
+  }, [subscriptionPlans]);
+
 
   const handleViewStudent = (student: StudentsProps) => {
     setSelectedStudent(student);
@@ -117,11 +109,23 @@ const Students: NextPageWithLayout = () => {
             </Button>
           </div>
           <div className="grid md:grid-cols-5 gap-4 mt-5">
-            {plans.map((plan) => (
-              <div key={plan.id} className="shadow-md rounded-[6px] overflow-hidden border-2 relative text-white" style={{ backgroundColor: plan.color }}>
+            {isLoadingData && (
+              <>
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              </>
+            )}
+            {!isLoadingData && subscriptionPlans?.map((plan: SubscriptionPlansProps) => (
+              <div
+                key={plan?._id}
+                className="shadow-md rounded-[6px] overflow-hidden border-2 relative text-white"
+                style={{ backgroundColor: colorMap[plan?._id] }}>
                 <div className="p-4">
-                  <p className="capitalize text-lg">{plan.name} plan</p>
-                  <p className="font-bold text-2xl mt-2">₦{plan.price}</p>
+                  <p className="capitalize text-lg">{plan?.name} plan</p>
+                  <p className="font-bold text-2xl mt-2">₦{plan?.price}</p>
                 </div>
                 <div className="absolute top-0 right-0 h-full">
                   <Image src='/images/blob.svg' alt="dashboard" width={265} height={152} className='object-cover h-full' />

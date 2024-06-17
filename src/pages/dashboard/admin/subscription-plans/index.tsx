@@ -18,7 +18,7 @@ type SubscriptionPlansProps = {
   peak1: string;
   peak2: string;
   peak3: string;
-  subscriptionPlanId: number;
+  subscriptionPlanId: string;
 };
 
 const SubscriptionPlans: NextPageWithLayout = () => {
