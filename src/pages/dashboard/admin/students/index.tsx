@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NextPageWithLayout } from "@/pages/_app";
 import DashboardSidebar from "@/components/layout/admin_dashboard/DashboardSidebar";
 import DashboardLayout from "@/components/layout/admin_dashboard/DashboardLayout";
@@ -18,6 +18,22 @@ import Moment from "react-moment";
 import students from "@/data/students.json";
 import DetailsModal from "@/components/modal/students/DetailsModal";
 import AddModal from "@/components/modal/students/AddModal";
+import { useGetAllStudents, useGetAllAdminSubscriptionPlans } from "../../../../../hooks/account/superAdmin";
+import { useGetSubscriptionPlans } from "../../../../../hooks/subscriptions";
+import { Skeleton } from "@/components/ui/skeleton";
+import { NoDataCard } from "@/components/dashboard/cards/NoDataCard";
+
+type StudentsProps = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  role: string;
+  studentId: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 const plans = [
   {
@@ -59,12 +75,18 @@ const Students: NextPageWithLayout = () => {
   const [viewStudent, setViewStudent] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
   const [addModal, setAddModal] = useState(false);
+  const [clientLoaded, setClientLoaded] = useState(false);
+
+  const { data: studentsData, isLoading } = useGetAllStudents();
+  console.log(studentsData);
+  const { data: subscriptionPlans } = useGetAllAdminSubscriptionPlans();
+  console.log(subscriptionPlans);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = students.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = studentsData?.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleViewStudent = (student: any) => {
+  const handleViewStudent = (student: StudentsProps) => {
     setSelectedStudent(student);
     setViewStudent(true);
   }
@@ -72,6 +94,16 @@ const Students: NextPageWithLayout = () => {
   const handleAddModal = () => {
     setAddModal(true);
   };
+
+  // if (!clientLoaded || isLoading) {
+  //   return (
+  //     <DashboardSidebar>
+  //       <div className="w-full md:mt-20 mt-24">
+  //         <Skeleton className="h-[400px] w-full bg-slate-300 rounded-[6px]" />
+  //       </div>
+  //     </DashboardSidebar>
+  //   );
+  // }
 
   return (
     <DashboardSidebar>
@@ -98,6 +130,15 @@ const Students: NextPageWithLayout = () => {
             ))}
           </div>
         </div>
+        {studentsData?.length === 0 ? (
+          <NoDataCard
+            img="/images/no-data.png"
+            header="No students yet"
+            message="You have not added any students yet. Click the button below to add a new student."
+            buttonText="Add new student"
+            handleClick={handleAddModal}
+          />
+        ) : (
         <Table className='w-full'>
           <TableHeader>
             <TableRow>
@@ -108,13 +149,16 @@ const Students: NextPageWithLayout = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentItems.map((student) => (
-              <TableRow key={student.id}>
-                <TableCell>{student.name}</TableCell>
-                <TableCell>{student.email}</TableCell>
+            {isLoading && (
+              <Skeleton className="h-[450px] w-full bg-slate-300 rounded-[6px]" />
+            )}
+            {!isLoading && currentItems.map((student: StudentsProps) => (
+              <TableRow key={student?._id}>
+                <TableCell>{student?.firstName} {' '}{student?.lastName}</TableCell>
+                <TableCell>{student?.email}</TableCell>
                 <TableCell>
                   <Moment format="YYYY/MM/DD">
-                    {student.date_joined}
+                    {student?.createdAt}
                   </Moment>
                 </TableCell>
                 <TableCell>
@@ -124,8 +168,9 @@ const Students: NextPageWithLayout = () => {
             ))}
           </TableBody>
         </Table>
+        )}
         <Datapagination
-          totalItems={students.length}
+          totalItems={studentsData?.length}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
           onPageChange={setCurrentPage}

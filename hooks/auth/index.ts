@@ -25,7 +25,7 @@ export const AuthSignUp = async (payload: SignUpProps) => {
 export const AdminAuthSignUp = async (payload: SignUpProps) => {
   const config = {
     method: "POST",
-    url: `${process.env.NEXT_PUBLIC_TOKEN_API_URL}/adminSignup`,
+    url: `${process.env.NEXT_PUBLIC_TOKEN_API_URL}/superAdminSignup`,
     data: payload,
     headers: {
       "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const AuthLogin = async ({ ...rest }: LoginProps) => {
 export const AdminAuthLogin = async ({ ...rest }: LoginProps) => {
   const config: AxiosRequestConfig = {
     method: "post",
-    url: `${process.env.NEXT_PUBLIC_TOKEN_API_URL}/adminLogin`,
+    url: `${process.env.NEXT_PUBLIC_TOKEN_API_URL}/superAdminLogin`,
     data: rest,
   };
 

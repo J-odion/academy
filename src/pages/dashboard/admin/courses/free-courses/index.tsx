@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Datapagination from '@/components/pagination/Data-Pagination';
 import { useGetFreeCourses, useDeleteFreeCourses, useUpdateFreeCourses } from '../../../../../../hooks/account/admin';
 import { Skeleton } from '@/components/ui/skeleton';
+import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
 
 const itemsPerPage = 8;
 
@@ -88,6 +89,17 @@ const FreeCourses: NextPageWithLayout = () => {
         {/* {isLoading && (
           <Skeleton className='grid md:grid-cols-4 grid-cols-1 gap-8 h-12' />
         )} */}
+
+        {freecourses?.length === 0 ? (
+          <NoDataCard
+            img="/images/no-data.png"
+            header="No free courses available"
+            message="You have not added any free courses yet. Click the button below to add a new free course."
+            buttonText="Add free course"
+            handleClick={handleAddModal}
+          />
+        ) : (
+
         <div className='grid md:grid-cols-4 grid-cols-1 gap-8'>
           {isLoading && (
             <>
@@ -132,6 +144,7 @@ const FreeCourses: NextPageWithLayout = () => {
             </div>
           ))}
         </div>
+        )}
         {!isLoading && freecourses && (
           <Datapagination
             totalItems={freecourses.length}

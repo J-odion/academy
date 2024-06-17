@@ -18,7 +18,7 @@ const VerifyModal = ({open, setOpen}: ModalProps) => {
 
     const handleOkay = () => {
         setOpen(false);
-        if (role === 'admin') {
+        if (role === 'admin' || role === 'superadmin') {
           router.push(`/auth/login/adminLogin`);
         } else {
           router.push('/auth/login');

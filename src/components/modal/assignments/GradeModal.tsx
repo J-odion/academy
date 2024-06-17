@@ -18,7 +18,6 @@ import { Badge } from "@/components/ui/badge"
 
 type ModalProps = {
   className?: string;
-  title: Assignment[];
   open: boolean;
   setOpen: (open: boolean) => void;
   assignments: any;
@@ -30,7 +29,6 @@ type Assignment = {
 };
 
 const GradeModal = ({
-  title,
   open,
   setOpen,
   className,
@@ -65,8 +63,8 @@ const GradeModal = ({
     setTextAreas(newTextAreaList);
   };
 
-  const assignment1 = assignments.assignments.find((assignment: { id: number; }) => assignment.id === 1);
-  const assignment2 = assignments.assignments.find((assignment: { id: number; }) => assignment.id === 2);
+  // const assignment1 = assignments.assignments.find((assignment: { id: number; }) => assignment.id === 1);
+  // const assignment2 = assignments.assignments.find((assignment: { id: number; }) => assignment.id === 2);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -89,14 +87,15 @@ const GradeModal = ({
                 <div>
                   <div className="flex justify-between mt-4">
                     <div>
-                      Assignment {title.map((assignment: any) => assignment.id[0])}
+                      {/* Assignment {title.map((assignment: any) => assignment.id[0])} */}
+                      Assignment 1
                     </div>
                     <div className="bg-[#F2E9DF] px-8 py-2 rounded-[8px]">Grade: {assignments.grade} %</div>
                   </div>
                   <p>A question that involves explanation</p>
                   <div className="bg-[#1E1E1E0D] rounded-lg py-6 px-4 mb-4">
                     <p>
-                        {assignment1.answer}
+                        {assignments?.assignment1StudentRemark}
                     </p>
                   </div>
                 </div>
@@ -153,14 +152,15 @@ const GradeModal = ({
                 <div>
                   <div className="flex justify-between mt-4">
                     <div>
-                      Assignment {title.map((assignment: any) => assignment.id)}
+                      {/* Assignment {title.map((assignment: any) => assignment.id)} */}
+                      Assignment 2
                     </div>
                     <div>Grade: {assignments.grade} %</div>
                   </div>
                   <p>A question that involves explanation</p>
                   <div className="bg-[#1E1E1E0D] rounded-lg py-6 px-4 mb-4">
                     <p>
-                      {assignment2.answer}
+                      {assignments?.assignment2StudentRemark}
                     </p>
                   </div>
                 </div>

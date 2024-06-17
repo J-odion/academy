@@ -52,7 +52,7 @@ const SignIn: NextPageWithLayout = () => {
         // setItem('accessToken', res.data.accessToken);
         // setItem('refreshToken', res.data.refreshToken);
         const userRole = localStorage.getItem('role');
-        if (res?.data?.Admin_Details?.role === "admin") {
+        if (res?.data?.Admin_Details?.role === "admin" || res?.data?.superAdmin_Details?.role === "superadmin") {
           router.push(`/dashboard/admin/account`);
         } else {
           router.push(`/dashboard/student/account`);

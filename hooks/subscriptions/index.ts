@@ -88,23 +88,21 @@ export const useDeleteSubscriptionPlan = (subscriptionPlanId: any) => {
 
     return useMutation({
         mutationFn,
-        onSuccess: (response: any) => {
-            if (response.message) {
+        onSuccess: () => {
                 toast({
                     title: "Subscription Plan successfully deleted",
-                    description: `${response.message}`,
+                    // description: `${response.message}`,
                     className: "toast-success",
                 });
-                queryClient.invalidateQueries({ queryKey: ["subscriptionPlans"] });
+                // queryClient.invalidateQueries({ queryKey: ["subscriptionPlans"] });
                 router.push("/dashboard/admin/subscription-plans");
-            } else {
-                console.log(response.error);
-                toast({
-                    title: "Something went wrong... Try Again",
-                    description: response.error,
-                    className: "toast-error",
-                });
-            }
-        },
-    });
+            },
+        onError: () => {
+            toast({
+                title: "Something went wrong... Try Again",
+                // description: response.error,
+                className: "toast-error",
+            })
+        }
+})
 }
