@@ -29,6 +29,8 @@ type FreeCoursesModalProps = {
   className?: string;
   title: string;
   open: boolean;
+  addCategory: any;
+  isPending?: boolean;
   setOpen: (open: boolean) => void;
 };
 
@@ -36,6 +38,8 @@ const AddModal = ({
   title,
   open,
   setOpen,
+  addCategory,
+  isPending,
   className,
 }: FreeCoursesModalProps) => {
   const [step, setStep] = useState(1);
@@ -47,7 +51,7 @@ const AddModal = ({
   const [selectedLoop, setSelectedLoop] = useState<File | null>(null);
   const [selectedAudio, setSelectedAudio] = useState<File | null>(null);
 
-  const { mutate, isPending } = useAddCategory();
+  // const { mutate, isPending } = useAddCategory();
   const { toast } = useToast();
 
   const onSubmitStep1 = async (data: any) => {
@@ -80,27 +84,27 @@ const AddModal = ({
       }
     console.log(dataObject);
 
-    mutate(formData, {
-      onSuccess: (res) => {
-        toast({
-          title: "Free course added",
-          description: `${res.message}`,
-          variant: "default",
-        });
-        setIsLoading(false);
-        reset();
-        setOpen(false);
-      },
-      onError: (error) => {
-        console.error("Error submitting form: ", error);
-        toast({
-          title: "Error",
-          description: "An error occurred, please try again",
-          variant: "destructive",
-        });
-        setIsLoading(false);
-      },
-    });
+    // mutate(formData, {
+    //   onSuccess: (res) => {
+    //     toast({
+    //       title: "Free course added",
+    //       description: `${res.message}`,
+    //       variant: "default",
+    //     });
+    //     setIsLoading(false);
+    //     reset();
+    //     setOpen(false);
+    //   },
+    //   onError: (error) => {
+    //     console.error("Error submitting form: ", error);
+    //     toast({
+    //       title: "Error",
+    //       description: "An error occurred, please try again",
+    //       variant: "destructive",
+    //     });
+    //     setIsLoading(false);
+    //   },
+    // });
 
   };
 

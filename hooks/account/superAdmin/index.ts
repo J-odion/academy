@@ -254,3 +254,17 @@ export const useGetAllPendingAssignments = () => {
         retry: 1,
     });
 }
+
+
+export const useGetAllAdminCategory = () => {
+    const queryFn = async () => {
+        const response = await axiosInstance.get("/category/getCategory");
+        return response.data;
+    };
+
+    return useQuery({
+        queryKey: ["getAdminCategory"],
+        queryFn,
+        retry: 1,
+    })
+}
