@@ -19,26 +19,52 @@ import { BookOpen } from "lucide-react";
 import { requests, transactions, support } from "@/data/data";
 import { useRouter } from "next/router";
 import { useStorage } from "@/lib/useStorage";
+import { useGetPendingAdmins, useDeleteAdmin, useOnboardPendingAdmin } from "../../../../../hooks/account/superAdmin";
+
+
+type TutorRequestProps = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  status: string;
+  adminId: string;
+  submissionDate: string;
+}
 
 const Dashboard: NextPageWithLayout = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [showAllTransactions, setShowAllTransactions] = useState(false);
   const [showAllTutorialRequests, setShowAllTutorialRequests] = useState(false);
   const [showAllSupport, setShowAllSupport] = useState(false);
+  const [selectedAdmin, setSelectedAdmin] = useState<TutorRequestProps | null>(null);
+
+  const { data: getAdminData, isLoading } = useGetPendingAdmins();
+  console.log(getAdminData)
+  const { mutate: deleteAdmin } = useDeleteAdmin(selectedAdmin?.adminId);
+  const { mutate: onboardAdmin } = useOnboardPendingAdmin(selectedAdmin?.adminId);
 
 
   const router = useRouter();
-  // const { accountId } = router.query;
-  // console.log(accountId)
   const refresh = useStorage.getItem("refresh-token")
   console.log(refresh)
+
+  const handleDeleteAdmin = (admin: TutorRequestProps) => {
+    setSelectedAdmin(admin);
+    deleteAdmin();
+  }
+
+  const handleOnboardAdmin = (admin: TutorRequestProps) => {
+    setSelectedAdmin(admin);
+    onboardAdmin();
+  }
 
   const recentTransactions = showAllTransactions
     ? transactions
     : transactions.slice(0, 4);
   const tutorRequests = showAllTutorialRequests
-    ? requests
-    : requests.slice(0, 4);
+    ? getAdminData
+    : getAdminData?.slice(0, 4);
   const supports = showAllSupport ? support : support.slice(0, 4);
 
   const toggleShowTransactions = () => {
@@ -160,25 +186,25 @@ const Dashboard: NextPageWithLayout = () => {
               </div>
               <Table>
                 <TableBody>
-                  {tutorRequests.map((request) => (
-                    <TableRow key={request.id}>
-                      <TableCell>{request.name}</TableCell>
-                      <TableCell>{request.email}</TableCell>
+                  {tutorRequests?.map((request: TutorRequestProps) => (
+                    <TableRow key={request?._id}>
+                      <TableCell>{request?.firstName}{' '}{request?.lastName}</TableCell>
+                      <TableCell>{request?.email}</TableCell>
                       <TableCell>
                         <Select>
                           <SelectTrigger className="border-2 border-[#F8DEBD] rounded-md">
                             <SelectValue
-                              placeholder={`${request.status}`}
+                              placeholder={`${request?.status}`}
                               className={
-                                request.status === "Accept"
+                                request?.status === "Accept"
                                   ? "placeholder:text-[#E1B57C]"
                                   : "placeholder:text-red-500"
                               }
                             ></SelectValue>
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="accept">Accept</SelectItem>
-                            <SelectItem value="reject">Reject</SelectItem>
+                            <SelectItem value="accept" onClick={() => handleOnboardAdmin(request)}>Accept</SelectItem>
+                            <SelectItem value="reject" onClick={() => handleDeleteAdmin(request)}>Reject</SelectItem>
                           </SelectContent>
                         </Select>
                       </TableCell>

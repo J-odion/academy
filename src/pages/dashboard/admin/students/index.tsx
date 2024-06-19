@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NextPageWithLayout } from "@/pages/_app";
 import DashboardSidebar from "@/components/layout/admin_dashboard/DashboardSidebar";
 import DashboardLayout from "@/components/layout/admin_dashboard/DashboardLayout";
@@ -18,39 +18,33 @@ import Moment from "react-moment";
 import students from "@/data/students.json";
 import DetailsModal from "@/components/modal/students/DetailsModal";
 import AddModal from "@/components/modal/students/AddModal";
+import { useGetAllStudents, useGetAllAdminSubscriptionPlans } from "../../../../../hooks/account/superAdmin";
+import { useGetSubscriptionPlans } from "../../../../../hooks/subscriptions";
+import { Skeleton } from "@/components/ui/skeleton";
+import { NoDataCard } from "@/components/dashboard/cards/NoDataCard";
 
-const plans = [
-  {
-    id: 1,
-    name: "1 Month",
-    price: 670,
-    color: "#895543",
-  },
-  {
-    id: 2,
-    name: "3 Month",
-    price: 670,
-    color: "#BA751B",
-  },
-  {
-    id: 3,
-    name: "6 Month",
-    price: 670,
-    color: "#6B2B14"
-  },
-  {
-    id: 4,
-    name: "12 Month",
-    price: 670,
-    color: "#744911",
-  },
-  {
-    id: 5,
-    name: "Without plan",
-    price: 670,
-    color: "#200D06"
-  }
-];
+type StudentsProps = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  role: string;
+  studentId: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type SubscriptionPlansProps = {
+  _id: number;
+  name: string;
+  price: number;
+  peak1: string;
+  peak2: string;
+  peak3: string;
+  subscriptionPlanId: string;
+};
+
 
 const itemsPerPage = 5;
 
@@ -59,12 +53,32 @@ const Students: NextPageWithLayout = () => {
   const [viewStudent, setViewStudent] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
   const [addModal, setAddModal] = useState(false);
+  const [clientLoaded, setClientLoaded] = useState(false);
+  const [colorMap, setColorMap] = useState<{ [key: string]: string }>({});
+
+  const { data: studentsData, isLoading } = useGetAllStudents();
+  console.log(studentsData);
+  const { data: subscriptionPlans, isLoading: isLoadingData } = useGetAllAdminSubscriptionPlans();
+  console.log(subscriptionPlans);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = students.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = studentsData?.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleViewStudent = (student: any) => {
+  const colors = ["#895543", "#BA751B", "#6B2B14", "#744911", "#200D06"];
+
+  useEffect(() => {
+    if (subscriptionPlans) {
+      const newColorMap: { [key: string]: string } = {};
+      subscriptionPlans.forEach((plan: SubscriptionPlansProps) => {
+        newColorMap[plan._id] = colors[Math.floor(Math.random() * colors.length)];
+      });
+      setColorMap(newColorMap);
+    }
+  }, [subscriptionPlans]);
+
+
+  const handleViewStudent = (student: StudentsProps) => {
     setSelectedStudent(student);
     setViewStudent(true);
   }
@@ -72,6 +86,16 @@ const Students: NextPageWithLayout = () => {
   const handleAddModal = () => {
     setAddModal(true);
   };
+
+  // if (!clientLoaded || isLoading) {
+  //   return (
+  //     <DashboardSidebar>
+  //       <div className="w-full md:mt-20 mt-24">
+  //         <Skeleton className="h-[400px] w-full bg-slate-300 rounded-[6px]" />
+  //       </div>
+  //     </DashboardSidebar>
+  //   );
+  // }
 
   return (
     <DashboardSidebar>
@@ -85,11 +109,23 @@ const Students: NextPageWithLayout = () => {
             </Button>
           </div>
           <div className="grid md:grid-cols-5 gap-4 mt-5">
-            {plans.map((plan) => (
-              <div key={plan.id} className="shadow-md rounded-[6px] overflow-hidden border-2 relative text-white" style={{ backgroundColor: plan.color }}>
+            {isLoadingData && (
+              <>
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              <Skeleton className="h-[150px] w-full bg-slate-300 rounded-[6px]" />
+              </>
+            )}
+            {!isLoadingData && subscriptionPlans?.map((plan: SubscriptionPlansProps) => (
+              <div
+                key={plan?._id}
+                className="shadow-md rounded-[6px] overflow-hidden border-2 relative text-white"
+                style={{ backgroundColor: colorMap[plan?._id] }}>
                 <div className="p-4">
-                  <p className="capitalize text-lg">{plan.name} plan</p>
-                  <p className="font-bold text-2xl mt-2">₦{plan.price}</p>
+                  <p className="capitalize text-lg">{plan?.name} plan</p>
+                  <p className="font-bold text-2xl mt-2">₦{plan?.price}</p>
                 </div>
                 <div className="absolute top-0 right-0 h-full">
                   <Image src='/images/blob.svg' alt="dashboard" width={265} height={152} className='object-cover h-full' />
@@ -98,6 +134,15 @@ const Students: NextPageWithLayout = () => {
             ))}
           </div>
         </div>
+        {studentsData?.length === 0 ? (
+          <NoDataCard
+            img="/images/no-data.png"
+            header="No students yet"
+            message="You have not added any students yet. Click the button below to add a new student."
+            buttonText="Add new student"
+            handleClick={handleAddModal}
+          />
+        ) : (
         <Table className='w-full'>
           <TableHeader>
             <TableRow>
@@ -108,13 +153,16 @@ const Students: NextPageWithLayout = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentItems.map((student) => (
-              <TableRow key={student.id}>
-                <TableCell>{student.name}</TableCell>
-                <TableCell>{student.email}</TableCell>
+            {isLoading && (
+              <Skeleton className="h-[450px] w-full bg-slate-300 rounded-[6px]" />
+            )}
+            {!isLoading && currentItems.map((student: StudentsProps) => (
+              <TableRow key={student?._id}>
+                <TableCell>{student?.firstName} {' '}{student?.lastName}</TableCell>
+                <TableCell>{student?.email}</TableCell>
                 <TableCell>
                   <Moment format="YYYY/MM/DD">
-                    {student.date_joined}
+                    {student?.createdAt}
                   </Moment>
                 </TableCell>
                 <TableCell>
@@ -124,8 +172,9 @@ const Students: NextPageWithLayout = () => {
             ))}
           </TableBody>
         </Table>
+        )}
         <Datapagination
-          totalItems={students.length}
+          totalItems={studentsData?.length}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
           onPageChange={setCurrentPage}

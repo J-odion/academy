@@ -11,8 +11,10 @@ import DeleteModal from '@/components/modal/courses/DeleteModal';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from "@/components/ui/checkbox";
 import Datapagination from '@/components/pagination/Data-Pagination';
-import { useGetFreeCourses, useDeleteFreeCourses, useUpdateFreeCourses } from '../../../../../../hooks/account/admin';
+import { useGetFreeCourses, useDeleteFreeCourses, useUpdateFreeCourses, useAddCategory } from '../../../../../../hooks/account/admin';
+import { useGetAllAdminCategory } from '../../../../../../hooks/account/superAdmin';
 import { Skeleton } from '@/components/ui/skeleton';
+import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
 
 const itemsPerPage = 8;
 
@@ -46,6 +48,9 @@ const FreeCourses: NextPageWithLayout = () => {
   console.log('Free Courses:', freecourses);
   const { mutate: deleteFreeCourse, isPending } = useDeleteFreeCourses(selectedCourse?.freeCourseId);
   const { mutate: updateFreeCourse } = useUpdateFreeCourses(selectedCourse?.freeCourseId);
+  const { data: categories } = useGetAllAdminCategory();
+  console.log(categories)
+
 
 
 
@@ -56,6 +61,7 @@ const FreeCourses: NextPageWithLayout = () => {
   const [editModal, setEditModal] = useState<boolean>(false);
   const [addModal, setAddModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [addCatergoryModal, setAddCategoryModal] = useState<boolean>(false);
 
   // const handleEditModal = () => setEditModal(!editModal);
   const handleAddModal = () => setAddModal(!addModal);
@@ -69,6 +75,10 @@ const FreeCourses: NextPageWithLayout = () => {
   const handleEditModal = (course: FreeCoursesProps) => {
     setSelectedCourse(course);
     setEditModal(!editModal);
+  }
+
+  const handleAddCategoryModal = () => {
+    setAddCategoryModal(!addCatergoryModal);
   }
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -88,6 +98,17 @@ const FreeCourses: NextPageWithLayout = () => {
         {/* {isLoading && (
           <Skeleton className='grid md:grid-cols-4 grid-cols-1 gap-8 h-12' />
         )} */}
+
+        {freecourses?.length === 0 ? (
+          <NoDataCard
+            img="/images/no-data.png"
+            header="No free courses available"
+            message="You have not added any free courses yet. Click the button below to add a new free course."
+            buttonText="Add free course"
+            handleClick={handleAddModal}
+          />
+        ) : (
+
         <div className='grid md:grid-cols-4 grid-cols-1 gap-8'>
           {isLoading && (
             <>
@@ -132,6 +153,7 @@ const FreeCourses: NextPageWithLayout = () => {
             </div>
           ))}
         </div>
+        )}
         {!isLoading && freecourses && (
           <Datapagination
             totalItems={freecourses.length}

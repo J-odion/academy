@@ -45,7 +45,7 @@ const SignUp: NextPageWithLayout = () => {
       password: values.password,
       firstName: values.firstName,
       lastName: values.lastName,
-      role: 'admin',
+      role: 'superadmin',
       username: values.username,
       telephone: values.telephone,
     };

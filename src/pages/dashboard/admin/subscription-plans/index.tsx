@@ -3,15 +3,13 @@ import { NextPageWithLayout } from '@/pages/_app';
 import DashboardSidebar from '@/components/layout/admin_dashboard/DashboardSidebar';
 import DashboardLayout from '@/components/layout/admin_dashboard/DashboardLayout';
 import { Button } from '@/components/ui/button';
-import { Trash } from 'lucide-react';
+import { Plus, Trash } from 'lucide-react';
 import EditModal from '@/components/modal/subscription/EditModal';
 import AddModal from '@/components/modal/subscription/AddModal';
 import DeleteModal from '@/components/modal/subscription/DeleteModal';
-import { useGetSubscriptionPlans, useDeleteSubscriptionPlan } from '../../../../../hooks/subscriptions';
+import { useGetSubscriptionPlans, useDeleteSubscriptionPlan, useUpdateSubscriptionPlan } from '../../../../../hooks/subscriptions';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
-import { set } from 'zod';
-
 
 type SubscriptionPlansProps = {
   _id: number;
@@ -20,7 +18,7 @@ type SubscriptionPlansProps = {
   peak1: string;
   peak2: string;
   peak3: string;
-  subscriptionPlanId: number;
+  subscriptionPlanId: string;
 };
 
 const SubscriptionPlans: NextPageWithLayout = () => {
@@ -31,19 +29,32 @@ const SubscriptionPlans: NextPageWithLayout = () => {
 
   const { data: subscriptionPlans, isLoading } = useGetSubscriptionPlans();
   const { mutate: deleteSubscriptionPlan, isPending } = useDeleteSubscriptionPlan(selectedPlan?.subscriptionPlanId);
+  const { mutate: updateSubscriptionPlan, isPending: pendingUpdate } = useUpdateSubscriptionPlan(selectedPlan?.subscriptionPlanId);
+  console.log(selectedPlan?.subscriptionPlanId)
 
-  const handleEditModal = () => setEditModal(!editModal);
   const handleAddModal = () => setAddModal(!addModal);
 
   const handleDeleteModal = (plan: SubscriptionPlansProps) => {
-    setSelectedPlan(plan)
-    setDeleteModal(!deleteModal)
+    setSelectedPlan(plan);
+    setDeleteModal(!deleteModal);
+  };
+
+  const handleEditModal = (plan: SubscriptionPlansProps) => {
+    setSelectedPlan(plan);
+    setEditModal(!editModal);
   };
 
   return (
     <DashboardSidebar>
       <div className="w-full pt-10 px-8">
-        <h1 className="text-2xl font-semibold py-8">Subscription Plans</h1>
+        <div className="flex justify-between align-middle items-center">
+          <div>
+            <h1 className="text-2xl font-semibold py-8">Subscription Plans</h1>
+          </div>
+          <Button className="bg-[#A85334] gap-2" onClick={handleAddModal}>
+            <Plus size={18} /> Add Subscription
+          </Button>
+        </div>
 
         {subscriptionPlans?.length === 0 ? (
           <NoDataCard
@@ -84,7 +95,7 @@ const SubscriptionPlans: NextPageWithLayout = () => {
                   </li>
                 </ul>
                 <div className="mt-4 flex justify-between items-center">
-                  <Button className='bg-[#A85334] w-full' onClick={handleEditModal}>Edit</Button>
+                  <Button className='bg-[#A85334] w-full' onClick={() => handleEditModal(plan)}>Edit</Button>
                   <Button variant="link" className="ml-2" onClick={() => handleDeleteModal(plan)}>
                     <Trash size={20} color='#A85334' className='' />
                   </Button>
@@ -95,11 +106,16 @@ const SubscriptionPlans: NextPageWithLayout = () => {
         )}
       </div>
 
-      <EditModal
-        title='Edit plan'
-        open={editModal}
-        setOpen={setEditModal}
-      />
+      {selectedPlan && (
+        <EditModal
+          title='Edit plan'
+          open={editModal}
+          setOpen={setEditModal}
+          editSubscriptionPlan={updateSubscriptionPlan}
+          isPending={pendingUpdate}
+          selectedPlan={selectedPlan}
+        />
+      )}
 
       <AddModal
         title='Add plan'
