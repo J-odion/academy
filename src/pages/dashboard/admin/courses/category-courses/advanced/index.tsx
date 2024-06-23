@@ -19,10 +19,10 @@ const Advanced = () => {
 
   return (
     <DashboardSidebar>
-      <div className="w-full md:mt-20">
-        <div className="items-center justify-between md:flex">
+      <div className="w-full md:mt-20 mt-24">
+        <div className="items-center justify-between flex sm:text-md text-lg">
           <Button variant={'link'} className='text-[#A85334]' onClick={handleGoBack}>Back</Button>
-          <Button className='bg-[#A85334]'><span><Plus size={14} /></span>{" "}Add course</Button>
+          <Button className='bg-[#A85334] sm:text-md text-lg'><span><Plus size={18} /></span>{" "}Add course</Button>
         </div>
         <CoursesCategoryTab currentTab={'advanced'} />
           <h1>Advanced Courses</h1>

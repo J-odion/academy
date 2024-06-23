@@ -40,15 +40,15 @@ const SignIn: NextPageWithLayout = () => {
     mutationFn: (data: LoginProps) => AuthLogin(data),
     onSuccess(res) {
       if (res.status === 200) {
-        console.log('Login response:', res.data);
+        console.log("Login response:", res.data);
         toast({
           title: `Logged in successfully`,
           className: "toast-success",
         });
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile] });
-        localStorage.setItem('accessToken', res.data.accessToken);
-        localStorage.setItem('refreshToken', res.data.refreshToken);
-        const userRole = localStorage.getItem('role');
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+        const userRole = localStorage.getItem("role");
         if (res.data.role === "admin") {
           router.push(`/dashboard/admin/account`);
         } else {
@@ -84,24 +84,24 @@ const SignIn: NextPageWithLayout = () => {
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen p-4">
       <div className="lg:w-1/2 flex flex-col items-center lg:items-start mb-8 lg:mb-0 lg:pl-8">
-      <div className="flex justify-center flex-col mb-10">
-        <Link href="/" className="text-[#A85334]">
-          <Image
-            className="h-[100px] w-[100px] mx-auto lg:mx-0 mb-4 "
-            src="/SGALOGO.svg"
-            width={50}
-            height={50}
-            alt="Picture of the author"
-          />
-        </Link>
-      </div>
-      <TypographyH1 className="mb-4 w-full text-center lg:text-left">
-        Welcome back
-      </TypographyH1>
+        <div className="flex justify-center flex-col mb-10">
+          <Link href="/" className="text-[#A85334]">
+            <Image
+              className="h-[100px] w-[100px] mx-auto lg:mx-0 mb-4 "
+              src="/SGALOGO.svg"
+              width={50}
+              height={50}
+              alt="Picture of the author"
+            />
+          </Link>
+        </div>
+        <TypographyH1 className="mb-4 w-full text-center lg:text-left">
+          Welcome back
+        </TypographyH1>
 
-      <p className="mb-4 w-full text-center lg:text-left">
-        Continue from where you left off. There are a lot to learn today!
-      </p>
+        <p className="mb-4 w-full text-center lg:text-left">
+          Continue from where you left off. There are a lot to learn today!
+        </p>
         {/* <TypographyH1 className="mb-4 text-3xl lg:text-5xl">Welcome back</TypographyH1>
         <p className="mb-4 text-lg">
           Don't have an account?{" "}
@@ -111,7 +111,10 @@ const SignIn: NextPageWithLayout = () => {
         </p> */}
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6 max-w-sm">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full space-y-6 max-w-sm"
+          >
             <FormField
               control={form.control}
               name="email"
@@ -147,15 +150,27 @@ const SignIn: NextPageWithLayout = () => {
             </CustomButton>
           </form>
         </Form>
-        <div className="mt-4 flex gap-2 justify-center lg:justify-start">
-        <p className="">Don&apos;t have an account?</p>
-        <Link href="/auth/signup" className="text-[#A85334] hover:underline">
-          Sign up
-        </Link>
-      </div>
+        <div className="mt-4 flex gap-2 justify-center lg:justify-between">
+          <p className="">Don&apos;t have an account?</p>
+          <Link href="/auth/signup" className="text-[#A85334] hover:underline">
+            Sign up
+          </Link>
+          <Link
+            href="/auth/forgot-password"
+            className="underline text-blue-600"
+          >
+            Forgot password
+          </Link>
+        </div>
       </div>
       <div className="hidden lg:flex lg:w-1/2 justify-center">
-        <Image src='/images/guitar_bg.png' width={400} height={400} alt="Guitar" className="rounded-lg" />
+        <Image
+          src="/images/guitar_bg.png"
+          width={400}
+          height={400}
+          alt="Guitar"
+          className="rounded-lg"
+        />
       </div>
     </div>
   );

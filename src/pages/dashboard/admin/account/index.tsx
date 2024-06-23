@@ -15,12 +15,15 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 import { data } from "@/components/layout/admin_dashboard/Cards";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Plus } from "lucide-react";
 import { requests, transactions, support } from "@/data/data";
 import { useRouter } from "next/router";
 import { useStorage } from "@/lib/useStorage";
-import { useGetPendingAdmins, useDeleteAdmin, useOnboardPendingAdmin } from "../../../../../hooks/account/superAdmin";
-
+import {
+  useGetPendingAdmins,
+  useDeleteAdmin,
+  useOnboardPendingAdmin,
+} from "../../../../../hooks/account/superAdmin";
 
 type TutorRequestProps = {
   _id: string;
@@ -30,34 +33,36 @@ type TutorRequestProps = {
   status: string;
   adminId: string;
   submissionDate: string;
-}
+};
 
 const Dashboard: NextPageWithLayout = () => {
-  // const [isLoading, setIsLoading] = useState(false);
   const [showAllTransactions, setShowAllTransactions] = useState(false);
   const [showAllTutorialRequests, setShowAllTutorialRequests] = useState(false);
   const [showAllSupport, setShowAllSupport] = useState(false);
-  const [selectedAdmin, setSelectedAdmin] = useState<TutorRequestProps | null>(null);
+  const [selectedAdmin, setSelectedAdmin] = useState<TutorRequestProps | null>(
+    null
+  );
 
   const { data: getAdminData, isLoading } = useGetPendingAdmins();
-  console.log(getAdminData)
+  console.log(getAdminData);
   const { mutate: deleteAdmin } = useDeleteAdmin(selectedAdmin?.adminId);
-  const { mutate: onboardAdmin } = useOnboardPendingAdmin(selectedAdmin?.adminId);
-
+  const { mutate: onboardAdmin } = useOnboardPendingAdmin(
+    selectedAdmin?.adminId
+  );
 
   const router = useRouter();
-  const refresh = useStorage.getItem("refresh-token")
-  console.log(refresh)
+  const refresh = useStorage.getItem("refresh-token");
+  console.log(refresh);
 
   const handleDeleteAdmin = (admin: TutorRequestProps) => {
     setSelectedAdmin(admin);
     deleteAdmin();
-  }
+  };
 
   const handleOnboardAdmin = (admin: TutorRequestProps) => {
     setSelectedAdmin(admin);
     onboardAdmin();
-  }
+  };
 
   const recentTransactions = showAllTransactions
     ? transactions
@@ -81,7 +86,7 @@ const Dashboard: NextPageWithLayout = () => {
 
   return (
     <DashboardSidebar>
-      <div className="w-full mt-20 md:mt-20" >
+      <div className="w-full mt-20 md:mt-20">
         <div className="items-center justify-between md:flex gap-10">
           <div className="flex flex-col">
             <div>
@@ -103,8 +108,8 @@ const Dashboard: NextPageWithLayout = () => {
                       <div className="w-8 h-8">
                         <BookOpen size={20} />
                       </div>
-                      <h6 className="text-lg font-semibold">{item.text}</h6>
-                      <h1 className="text-3xl font-semibold">{item.value}</h1>
+                      <h6 className="text-lg text-center md:text-xl font-semibold">{item.text}</h6>
+                      <h1 className="text-3xl text-center md:text-4xl font-semibold">{item.value}</h1>
                     </div>
                   </div>
                 ))}
@@ -115,10 +120,10 @@ const Dashboard: NextPageWithLayout = () => {
               {!isLoading ? (
                 <div className="my-8 bg-[#FEF9F8] p-8 border-[#C4AAA1] border-2 rounded-md">
                   <div className="flex justify-between items-center">
-                    <p>Recent transactions</p>
+                    <p className="text-base md:text-lg">Recent transactions</p>
                     <Button
                       variant={"link"}
-                      className="text-[#A85334]"
+                      className="text-[#A85334] text-base md:text-lg"
                       onClick={toggleShowTransactions}
                     >
                       {showAllTransactions ? "View less" : "View all"}
@@ -168,17 +173,19 @@ const Dashboard: NextPageWithLayout = () => {
             </div>
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col h-full">
             <div>
-              <Button className="bg-[#A85334] w-full">+ Add tutor</Button>
+              <Button className="bg-[#A85334] w-full items-center sm:text-md text-lg">
+                <Plus size={18} /> Add tutor
+              </Button>
             </div>
 
             <div className="mt-8 bg-[#FEF9F8] p-8 border-[#C4AAA1] border-2 rounded-md">
               <div className="flex justify-between items-center">
-                <p>Tutor Requests</p>
+                <p className="text-base md:text-lg">Tutor Requests</p>
                 <Button
                   variant={"link"}
-                  className="text-[#A85334]"
+                  className="text-[#A85334] text-base md:text-lg"
                   onClick={toggleShowTutorialRequests}
                 >
                   {showAllTutorialRequests ? "View less" : "View all"}
@@ -203,8 +210,18 @@ const Dashboard: NextPageWithLayout = () => {
                             ></SelectValue>
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="accept" onClick={() => handleOnboardAdmin(request)}>Accept</SelectItem>
-                            <SelectItem value="reject" onClick={() => handleDeleteAdmin(request)}>Reject</SelectItem>
+                            <SelectItem
+                              value="accept"
+                              onClick={() => handleOnboardAdmin(request)}
+                            >
+                              Accept
+                            </SelectItem>
+                            <SelectItem
+                              value="reject"
+                              onClick={() => handleDeleteAdmin(request)}
+                            >
+                              Reject
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </TableCell>
@@ -217,10 +234,10 @@ const Dashboard: NextPageWithLayout = () => {
             <div>
               <div className="mt-8 bg-[#FEF9F8] p-8 border-[#C4AAA1] border-2 rounded-md">
                 <div className="flex justify-between items-center">
-                  <p>Support</p>
+                  <p className="text-base md:text-lg">Support</p>
                   <Button
                     variant={"link"}
-                    className="text-[#A85334]"
+                    className="text-[#A85334] text-base md:text-lg"
                     onClick={toggleShowSupport}
                   >
                     {showAllSupport ? "View less" : "View all"}

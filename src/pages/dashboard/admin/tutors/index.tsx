@@ -76,7 +76,7 @@ const Tutors: NextPageWithLayout = () => {
           <div>
             <h1 className="text-2xl font-medium">Tutors</h1>
           </div>
-          <Button className="bg-[#A85334] gap-2" onClick={handleAddModal}>
+          <Button className="bg-[#A85334] gap-2 sm:text-md text-lg" onClick={handleAddModal}>
             <Plus size={18} /> Add Tutors
           </Button>
         </div>

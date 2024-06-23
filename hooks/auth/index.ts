@@ -104,6 +104,12 @@ export const AuthConfirmOtp = async (payload: {
 
 export const ResendOtp = async (payload: {
 }) => {
+  /**
+   * Sends a request to resend the OTP (One-Time Password) using the provided payload.
+   *
+   * @param payload - The data payload for the request.
+   * @returns A configuration object for making a POST request to the OTP resend endpoint.
+   */
   const config = {
     method: "POST",
     url: `${process.env.NEXT_PUBLIC_TOKEN_API_URL}/otp/resend-otp`,
@@ -117,3 +123,19 @@ export const ResendOtp = async (payload: {
 
   return data;
 };
+
+export const AuthChangePassword = async (payload: {
+}) => {
+  const config = {
+    method: "PUT",
+    url: `${process.env.NEXT_PUBLIC_TOKEN_API_URL}/changePassword`,
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const { data } = await axios(config);
+
+  return data;
+}

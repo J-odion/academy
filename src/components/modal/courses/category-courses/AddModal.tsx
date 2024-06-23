@@ -23,14 +23,11 @@ import { Image, Loader2Icon, Mic } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useAddCategory } from "../../../../../hooks/account/admin";
 import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "../../../../../context/auth.context";
 
 type FreeCoursesModalProps = {
   className?: string;
   title: string;
   open: boolean;
-  addCategory: any;
-  isPending?: boolean;
   setOpen: (open: boolean) => void;
 };
 
@@ -38,20 +35,19 @@ const AddModal = ({
   title,
   open,
   setOpen,
-  addCategory,
-  isPending,
   className,
 }: FreeCoursesModalProps) => {
   const [step, setStep] = useState(1);
   const { register, handleSubmit, reset, setValue } = useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const { mutate, isPending } = useAddCategory();
 
   const [selectedVideoThumbnail, setSelectedVideoThumbnail] = useState<File | null>(null);
   const [selectedTablature, setSelectedTablature] = useState<File | null>(null);
   const [selectedLoop, setSelectedLoop] = useState<File | null>(null);
   const [selectedAudio, setSelectedAudio] = useState<File | null>(null);
 
-  // const { mutate, isPending } = useAddCategory();
+
   const { toast } = useToast();
 
   const onSubmitStep1 = async (data: any) => {
@@ -84,27 +80,27 @@ const AddModal = ({
       }
     console.log(dataObject);
 
-    // mutate(formData, {
-    //   onSuccess: (res) => {
-    //     toast({
-    //       title: "Free course added",
-    //       description: `${res.message}`,
-    //       variant: "default",
-    //     });
-    //     setIsLoading(false);
-    //     reset();
-    //     setOpen(false);
-    //   },
-    //   onError: (error) => {
-    //     console.error("Error submitting form: ", error);
-    //     toast({
-    //       title: "Error",
-    //       description: "An error occurred, please try again",
-    //       variant: "destructive",
-    //     });
-    //     setIsLoading(false);
-    //   },
-    // });
+    mutate(formData, {
+      onSuccess: (res) => {
+        toast({
+          title: "Free course added",
+          description: `${res.message}`,
+          variant: "default",
+        });
+        setIsLoading(false);
+        reset();
+        setOpen(false);
+      },
+      onError: (error) => {
+        console.log("Error submitting form: ", error);
+        toast({
+          title: "Error",
+          description: "An error occurred, please try again",
+          variant: "destructive",
+        });
+        setIsLoading(false);
+      },
+    });
 
   };
 
@@ -356,8 +352,8 @@ const AddModal = ({
                     Previous
                   </CustomButton>
                   <CustomButton className="bg-[#A85334] w-full" type="submit"
-                  disabled={isLoading}
-                  isLoading={isPending}
+                    disabled={isPending}
+                    isLoading={isPending}
                   >
                     Save
                   </CustomButton>
