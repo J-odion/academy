@@ -28,8 +28,8 @@ const Beginner: NextPageWithLayout = () => {
     <DashboardSidebar>
       <div className="w-full md:mt-20 mt-24">
         <div className="items-center flex justify-between md:flex">
-          <Button variant={'link'} className='text-[#A85334]' onClick={handleGoBack}>Back</Button>
-          <Button className='bg-[#A85334]'><span><Plus size={14} /></span>{" "}Add course</Button>
+          <Button variant={'link'} className='text-[#A85334] sm:text-md text-lg' onClick={handleGoBack}>Back</Button>
+          <Button className='bg-[#A85334] sm:text-md text-lg'><span><Plus size={18} /></span>{" "}Add course</Button>
         </div>
         <CoursesCategoryTab currentTab={'beginner'} />
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
@@ -42,15 +42,15 @@ const Beginner: NextPageWithLayout = () => {
                 </video>
               </div>
 
-              <h5>{category.title}</h5>
+              <h5 className='sm:text-md text-lg'>{category.title}</h5>
               {/* <div className='text-[#A85334] bg-[#F0EAE8] px-1 text-sm py-2 w-full md:w-[50%]'>{category.name_of_tutor}</div> */}
               <div className="flex justify-between">
                 <p>{category.no_of_lessons}{" "}lessons</p>
                 <h4 className='text-[#A85334]'>{formatToNigerianCurrency(category.price)}</h4>
               </div>
               <div className="flex justify-between gap-6 mt-6">
-                <Button variant={'outline'} className='border-[1px] border-[#A85334] text-[#A85334] w-full'>View</Button>
-                <Button className='bg-[#A85334] rounded-[5px] w-full'>Edit</Button>
+                <Button variant={'outline'} className='border-[1px] border-[#A85334] text-[#A85334] w-full sm:text-md text-lg'>View</Button>
+                <Button className='bg-[#A85334] rounded-[5px] w-full sm:text-md text-lg'>Edit</Button>
               </div>
             </div>
           ))}

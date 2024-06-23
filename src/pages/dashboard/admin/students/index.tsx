@@ -99,11 +99,11 @@ const Students: NextPageWithLayout = () => {
 
   return (
     <DashboardSidebar>
-      <div className="w-full md:mt-20 mt-24">
+      <div className="w-full md:mt-20 mt-20">
         <div className="py-5 w-full">
-          <div className="flex justify-between">
-            <h1 className="text-2xl font-medium">Students</h1>
-            <Button className="bg-[#A85334] gap-2" onClick={handleAddModal}>
+          <div className="flex justify-between items-center">
+            <h1 className="text-xl font-medium">Students</h1>
+            <Button className="bg-[#A85334] gap-2 sm:text-md text-lg" onClick={handleAddModal}>
               <Plus size={18} />
               Add new students
             </Button>

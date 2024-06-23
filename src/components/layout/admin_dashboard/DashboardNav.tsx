@@ -51,7 +51,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
       <nav className="fixed top-0 z-40 lg:ml-72 w-full px-5 py-6 bg-white text-black md:px-10 lg:py-4 border-b">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-sm font-normal capitalize text-[#1C1C1C66]">{page}</h1>
+            <h1 className="sm:text-sm text-lg font-normal capitalize text-[#1C1C1C66]">{page}</h1>
           </div>
           <div className="flex items-center space-x-4">
             <div className="hidden lg:flex">
@@ -99,7 +99,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                 <li
                   className={
                     route === "/dashboard/admin/account"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-white"
+                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-black"
                       : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                   onClick={() => setToggleSideBar(false)}
@@ -108,7 +108,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                       <span className="mr-3">
                         <PieChart size="20" />
                       </span>
-                      Home
+                      Dashboard
                     </div>
                   </li>
               </Link>
@@ -117,7 +117,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                 <li
                   className={
                     route === "/dashboard/admin/courses"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-white"
+                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-black"
                       : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                   onClick={() => setToggleSideBar(false)}
@@ -135,7 +135,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                 <li
                   className={
                     route === "/dashboard/admin/subscription-plans"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-white"
+                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-black"
                       : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                   onClick={() => setToggleSideBar(false)}
@@ -153,7 +153,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                 <li
                   className={
                     route === "/dashboard/admin/transactions"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-white"
+                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-black"
                       : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                   onClick={() => setToggleSideBar(false)}
@@ -171,7 +171,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                 <li
                   className={
                     route === "/dashboard/admin/tutors"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-white"
+                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-black"
                       : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                   onClick={() => setToggleSideBar(false)}
@@ -189,7 +189,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                 <li
                   className={
                     route === "/dashboard/admin/students"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-white"
+                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-black"
                       : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                   onClick={() => setToggleSideBar(false)}
@@ -207,7 +207,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                 <li
                   className={
                     route === "/dashboard/admin/assignments"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-white"
+                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-black"
                       : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                   onClick={() => setToggleSideBar(false)}
@@ -225,7 +225,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                 <li
                   className={
                     route === "/dashboard/admin/chat-forum"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-white"
+                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-black"
                       : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                   onClick={() => setToggleSideBar(false)}
@@ -243,7 +243,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
                 <li
                   className={
                     route === "/dashboard/admin/support"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-white"
+                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-black"
                       : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                   onClick={() => setToggleSideBar(false)}
@@ -259,7 +259,7 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
             </ul>
 
             <div
-                className="fixed bottom-10 pl-10 text-[#959190]"
+                className="fixed bottom-10 pl-10 text-[#959190] mt-10"
                 style={{ cursor: "pointer" }}
               >
                 <div className="flex items-center" onClick={handleLogout}>

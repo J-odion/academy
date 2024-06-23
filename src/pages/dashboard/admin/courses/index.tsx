@@ -54,11 +54,11 @@ const Courses: NextPageWithLayout = () => {
   const [editModal, setEditModal] = useState(false);
   const [addModal, setAddModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<FreeCoursesProps | null>(null);
-  const [addCatergoryModal, setAddCategoryModal] = useState<boolean>(false);
+  const [addCategoryModal, setAddCategoryModal] = useState<boolean>(false);
 
   const { data: freecourses, isLoading } = useGetFreeCourses();
   const { mutate: deleteCategory, isPending } = useDeleteCategory(selectedCategory?.freeCourseId);
-  const {mutate: addCategory, isPending: pendingCategory} = useAddCategory();
+  // const {mutate: addCategory, isPending: pendingCategory} = useAddCategory();
 
   const handleDeleteModal = () => {
     setSelectedCategory(selectedCategory);
@@ -74,7 +74,7 @@ const Courses: NextPageWithLayout = () => {
   // }
 
   const handleAddCategoryModal = () => {
-    setAddCategoryModal(!addCatergoryModal);
+    setAddCategoryModal(!addCategoryModal);
   }
 
   const handleViewCategory = (category: string) => {
@@ -107,11 +107,11 @@ const Courses: NextPageWithLayout = () => {
             <TableBody>
               {categories.map((category) => (
                 <TableRow key={category.id}>
-                  <TableCell className='inline-flex items-center gap-4'>{category.category} <span className='cursor-pointer text-[#A85334]'><Pencil size={18} onClick={handleEditModal} /></span></TableCell>
-                  <TableCell>{category.no_of_courses}</TableCell>
-                  <TableCell>{category.enrolled_students}</TableCell>
+                  <TableCell className='inline-flex items-center gap-4 capitalize md:text-base text-lg'>{category.category} <span className='cursor-pointer text-[#A85334]'><Pencil size={18} onClick={handleEditModal} /></span></TableCell>
+                  <TableCell className='sm:text-md text-lg'>{category.no_of_courses}</TableCell>
+                  <TableCell className='sm:text-md text-lg'>{category.enrolled_students}</TableCell>
                   <TableCell>
-                    <Button variant={'outline'} className='border-[#A85334] border-[1px] text-[#A85334]' onClick={() => handleViewCategory(category.category.toLowerCase())}>View</Button>
+                    <Button variant={'outline'} className='border-[#A85334] border-[1px] text-[#A85334] sm:text-md text-lg' onClick={() => handleViewCategory(category.category.toLowerCase())}>View</Button>
                   </TableCell>
                   <TableCell onClick={handleDeleteModal}><Trash size={20} color='#A85334' className='cursor-pointer' /></TableCell>
                 </TableRow>
@@ -122,8 +122,8 @@ const Courses: NextPageWithLayout = () => {
         </div>
 
         <div className='py-4 flex flex-col gap-4 sm:flex-row lg:flex-row'>
-          <Button variant={'outline'} className='border-[1px] border-[#A85334] text-[#A85334] sm:ml-0 lg:ml-0' onClick={handleAddCategoryModal}><span><Plus size={18} /></span>{" "}Add category</Button>
-          <Button className='bg-[#A85334]'><span><Plus size={18} /></span>{" "}Add course</Button>
+          <Button variant={'outline'} className='border-[1px] border-[#A85334] text-[#A85334] sm:ml-0 lg:ml-0 sm:text-md text-lg' onClick={handleAddCategoryModal}><span><Plus size={18} /></span>{" "}Add category</Button>
+          <Button className='bg-[#A85334] sm:text-md text-lg'><span><Plus size={18} /></span>{" "}Add course</Button>
         </div>
       </div>
 
@@ -147,10 +147,8 @@ const Courses: NextPageWithLayout = () => {
 
       <AddModal
         title='Add category'
-        open={addModal}
+        open={addCategoryModal}
         setOpen={setAddModal}
-        addCategory={addCategory}
-        isPending={pendingCategory}
       />
     </DashboardSidebar>
   )
