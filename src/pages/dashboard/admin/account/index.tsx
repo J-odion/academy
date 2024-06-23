@@ -108,8 +108,8 @@ const Dashboard: NextPageWithLayout = () => {
                       <div className="w-8 h-8">
                         <BookOpen size={20} />
                       </div>
-                      <h6 className="text-lg text-center md:text-xl font-semibold">{item.text}</h6>
-                      <h1 className="text-3xl text-center md:text-4xl font-semibold">{item.value}</h1>
+                      <h6 className="text-2xl text-center md:text-xl font-semibold">{item.text}</h6>
+                      <h1 className="text-4xl text-center md:text-4xl font-semibold">{item.value}</h1>
                     </div>
                   </div>
                 ))}
@@ -120,10 +120,10 @@ const Dashboard: NextPageWithLayout = () => {
               {!isLoading ? (
                 <div className="my-8 bg-[#FEF9F8] p-8 border-[#C4AAA1] border-2 rounded-md">
                   <div className="flex justify-between items-center">
-                    <p className="text-base md:text-lg">Recent transactions</p>
+                    <p className="sm:text-md text-2xl">Recent transactions</p>
                     <Button
                       variant={"link"}
-                      className="text-[#A85334] text-base md:text-lg"
+                      className="text-[#A85334] text-base md:text-2xl"
                       onClick={toggleShowTransactions}
                     >
                       {showAllTransactions ? "View less" : "View all"}
@@ -182,7 +182,7 @@ const Dashboard: NextPageWithLayout = () => {
 
             <div className="mt-8 bg-[#FEF9F8] p-8 border-[#C4AAA1] border-2 rounded-md">
               <div className="flex justify-between items-center">
-                <p className="text-base md:text-lg">Tutor Requests</p>
+                <p className="text-2xl md:text-lg">Tutor Requests</p>
                 <Button
                   variant={"link"}
                   className="text-[#A85334] text-base md:text-lg"
@@ -234,10 +234,10 @@ const Dashboard: NextPageWithLayout = () => {
             <div>
               <div className="mt-8 bg-[#FEF9F8] p-8 border-[#C4AAA1] border-2 rounded-md">
                 <div className="flex justify-between items-center">
-                  <p className="text-base md:text-lg">Support</p>
+                  <p className="text-2xl md:text-lg">Support</p>
                   <Button
                     variant={"link"}
-                    className="text-[#A85334] text-base md:text-lg"
+                    className="text-[#A85334] text-2xl md:text-lg"
                     onClick={toggleShowSupport}
                   >
                     {showAllSupport ? "View less" : "View all"}
