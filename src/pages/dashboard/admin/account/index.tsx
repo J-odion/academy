@@ -123,7 +123,7 @@ const Dashboard: NextPageWithLayout = () => {
                     <p className="sm:text-md text-2xl">Recent transactions</p>
                     <Button
                       variant={"link"}
-                      className="text-[#A85334] text-base md:text-2xl"
+                      className="text-[#A85334]  text-2xl md:text-lg"
                       onClick={toggleShowTransactions}
                     >
                       {showAllTransactions ? "View less" : "View all"}
@@ -185,7 +185,7 @@ const Dashboard: NextPageWithLayout = () => {
                 <p className="text-2xl md:text-lg">Tutor Requests</p>
                 <Button
                   variant={"link"}
-                  className="text-[#A85334] text-base md:text-lg"
+                  className="text-[#A85334]  text-2xl md:text-lg"
                   onClick={toggleShowTutorialRequests}
                 >
                   {showAllTutorialRequests ? "View less" : "View all"}
