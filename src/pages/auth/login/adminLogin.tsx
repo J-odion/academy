@@ -24,6 +24,7 @@ import {useStorage} from "@/lib/useStorage";
 import { AuthContext } from "../../../../context/auth.context";
 import Image from "next/image";
 
+
 const SignIn: NextPageWithLayout = () => {
   const { toast } = useToast();
   const router = useRouter();
@@ -49,8 +50,10 @@ const SignIn: NextPageWithLayout = () => {
         });
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile] });
         setAuthTokens(res.data.accessToken, res.data.refreshToken);
-        // setItem('accessToken', res.data.accessToken);
-        // setItem('refreshToken', res.data.refreshToken);
+        localStorage.setItem('username', res?.data?.superAdmin_Details?.username);
+        localStorage.setItem('firstName', res?.data?.superAdmin_Details?.firstName);
+        localStorage.setItem('email', res?.data?.superAdmin_Details?.email);
+        localStorage.setItem('lastName', res?.data?.superAdmin_Details?.lastName);
         const userRole = localStorage.getItem('role');
         if (res?.data?.Admin_Details?.role === "admin" || res?.data?.superAdmin_Details?.role === "superadmin") {
           router.push(`/dashboard/admin/account`);

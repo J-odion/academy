@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useStorage } from "@/lib/useStorage";
 
 // ill use this for the avatar
 
@@ -24,6 +25,8 @@ type DashboardSidebarProps = React.PropsWithChildren & {
 const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
   const router = useRouter();
   const { route } = useRouter();
+  const user = localStorage.getItem("firstName");
+  console.log("User", user);
 
   const handleLogout = () => {
     router.push("/");
@@ -42,7 +45,11 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </Link>
-              <h1 className="text-2xl font-bold">Admin</h1>
+              {user ? (
+                <h1 className="text-2xl font-bold">{user}</h1>
+              ) : (
+                <h1 className="text-2xl font-bold">Admin</h1>
+              )}
             </div>
             {/* <nav className="flex-grow"> */}
             <ul className="flex flex-col py-4 px-4">
