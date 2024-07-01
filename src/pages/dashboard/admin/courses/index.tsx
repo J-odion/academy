@@ -106,10 +106,10 @@ const Courses: NextPageWithLayout = () => {
             ) : (
             <TableBody>
               {categories.map((category) => (
-                <TableRow key={category.id}>
+                <TableRow key={category?.id}>
                   <TableCell className='inline-flex items-center gap-4 capitalize md:text-base text-lg'>{category.category} <span className='cursor-pointer text-[#A85334]'><Pencil size={18} onClick={handleEditModal} /></span></TableCell>
-                  <TableCell className='sm:text-md text-lg'>{category.no_of_courses}</TableCell>
-                  <TableCell className='sm:text-md text-lg'>{category.enrolled_students}</TableCell>
+                  <TableCell className='sm:text-md text-lg'>{category?.no_of_courses}</TableCell>
+                  <TableCell className='sm:text-md text-lg'>{category?.enrolled_students}</TableCell>
                   <TableCell>
                     <Button variant={'outline'} className='border-[#A85334] border-[1px] text-[#A85334] sm:text-md text-lg' onClick={() => handleViewCategory(category.category.toLowerCase())}>View</Button>
                   </TableCell>
