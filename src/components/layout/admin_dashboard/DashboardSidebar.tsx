@@ -25,7 +25,7 @@ type DashboardSidebarProps = React.PropsWithChildren & {
 const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
   const router = useRouter();
   const { route } = useRouter();
-  const user = localStorage.getItem("firstName");
+  const user = useStorage.getItem("firstName");
   console.log("User", user);
 
   const handleLogout = () => {

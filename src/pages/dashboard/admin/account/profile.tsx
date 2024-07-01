@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useStorage } from '@/lib/useStorage';
-import { useChangeEmail, useChangeName, useChangePassword, useChangeProfilePicture } from '../../../../../hooks/profile';
+import { useChangeEmail, useChangeName, useChangePassword, useChangeProfilePicture, useGetProfilePicture } from '../../../../../hooks/profile';
 import CustomButton from '@/components/CustomButton';
 
 const Profile: NextPageWithLayout = () => {
@@ -20,6 +20,8 @@ const Profile: NextPageWithLayout = () => {
   const { mutate: changeEmail } = useChangeEmail();
   const { mutate: changePassword } = useChangePassword();
   const { mutate: changeProfilePicture } = useChangeProfilePicture();
+  const { data: profilePictureData } = useGetProfilePicture();
+  console.log('Profile Picture:', profilePictureData);
 
   const [newName, setNewName] = useState('');
   const [newEmail, setNewEmail] = useState('');
