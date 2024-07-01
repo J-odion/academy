@@ -26,6 +26,7 @@ import {
 } from "../../../../../hooks/account/superAdmin";
 import AddModal from "@/components/modal/tutors/AddModal";
 
+
 type TutorRequestProps = {
   _id: string;
   firstName: string;
@@ -248,9 +249,10 @@ const Dashboard: NextPageWithLayout = () => {
                   <Button
                     variant={"link"}
                     className="text-[#A85334] text-2xl md:text-lg"
-                    onClick={toggleShowSupport}
+                    onClick={() => router.push("/dashboard/admin/")}
                   >
-                    {showAllSupport ? "View less" : "View all"}
+                    {/* {showAllSupport ? "View less" : "View all"} */}
+                    View all
                   </Button>
                 </div>
                 <Table>
