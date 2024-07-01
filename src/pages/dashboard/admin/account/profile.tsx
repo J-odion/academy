@@ -11,11 +11,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useStorage } from '@/lib/useStorage'
 
 const Profile: NextPageWithLayout = () => {
 
-  const fullName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastName');
-  const email = localStorage.getItem('email');
+
+  const fullName = useStorage.getItem('firstName') + ' ' + useStorage.getItem('lastName');
+  const email = useStorage.getItem('email');
   return (
     <DashboardSidebar>
       <div className="w-full mt-20 md:mt-20 px-6" >
