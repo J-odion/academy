@@ -130,9 +130,11 @@ const Dashboard: NextPageWithLayout = () => {
                     <Button
                       variant={"link"}
                       className="text-[#A85334]  text-2xl md:text-lg"
-                      onClick={toggleShowTransactions}
+                      // onClick={toggleShowTransactions}
+                      onClick={() => router.push("/dashboard/admin/transactions")}
                     >
-                      {showAllTransactions ? "View less" : "View all"}
+                      {/* {showAllTransactions ? "View less" : "View all"} */}
+                      View all
                     </Button>
                   </div>
                   <Table>
