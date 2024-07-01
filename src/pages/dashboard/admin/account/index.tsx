@@ -192,9 +192,11 @@ const Dashboard: NextPageWithLayout = () => {
                 <Button
                   variant={"link"}
                   className="text-[#A85334]  text-2xl md:text-lg"
-                  onClick={toggleShowTutorialRequests}
+                  // onClick={toggleShowTutorialRequests}
+                  onClick={() => router.push("/dashboard/admin/tutors")}
                 >
-                  {showAllTutorialRequests ? "View less" : "View all"}
+                  {/* {showAllTutorialRequests ? "View less" : "View all"} */}
+                  View All
                 </Button>
               </div>
               <Table>
