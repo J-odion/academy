@@ -11,8 +11,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useStorage } from '@/lib/useStorage'
 
 const Profile: NextPageWithLayout = () => {
+
+
+  const fullName = useStorage.getItem('firstName') + ' ' + useStorage.getItem('lastName');
+  const email = useStorage.getItem('email');
   return (
     <DashboardSidebar>
       <div className="w-full mt-20 md:mt-20 px-6" >
@@ -27,8 +32,8 @@ const Profile: NextPageWithLayout = () => {
               </Avatar>
             </div>
             <div className='md:ml-8 flex flex-col gap-2'>
-              <h1 className='text-lg md:text-xl'>Olagunju Micheal</h1>
-              <p className='text-sm md:text-base'>oreoluwa@gmail.com</p>
+              {fullName ? <h1 className='text-lg md:text-2xl font-bold'>{fullName}</h1> : <h1 className='text-lg md:text-2xl font-bold'>John doe</h1>}
+              {email ? <p className='text-sm md:text-base text-[#A85334]'>{email}</p> : <p className='text-sm md:text-base text-[#A85334]'>johndoe@example.com</p>}
             </div>
           </div>
 
@@ -37,7 +42,7 @@ const Profile: NextPageWithLayout = () => {
               <AccordionItem value="item-1" className='bg-[#F0EAE8] rounded-md pr-4 pl-6'>
                 <AccordionTrigger className='text-[#D06B0D] font-normal text-sm'>Change name</AccordionTrigger>
                 <AccordionContent>
-                  Olagunju Micheal
+                  {fullName}
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2" className='bg-[#F0EAE8] rounded-md pr-4 pl-6'>
@@ -49,7 +54,7 @@ const Profile: NextPageWithLayout = () => {
               <AccordionItem value="item-3" className='bg-[#F0EAE8] rounded-md pr-4 pl-6'>
                 <AccordionTrigger className='text-[#D06B0D] font-normal text-sm'>Change email address</AccordionTrigger>
                 <AccordionContent>
-                  oreoluwa@gmail.com
+                  {email}
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-4" className='bg-[#F0EAE8] rounded-md pr-4 pl-6'>
