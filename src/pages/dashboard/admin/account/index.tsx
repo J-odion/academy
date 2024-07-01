@@ -97,6 +97,9 @@ const Dashboard: NextPageWithLayout = () => {
         <div className="items-start justify-between md:flex gap-10">
           {/* left section of the dashboard */}
           <div className="flex flex-[0.58] flex-col">
+        <div className="items-start justify-between md:flex gap-10">
+          {/* left section of the dashboard */}
+          <div className="flex flex-[0.58] flex-col">
             <div>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {data.map((item) => (
