@@ -177,6 +177,37 @@ export const useGetShopperCourses = () => {
 
 }
 
+export const useUpdateShopperCourses = (itemId: any) => {
+    const { toast } = useToast();
+    const queryClient = useQueryClient();
+
+    const mutationFn = async (data: any) => {
+        const response = await axiosInstance.put(`/courses/updateAdminShopperCourse/${itemId}`, data);
+        return response.data;
+    };
+
+    return useMutation({
+        mutationFn,
+        onSuccess: (response: any) => {
+            queryClient.invalidateQueries({ queryKey: ["shopperCourses", itemId] });
+            if(response.message){
+                toast({
+                    title: "Course updated successfully",
+                    description: `${response.message}`,
+                    className: "toast-success",
+                });
+            } else {
+                toast({
+                  title: "Something went wrong... Try Again",
+                  description: `${response.error}`,
+                  className: "toast-error",
+                });
+              }
+        }
+    });
+
+}
+
 
 export const useDeleteShoppperCourse = (accountId: any) => {
     const { toast } = useToast();

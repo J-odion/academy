@@ -5,14 +5,14 @@ import DashboardLayout from '@/components/layout/admin_dashboard/DashboardLayout
 import CoursesHeaderTab from '@/components/tabs/admin_dashboard/CoursesHeaderTab';
 import freecourses from '@/data/freeCourses.json';
 import { EllipsisVertical, Plus } from 'lucide-react';
-import EditModal from '@/components/modal/courses/free-courses/EditModal';
+import EditModal from '@/components/modal/courses/shopper-courses/EditModal';
 import AddModal from '@/components/modal/courses/shopper-courses/AddModal';
 import DeleteModal from '@/components/modal/courses/shopper-courses/DeleteModal';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from "@/components/ui/checkbox";
 import Datapagination from '@/components/pagination/Data-Pagination';
 import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
-import { useGetShopperCourses, useDeleteShoppperCourse } from '../../../../../../hooks/account/admin';
+import { useGetShopperCourses, useDeleteShoppperCourse, useUpdateShopperCourses } from '../../../../../../hooks/account/admin';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const itemsPerPage = 8;
@@ -42,6 +42,8 @@ const ShopperCourses: NextPageWithLayout = () => {
   console.log(shopperCourses);
   const { mutate: deleteShopperCourse, isPending } = useDeleteShoppperCourse(selectedCourse?.shopperCourseId);
   console.log(selectedCourse);
+  const { mutate: updateShopperCourses } = useUpdateShopperCourses(selectedCourse?.shopperCourseId);
+  console.log(updateShopperCourses);
 
   const handleMenuClick = (courseId: string) => {
     setMenuOpen(courseId === menuOpen ? null : courseId);
@@ -49,13 +51,18 @@ const ShopperCourses: NextPageWithLayout = () => {
 
 
 
-  const handleEditModal = () => setEditModal(!editModal);
+
   const handleAddModal = () => setAddModal(!addModal);
 
 
   const handleDeleteModal = (course: ShopperCoursesProps) => {
     setSelectedCourse(course);
     setDeleteModal(!deleteModal);
+  }
+
+  const handleEditModal = (course: ShopperCoursesProps) => {
+    setSelectedCourse(course);
+    setEditModal(!editModal);
   }
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -111,7 +118,7 @@ const ShopperCourses: NextPageWithLayout = () => {
                   <EllipsisVertical size={18} className='text-[#E89222] cursor-pointer' onClick={() => handleMenuClick(course?._id.toString())} />
                   {menuOpen === course?._id.toString() && (
                     <div className="absolute right-0 top-full bg-white border border-gray-200 shadow-md rounded-md mt-2 py-1 w-32">
-                      <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={handleEditModal}>Edit</button>
+                      <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => handleEditModal(course)}>Edit</button>
                       <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => handleDeleteModal(course)}>Delete</button>
                     </div>
                   )}
@@ -134,18 +141,22 @@ const ShopperCourses: NextPageWithLayout = () => {
           onPageChange={setCurrentPage}
         />
       </div>
+      {selectedCourse && (
       <EditModal
         title='Edit Course'
         open={editModal}
         setOpen={setEditModal}
-        updateFreeCourse={handleEditModal}
-        freeCourse={freecourses[0]}
+        updateShopperCourse={updateShopperCourses}
+        shopperCourse={shopperCourses[0]}
        />
+       )}
+
        <AddModal
        title='Add shopper course'
        open={addModal}
        setOpen={setAddModal}
       />
+
       {selectedCourse && (
       <DeleteModal
        title='Delete course'

@@ -47,6 +47,7 @@ const FreeCourses: NextPageWithLayout = () => {
   const { data: freecourses, isLoading } = useGetFreeCourses();
   console.log('Free Courses:', freecourses);
   const { mutate: deleteFreeCourse, isPending } = useDeleteFreeCourses(selectedCourse?.freeCourseId);
+  console.log(selectedCourse);
   const { mutate: updateFreeCourse } = useUpdateFreeCourses(selectedCourse?.freeCourseId);
   const { data: categories } = useGetAllAdminCategory();
   console.log(categories)
@@ -169,7 +170,7 @@ const FreeCourses: NextPageWithLayout = () => {
           open={editModal}
           setOpen={setEditModal}
           updateFreeCourse={updateFreeCourse}
-          freeCourse={selectedCourse}
+          freeCourse={freecourses[0]}
         />
       )}
        <AddModal
