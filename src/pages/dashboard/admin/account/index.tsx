@@ -24,6 +24,7 @@ import {
   useDeleteAdmin,
   useOnboardPendingAdmin,
 } from "../../../../../hooks/account/superAdmin";
+import AddModal from "@/components/modal/tutors/AddModal";
 
 type TutorRequestProps = {
   _id: string;
@@ -42,6 +43,7 @@ const Dashboard: NextPageWithLayout = () => {
   const [selectedAdmin, setSelectedAdmin] = useState<TutorRequestProps | null>(
     null
   );
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const { data: getAdminData, isLoading } = useGetPendingAdmins();
   console.log(getAdminData);
@@ -54,6 +56,10 @@ const Dashboard: NextPageWithLayout = () => {
   const refresh = useStorage.getItem("refresh-token");
   console.log(refresh);
 
+
+  const handleAddTutor = () => {
+    setShowAddModal(true);
+  }
   const handleDeleteAdmin = (admin: TutorRequestProps) => {
     setSelectedAdmin(admin);
     deleteAdmin();
@@ -124,9 +130,11 @@ const Dashboard: NextPageWithLayout = () => {
                     <Button
                       variant={"link"}
                       className="text-[#A85334]  text-2xl md:text-lg"
-                      onClick={toggleShowTransactions}
+                      // onClick={toggleShowTransactions}
+                      onClick={() => router.push("/dashboard/admin/transactions")}
                     >
-                      {showAllTransactions ? "View less" : "View all"}
+                      {/* {showAllTransactions ? "View less" : "View all"} */}
+                      View all
                     </Button>
                   </div>
                   <Table>
@@ -175,7 +183,7 @@ const Dashboard: NextPageWithLayout = () => {
 
           <div className="flex flex-col h-full">
             <div>
-              <Button className="bg-[#A85334] w-full items-center sm:text-md text-lg">
+              <Button className="bg-[#A85334] w-full items-center sm:text-md text-lg" onClick={handleAddTutor}>
                 <Plus size={18} /> Add tutor
               </Button>
             </div>
@@ -186,9 +194,11 @@ const Dashboard: NextPageWithLayout = () => {
                 <Button
                   variant={"link"}
                   className="text-[#A85334]  text-2xl md:text-lg"
-                  onClick={toggleShowTutorialRequests}
+                  // onClick={toggleShowTutorialRequests}
+                  onClick={() => router.push("/dashboard/admin/tutors")}
                 >
-                  {showAllTutorialRequests ? "View less" : "View all"}
+                  {/* {showAllTutorialRequests ? "View less" : "View all"} */}
+                  View All
                 </Button>
               </div>
               <Table>
@@ -266,6 +276,7 @@ const Dashboard: NextPageWithLayout = () => {
           </div>
         </div>
       </div>
+      <AddModal title="Add tutors" open={showAddModal} setOpen={() => setShowAddModal(false)} />
     </DashboardSidebar>
   );
 };
