@@ -125,9 +125,7 @@ const AddModal = ({
           >
             {title}
           </DialogTitle>
-          <DialogDescription className="text-center text-black pb-4">
-            Step {step} of 2
-          </DialogDescription>
+          
           <div>
             <form
               onSubmit={
@@ -138,8 +136,7 @@ const AddModal = ({
               className="space-y-8"
               autoComplete="off"
             >
-              {step === 1 && (
-                <>
+              
                   <div className="mb-3 grid w-full items-center gap-1.5">
                     <Label htmlFor="courseTitle">Course Title</Label>
                     <Input
@@ -173,72 +170,10 @@ const AddModal = ({
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     
-                  </div>
-                  <CustomButton className="w-full bg-[#A85334]">
-                    Next
-                  </CustomButton>
-                </>
-              )}
-              {step === 2 && (
-                <>
-                  <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="assignmentQuestion1">
-                      Assignment question 1
-                    </Label>
-                    <Textarea
-                      className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="assignmentQuestion1"
-                      {...register("assignmentQuestion1")}
-                      disabled={isLoading}
-                    />
-                  </div>
-                  <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="assignmentQuestion2">
-                      Assignment question 2
-                    </Label>
-                    <Textarea
-                      className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="assignmentQuestion2"
-                      {...register("assignmentQuestion2")}
-                      disabled={isLoading}
-                    />
-                  </div>
-                  <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="assignmentQuestion3">
-                      Assignment question 3
-                    </Label>
-                    <Textarea
-                      className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="assignmentQuestion3"
-                      {...register("assignmentQuestion3")}
-                      disabled={isLoading}
-                    />
-                  </div>
-                  <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="category">Category</Label>
-                    <Select onValueChange={(value) => setValue('category', value)} defaultValue="" >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select a course category" />
-                        </SelectTrigger>
-                        <SelectContent id="category">
-                            <SelectItem value="amateur">Amateur</SelectItem>
-                            <SelectItem value="beginner">Beginner</SelectItem>
-                            <SelectItem value="intermediate">Intermediate</SelectItem>
-                            <SelectItem value="advanced">Advanced</SelectItem>
-                        </SelectContent>
-                    </Select>
-                  </div>
-                </>
-              )}
-              {step === 2 && (
+                  </div>               
+
                 <div className="flex justify-between gap-4">
-                  <CustomButton
-                    variant={"outline"}
-                    className="text-[#A85334] border-[#A85334] w-full"
-                    onClick={() => setStep(1)}
-                  >
-                    Previous
-                  </CustomButton>
+                  
                   <CustomButton className="bg-[#A85334] w-full" type="submit"
                     disabled={isPending}
                     isLoading={isPending}
@@ -246,7 +181,7 @@ const AddModal = ({
                     Save
                   </CustomButton>
                 </div>
-              )}
+              
             </form>
           </div>
         </DialogHeader>

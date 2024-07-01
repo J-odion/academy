@@ -53,8 +53,8 @@ const DashboardNav = ({page, toggleSideBar, setToggleSideBar}: Props) => {
           <div>
             <h1 className="sm:text-sm text-lg font-normal capitalize text-[#1C1C1C66]">{page}</h1>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="hidden lg:flex">
+          <div className="flex items-center ">
+            <div className="hidden lg:flex items-center gap-2">
               <Search size="20" />
               <Input
                 type="text"
