@@ -150,16 +150,7 @@ const AddModal = ({
                       disabled={isLoading}
                     />
                   </div>
-                  <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="courseOrder">Course order</Label>
-                    <Input
-                      type="text"
-                      className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="courseOrder"
-                      {...register("courseOrder")}
-                      disabled={isLoading}
-                    />
-                  </div>
+                  
                   <div className="mb-3 grid w-full items-center gap-1.5">
                     <Label htmlFor="coursePrice">Course Price</Label>
                     <Input
@@ -170,16 +161,7 @@ const AddModal = ({
                       disabled={isLoading}
                     />
                   </div>
-                  <div className="mb-3 grid w-full items-center gap-1.5">
-                    <Label htmlFor="videoLink">Video link</Label>
-                    <Input
-                      type="text"
-                      className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                      id="videoLink"
-                      {...register("videoLink")}
-                      disabled={isLoading}
-                    />
-                  </div>
+                 
                   <div className="mb-3 grid w-full items-center gap-1.5">
                     <Label htmlFor="description">Description</Label>
                     <Textarea
@@ -190,101 +172,7 @@ const AddModal = ({
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-2">
-                      <div className="flex gap-4 items-center bg-[#F0EAE8] py-3">
-                        <Label
-                          htmlFor="videoThumbnail"
-                          className="flex items-center gap-2 cursor-pointer"
-                        >
-                          <span>
-                            <Image size={18} className="text-[#D1831F]" />
-                          </span>
-                          Change video thumbnail
-                          <input
-                            type="file"
-                            id="videoThumbnail"
-                            className="hidden"
-                            onChange={(e) => handleSelectedFile(e, setSelectedVideoThumbnail)}
-                          />
-                        </Label>
-                      </div>
-                      {selectedVideoThumbnail && (
-                        <span className="text-[#1E1E1E]">
-                          {selectedVideoThumbnail.name}
-                        </span>
-                      )}
-
-                      <div className="flex gap-4 items-center bg-[#F0EAE8] py-3">
-                        <Label
-                          htmlFor="tablature"
-                          className="flex items-center gap-2 cursor-pointer"
-                        >
-                          <span>
-                            <Image size={18} className="text-[#D1831F]" />
-                          </span>
-                          Change tablature
-                          <input
-                            type="file"
-                            id="tablature"
-                            className="hidden"
-                            onChange={(e) => handleSelectedFile(e, setSelectedTablature)}
-                          />
-                        </Label>
-                      </div>
-                      {selectedTablature && (
-                        <span className="text-[#1E1E1E]">
-                          {selectedTablature.name}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <div className="flex gap-4 items-center bg-[#F0EAE8] py-3">
-                        <Label
-                          htmlFor="loop"
-                          className="flex items-center gap-2 cursor-pointer"
-                        >
-                          <span>
-                            <Mic size={18} className="text-[#D1831F]" />
-                          </span>
-                          Change loop
-                          <input
-                            type="file"
-                            id="loop"
-                            className="hidden"
-                            onChange={(e) => handleSelectedFile(e, setSelectedLoop)}
-                          />
-                        </Label>
-                      </div>
-                      {selectedLoop && (
-                        <span className="text-[#1E1E1E]">
-                          {selectedLoop.name}
-                        </span>
-                      )}
-
-                      <div className="flex gap-4 items-center bg-[#F0EAE8] py-3">
-                        <Label
-                          htmlFor="audio"
-                          className="flex items-center gap-2 cursor-pointer"
-                        >
-                          <span>
-                            <Mic size={18} className="text-[#D1831F]" />
-                          </span>
-                          Change audio
-                          <input
-                            type="file"
-                            id="audio"
-                            className="hidden"
-                            onChange={(e) => handleSelectedFile(e, setSelectedAudio)}
-                          />
-                        </Label>
-                      </div>
-                      {selectedAudio && (
-                        <span className="text-[#1E1E1E]">
-                          {selectedAudio.name}
-                        </span>
-                      )}
-                    </div>
+                    
                   </div>
                   <CustomButton className="w-full bg-[#A85334]">
                     Next
