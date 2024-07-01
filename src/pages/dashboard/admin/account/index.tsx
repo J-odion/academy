@@ -104,7 +104,7 @@ const Dashboard: NextPageWithLayout = () => {
                     <Link href={item.link}>
                       <div
                         key={item.id}
-                        className="flex flex-col w-full h-[18 0px] p-4 rounded-lg shadow-md relative overflow-hidden"
+                        className="flex flex-col w-full h-[18 0px] p-1 rounded-lg shadow-md relative overflow-hidden"
                         style={{ backgroundColor: item.color }}
                       >
                         <Image
@@ -282,7 +282,7 @@ const Dashboard: NextPageWithLayout = () => {
                   <Button
                     variant={"link"}
                     className="text-[#A85334] text-2xl md:text-lg"
-                    onClick={() => router.push("/dashboard/admin/")}
+                    onClick={() => router.push("/dashboard/admin/support")}
                   >
                     {/* {showAllSupport ? "View less" : "View all"} */}
                     View all

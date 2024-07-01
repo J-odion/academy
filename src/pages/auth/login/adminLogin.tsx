@@ -105,7 +105,7 @@ const SignIn: NextPageWithLayout = () => {
         Welcome back
       </TypographyH1>
 
-      <p className="mb-4 w-full text-center lg:text-left">
+      <p className="mb-4 hidden lg:flex w-full text-center lg:text-left">
         Continue from where you left off. There are a lot to learn today!
       </p>
         {/* <TypographyH1 className="mb-4 text-3xl lg:text-5xl">Welcome back</TypographyH1>

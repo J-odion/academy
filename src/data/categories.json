@@ -1,14 +1,4 @@
 [
   
-    {
-        "id": 18,
-        "category": "advanced",
-        "content": "https://www.bing.com/ck/a?!&&p=0bc996473b3b6e9dJmltdHM9MTcxMzc0NDAwMCZpZ3VpZD0yMjhlNGYxZC0yM2YxLTZiYjUtMmIyYi01YzczMjIyYzZhZWImaW5zaWQ9NTYyOQ&ptn=3&ver=2&hsh=3&fclid=228e4f1d-23f1-6bb5-2b2b-5c73222c6aeb&u=a1L3ZpZGVvcy9yaXZlcnZpZXcvcmVsYXRlZHZpZGVvP3E9bGFkeStwbGF5aW5nK2d1aXRhcit5b3V0dWJlJm1pZD05ODAxM0M2MjJCNTBGNENFMTQyQTk4MDEzQzYyMkI1MEY0Q0UxNDJBJkZPUk09VklSRQ&ntb=1",
-        "title": "Cybersecurity Essentials",
-        "name_of_tutor": "Ethan Garcia",
-        "no_of_lessons": 35,
-        "price": 6000,
-        "no_of_courses": 25,
-        "enrolled_students": 30
-    }
+    
 ]
