@@ -94,7 +94,7 @@ const Dashboard: NextPageWithLayout = () => {
   return (
     <DashboardSidebar>
       <div className="w-full mt-20 md:mt-20">
-        <div className="items-center justify-between md:flex gap-10">
+        <div className="items-start justify-between md:flex gap-10">
           {/* left section of the dashboard */}
           <div className="flex flex-[0.58] flex-col">
             <div>
@@ -104,24 +104,23 @@ const Dashboard: NextPageWithLayout = () => {
                     <Link href={item.link}>
                       <div
                         key={item.id}
-                        className="flex flex-col w-full h-[250px] p-4 rounded-lg shadow-md relative overflow-hidden"
+                        className="flex flex-col w-full h-[18 0px] p-4 rounded-lg shadow-md relative overflow-hidden"
                         style={{ backgroundColor: item.color }}
                       >
                         <Image
                           src="/images/blob.svg"
                           alt="dashboard"
-                          width={150}
-                          height={100}
-                          className="absolute -top-3 right-0"
+                          fill
+                          className="absolute "
                         />
-                        <div className="flex flex-col flex-grow justify-center items-center gap-4">
+                        <div className="flex flex-col flex-grow justify-center items-center">
                           <div className="w-8 h-8">
                             <BookOpen size={20} />
                           </div>
-                          <h6 className="text-2xl text-center md:text-xl font-semibold">
+                          <h6 className="text-xl text-center md:text-xl font-semibold">
                             {item.text}
                           </h6>
-                          <h1 className="text-4xl text-center md:text-4xl font-semibold">
+                          <h1 className="text-2xl text-center md:text-2xl font-semibold">
                             {item.value}
                           </h1>
                         </div>
@@ -208,7 +207,7 @@ const Dashboard: NextPageWithLayout = () => {
           <div className="flex flex-[0.4] flex-col h-full">
             <div>
               <Button
-                className="bg-[#A85334] w-full lg:justify-end lg:w-[50%] items-center sm:text-md text-lg"
+                className="bg-[#A85334] w-full lg:justify-center lg:w-[50%] items-center sm:text-md text-lg"
                 onClick={handleAddTutor}
               >
                 <Plus size={18} /> Add tutor
