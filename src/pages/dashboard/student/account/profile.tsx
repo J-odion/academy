@@ -15,6 +15,9 @@ import { ChevronRight } from 'lucide-react'
 import ChangePasswordModal from '@/components/modal/student_dashboard/ChangePasswordModal'
 import DeleteAccountModal from '@/components/modal/student_dashboard/DeleteAccountModal'
 import AccountDeletedModal from '@/components/modal/student_dashboard/AccountDeletedModal'
+import { useChangeEmail, useChangeName, useChangePassword, useChangeProfilePicture, useGetProfilePicture } from '../../../../../hooks/profile';
+import { useDeleteUserAccount } from '../../../../../hooks/deleteAccount'
+import { useStorage } from '@/lib/useStorage'
 
 const Profile: NextPageWithLayout = () => {
 
@@ -22,6 +25,42 @@ const Profile: NextPageWithLayout = () => {
     const [openDeletedModal, setOpenDeletedModal] = useState(false)
     const [openDelete, setOpenDelete] = useState(false);
 
+    const { mutate: changeName, isPending } = useChangeName();
+  const { mutate: changeEmail } = useChangeEmail();
+  const { mutate: changePassword } = useChangePassword();
+  const { mutate: changeProfilePicture } = useChangeProfilePicture();
+  const { data: profilePictureData } = useGetProfilePicture();
+  console.log('Profile Picture:', profilePictureData);
+
+
+  const [newName, setNewName] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [profilePicture, setProfilePicture] = useState<File | null>(null);
+
+  const fullName = useStorage.getItem('firstName') + ' ' + useStorage.getItem('lastName');
+  const email = useStorage.getItem('email');
+
+  const handleSaveChanges = () => {
+    if (newName) {
+      changeName({ name: newName });
+    }
+
+    if (newEmail) {
+      changeEmail({ email: newEmail });
+    }
+
+    if (newPassword) {
+      changePassword({ password: newPassword });
+    }
+
+    if (profilePicture) {
+      const formData = new FormData();
+      formData.append('file', profilePicture);
+
+      changeProfilePicture(formData);
+    }
+  };
 
     const handleChangePasswordModal = () => {
         setOpen(!open);
@@ -48,8 +87,8 @@ const Profile: NextPageWithLayout = () => {
               </Avatar>
             </div>
             <div className='md:ml-8 flex flex-col gap-2'>
-              <h1 className='text-lg md:text-xl'>Olagunju Micheal</h1>
-              <p className='text-sm md:text-base'>oreoluwa@gmail.com</p>
+              {fullName ? <h1 className='text-lg md:text-2xl font-bold'>{fullName}</h1> : <h1 className='text-lg md:text-2xl font-bold'>John doe</h1>}
+              {email ? <p className='text-sm md:text-base text-[#A85334]'>{email}</p> : <p className='text-sm md:text-base text-[#A85334]'>johndoe@example.com</p>}
             </div>
           </div>
 
