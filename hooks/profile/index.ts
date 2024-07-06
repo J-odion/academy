@@ -51,15 +51,19 @@ export const useChangeProfilePicture = () => {
     const router = useRouter();
     const queryClient = useQueryClient();
 
-    const mutationFn = async (data: any) => {
-        const response = await axiosInstance.put('/users/changeProfilePicture', data);
+    const mutationFn = async (data: FormData) => {
+        const response = await axiosInstance.put('/users/changeProfilePicture', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         return response.data;
     };
+
     return useMutation({
         mutationFn,
         onSuccess: (response: any) => {
             console.log('Response:', response);
-
             const { message, error } = response;
 
             if (message) {
@@ -68,7 +72,8 @@ export const useChangeProfilePicture = () => {
                     description: message,
                     className: "toast-success",
                 });
-                router.push("/dashboard/admin/account");
+
+                router.push("/dashboard/student/account");
             } else {
                 toast({
                     title: "Something went wrong",
@@ -86,7 +91,8 @@ export const useChangeProfilePicture = () => {
             });
         },
     });
-}
+};
+
 
 
 export const useChangeName = () => {
