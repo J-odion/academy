@@ -8,14 +8,10 @@ import {useStorage} from "@/lib/useStorage";
 
 export const useChangePassword = () => {
     const { toast } = useToast();
-    const router = useRouter();
+    const queryClient = useQueryClient();
 
     const mutationFn = async (data: any) => {
-        const response = await axiosInstance.put("/users/changePassword", data, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        const response = await axiosInstance.put('/users/changePassword', data);
         return response.data;
     };
     return useMutation({
@@ -31,7 +27,6 @@ export const useChangePassword = () => {
                     description: message,
                     className: "toast-success",
                 });
-                router.push("/dashboard/admin/account");
             } else {
                 toast({
                     title: "Something went wrong",
@@ -54,13 +49,10 @@ export const useChangePassword = () => {
 export const useChangeProfilePicture = () => {
     const { toast } = useToast();
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const mutationFn = async (data: any) => {
-        const response = await axiosInstance.put("/users/changeProfilePicture", data, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        const response = await axiosInstance.put('/users/changeProfilePicture', data);
         return response.data;
     };
     return useMutation({

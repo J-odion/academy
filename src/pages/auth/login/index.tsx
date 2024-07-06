@@ -6,7 +6,7 @@ import { NextPageWithLayout, queryClient } from "@/pages/_app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField } from "@/components/ui/form";
 import FormRender from "@/components/FormRender";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -20,12 +20,13 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthLogin } from "../../../../hooks/auth";
 import { QUERY_KEYS } from "@/lib/utils";
 import { useStorage } from "@/lib/useStorage";
-import { useAuth } from "../../../../context/auth.context";
+import { AuthContext, useAuth } from "../../../../context/auth.context";
 import Image from "next/image";
 
 const SignIn: NextPageWithLayout = () => {
   const { toast } = useToast();
   const router = useRouter();
+  const { setAuthTokens } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -46,8 +47,12 @@ const SignIn: NextPageWithLayout = () => {
           className: "toast-success",
         });
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.profile] });
-        localStorage.setItem("accessToken", res.data.accessToken);
-        localStorage.setItem("refreshToken", res.data.refreshToken);
+        setAuthTokens(res.data.accessToken, res.data.refreshToken);
+        useStorage.setItem("studentFirstName", res?.data?.Student?.firstName)
+        useStorage.setItem("studentLastName", res?.data?.Student?.lastName)
+        useStorage.setItem("studentEmail", res?.data?.Student.email)
+        // localStorage.setItem("accessToken", res.data.accessToken);
+        // localStorage.setItem("refreshToken", res.data.refreshToken);
         const userRole = localStorage.getItem("role");
         if (res.data.role === "admin") {
           router.push(`/dashboard/admin/account`);

@@ -28,7 +28,7 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
 
   // const router = useRouter();
   const { route } = useRouter();
-  const user = useStorage.getItem("firstName");
+  const user = useStorage.getItem("studentFirstName");
   console.log("User", user);
   // const handleLogout = () => {
   //   router.push("/auth/login");
