@@ -89,7 +89,7 @@ const SignUp: NextPageWithLayout = () => {
         <TypographyH1 className="mb-4 w-full text-center lg:text-left">
           Hi, create an account to get started
         </TypographyH1>
-        <p className="mb-4 lg:w-full w-[400px]  text-center lg:text-left">
+        <p className="mb-4 hidden lg:flex lg:w-full w-[400px]  text-center lg:text-left">
           Welcome to the largest guitar academy in Africa where we guide you
           through every step of your guitar journey!
         </p>

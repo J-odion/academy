@@ -170,7 +170,7 @@ const EditModal = ({
                     <Textarea
                       className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
                       id="description"
-                      defaultValue={freeCourse.description}
+                      defaultValue={freeCourse?.description}
                       disabled={isLoading}
                     />
                   </div>

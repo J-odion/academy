@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   PieChart,
   ChevronRight,
@@ -25,8 +25,12 @@ type DashboardSidebarProps = React.PropsWithChildren & {
 const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
   const router = useRouter();
   const { route } = useRouter();
-  const user = useStorage.getItem("firstName");
-  console.log("User", user);
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUser = useStorage.getItem("firstName");
+    setUser(storedUser);
+  }, []);
 
   const handleLogout = () => {
     router.push("/");
@@ -36,7 +40,6 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
     <>
       <aside className="relative">
         <div className="fixed hidden h-screen w-72 bg-white lg:flex border-r">
-
           <div>
             <div className="flex items-center gap-3 justify-center h-20">
               <Link href='/dashboard/admin/account/profile'>
@@ -45,27 +48,24 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </Link>
-              {user ? (
-                <h1 className="text-2xl font-bold">{user}</h1>
-              ) : (
-                <h1 className="text-2xl font-bold">Admin</h1>
-              )}
+              <h1 className="text-2xl font-bold">
+                {user ? user : "Admin"}
+              </h1>
             </div>
-            {/* <nav className="flex-grow"> */}
-            <ul className="flex flex-col py-4 px-4">
+            <ul className="flex flex-col py-2 px-4">
               <Link href="/dashboard/admin/account">
                 <li
                   className={
                     route === "/dashboard/admin/account"
                       ? "bg-[#1C1C1C0D] py-3 pl-10 text-[#1C1C1C] rounded-xl"
-                      : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
+                      : "my-1 py-2 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                 >
                   <div className="flex items-center">
                     <span className="mr-3">
                       <PieChart size="20" />
                     </span>
-                    Dashboard
+                   <p> Dashboard</p>
                   </div>
                 </li>
               </Link>
@@ -74,15 +74,15 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 <li
                   className={
                     route === "/dashboard/admin/courses"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-[#1C1C1C] rounded-xl"
-                      : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
+                      ? "bg-[#1C1C1C0D] py-2 pl-10 text-[#1C1C1C] rounded-xl"
+                      : "my-1 py-2 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                 >
                   <div className="flex items-center">
                     <span className="mr-3">
                       <BookOpen size="20" />
                     </span>
-                    Courses
+                    <p>Courses</p>
                   </div>
                 </li>
               </Link>
@@ -91,15 +91,15 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 <li
                   className={
                     route === "/dashboard/admin/subscription-plans"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-[#1C1C1C] rounded-xl"
-                      : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
+                      ? "bg-[#1C1C1C0D] py-2 pl-10 text-[#1C1C1C] rounded-xl"
+                      : "my-1 py-2 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                 >
                   <div className="flex items-center">
                     <span className="mr-3">
                       <BookText size="20" />
                     </span>
-                    Subscription Plans
+                    <p>Subscription Plans</p>
                   </div>
                 </li>
               </Link>
@@ -108,15 +108,15 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 <li
                   className={
                     route === "/dashboard/admin/transactions"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-[#1C1C1C] rounded-xl"
-                      : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
+                      ? "bg-[#1C1C1C0D] p2-3 pl-10 text-[#1C1C1C] rounded-xl"
+                      : "my-1 py-2 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                 >
                   <div className="flex items-center">
                     <span className="mr-3">
                       <BookText size="20" />
                     </span>
-                    Transactions
+                    <p>Transactions</p>
                   </div>
                 </li>
               </Link>
@@ -125,15 +125,15 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 <li
                   className={
                     route === "/dashboard/admin/tutors"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-[#1C1C1C] rounded-xl"
-                      : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
+                      ? "bg-[#1C1C1C0D] py-2 pl-10 text-[#1C1C1C] rounded-xl"
+                      : "my-1 py-2 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                 >
                   <div className="flex items-center">
                     <span className="mr-3">
                       <ShoppingBag size="20" />
                     </span>
-                    Tutors
+                    <p>Tutors</p>
                   </div>
                 </li>
               </Link>
@@ -142,15 +142,15 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 <li
                   className={
                     route === "/dashboard/admin/students"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-[#1C1C1C] rounded-xl"
-                      : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
+                      ? "bg-[#1C1C1C0D] py-2 pl-10 text-[#1C1C1C] rounded-xl"
+                      : "my-1 py-2 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                 >
                   <div className="flex items-center">
                     <span className="mr-3">
                       <Users size="20" />
                     </span>
-                    Students
+                    <p>Students</p>
                   </div>
                 </li>
               </Link>
@@ -159,15 +159,15 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 <li
                   className={
                     route === "/dashboard/admin/assignments"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-[#1C1C1C] rounded-xl"
-                      : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
+                      ? "bg-[#1C1C1C0D] py-2 pl-10 text-[#1C1C1C] rounded-xl"
+                      : "my-1 py-2 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                 >
                   <div className="flex items-center">
                     <span className="mr-3">
                       <MessageCircle size="20" />
                     </span>
-                    Assignments
+                    <p>Assignments</p>
                   </div>
                 </li>
               </Link>
@@ -176,15 +176,15 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 <li
                   className={
                     route === "/dashboard/admin/chat-forum"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-[#1C1C1C] rounded-xl"
-                      : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
+                      ? "bg-[#1C1C1C0D] py-2 pl-10 text-[#1C1C1C] rounded-xl"
+                      : "my-1 py-2 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                 >
                   <div className="flex items-center">
                     <span className="mr-3">
                       <MessageCircle size="20" />
                     </span>
-                    Chat Forum
+                    <p>Chat Forum</p>
                   </div>
                 </li>
               </Link>
@@ -193,20 +193,19 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 <li
                   className={
                     route === "/dashboard/admin/support"
-                      ? "bg-[#1C1C1C0D] py-3 pl-10 text-[#1C1C1C] rounded-xl"
-                      : "my-1 py-3 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
+                      ? "bg-[#1C1C1C0D] py-2 pl-10 text-[#1C1C1C] rounded-xl"
+                      : "my-1 py-2 pl-10 hover:bg-[#1C1C1C0D] hover:text-[#1C1C1C] rounded-xl"
                   }
                 >
                   <div className="flex items-center">
                     <span className="mr-3">
                       <UserCircle size="20" />
                     </span>
-                    Support
+                    <p>Support</p>
                   </div>
                 </li>
               </Link>
             </ul>
-            {/* </nav> */}
             <div
               className="fixed bottom-10 pl-10 text-[#959190]"
               style={{ cursor: "pointer" }}
@@ -218,14 +217,11 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 <span className="mr-3">
                   <LogOut size="20" color="#D06B0D" />
                 </span>
-                Logout
+                <p>Logout</p>
               </div>
             </div>
           </div>
         </div>
-        {/* <div className="h-full min-h-screen w-full pl-5 pr-5 pt-12 py-10 md:pt-12 lg:min-h-40 lg:pl-[32rem] lg:pr-10">
-                {children}
-            </div> */}
         <div className="h-full min-h-screen w-full pl-5 pr-5 pt-12 py-10 md:pt-10 lg:min-h-40 lg:pl-[19rem] lg:pr-2 pb-20">
           {children}
         </div>
