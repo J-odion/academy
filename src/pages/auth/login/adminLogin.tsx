@@ -90,10 +90,10 @@ const SignIn: NextPageWithLayout = () => {
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen p-4">
       <div className="lg:w-1/2 flex flex-col items-center lg:items-start mb-8 lg:mb-0 lg:pl-8">
-      <div className="flex justify-center flex-col mb-10">
+      <div className="flex justify-center flex-col mb-6">
         <Link href="/" className="text-[#A85334]">
           <Image
-            className="h-[100px] w-[100px] mx-auto lg:mx-0 mb-4 "
+            className="h-[100px] w-[100px] mx-auto lg:mx-0  "
             src="/SGALOGO.svg"
             width={50}
             height={50}
