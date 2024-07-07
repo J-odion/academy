@@ -41,17 +41,14 @@ const Profile: NextPageWithLayout = () => {
   const { mutate: changePassword } = useChangePassword();
   const { mutate: changeProfilePicture } = useChangeProfilePicture();
   const { data: profilePictureData } = useGetProfilePicture();
-  // console.log('Profile Picture:', profilePictureData);
+  console.log('Profile Picture:', profilePictureData);
 
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
 
-  const fullName =
-    useStorage.getItem("studentFirstName") +
-    " " +
-    useStorage.getItem("studentLastName");
+  const fullName =useStorage.getItem("studentFirstName") + " " + useStorage.getItem("studentLastName");
   const email = useStorage.getItem("studentEmail");
 
   const handleSaveChanges = () => {
@@ -117,7 +114,7 @@ const Profile: NextPageWithLayout = () => {
             <div className="md:w-44 md:h-44 w-28 h-28 ">
               <Avatar className="w-full h-full rounded-[37px] md:rounded-[56px]">
                 <AvatarImage
-                  src={profilePictureData || "https://github.com/shadcn.png"}
+                  src={profilePictureData.png || "https://github.com/shadcn.png"}
                   alt="avatar"
                 />
                 <AvatarFallback>CN</AvatarFallback>
@@ -223,6 +220,7 @@ const Profile: NextPageWithLayout = () => {
       <ChangeNameModal
         open={openNameModal}
         setOpen={setOpenNameModal}
+        setNewName={setNewName}
         title="Change Name"
       />
       <DeleteAccountModal
