@@ -5,7 +5,7 @@ import { Dialog, DialogHeader, DialogTitle, DialogContent, DialogDescription } f
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Label } from '@/components/ui/label';
-import { useChangePassword } from '../../../../hooks/profile';
+import { useChangeName } from '../../../../hooks/profile';
 
 type ModalProps = {
     className?: string;
@@ -14,19 +14,19 @@ type ModalProps = {
     setOpen: (open: boolean) => void;
 };
 
-const ChangePasswordModal = ({ title, open, setOpen, className }: ModalProps) => {
+const ChangeNameModal = ({ title, open, setOpen, className }: ModalProps) => {
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
-    const { mutate: changePassword, isPending } = useChangePassword();
+    const { mutate: changeName, isPending } = useChangeName();
 
     const onSubmit = (values: any) => {
         setIsLoading(true);
-        changePassword(
-            { currentPassword: values['currentPassword'], newPassword: values['newPassword'] },
+        changeName(
+            { firstName: values['firstName'], lastName: values['lastName'] },
             {
                 onSuccess: () => {
                     setIsLoading(false);
-                    console.log("Password changed successfully");
+                    console.log("Name changed successfully");
                     reset();
                     setOpen(false);
                 },
@@ -52,42 +52,33 @@ const ChangePasswordModal = ({ title, open, setOpen, className }: ModalProps) =>
                 <div>
                     <form className='flex flex-col space-y-6' onSubmit={handleSubmit(onSubmit)}>
                         <div>
-                            <Label htmlFor="currentPassword">Enter old password</Label>
+                            <Label htmlFor="firstName">Enter first name</Label>
                             <Input
-                                type="password"
+                                type="firstName"
                                 className="py-5 bg-white outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                                id="currentPassword"
-                                {...register("currentPassword")}
+                                id="firstName"
+                                {...register("firstName")}
                                 disabled={isLoading}
                             />
                         </div>
                         <div>
-                            <Label htmlFor="newPassword">Enter new password</Label>
+                            <Label htmlFor="lastName">Enter last name</Label>
                             <Input
-                                type="password"
+                                type="lastName"
                                 className="py-5 bg-white outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                                id="newPassword"
-                                {...register("newPassword")}
+                                id="lastName"
+                                {...register("lastName")}
                                 disabled={isLoading}
                             />
                         </div>
-                        <div>
-                            <Label htmlFor="confirm-password">Confirm new password</Label>
-                            <Input
-                                type="password"
-                                className="py-5 bg-white outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                                id="confirm-password"
-                                {...register("confirm-password")}
-                                disabled={isLoading}
-                            />
-                        </div>
+
                         <CustomButton
                             type="submit"
                             className="w-full bg-[#A85334]"
                             disabled={isLoading}
                             isLoading={isLoading}
                         >
-                            Change password
+                            Change name
                         </CustomButton>
                     </form>
                 </div>
@@ -96,4 +87,4 @@ const ChangePasswordModal = ({ title, open, setOpen, className }: ModalProps) =>
     );
 };
 
-export default ChangePasswordModal;
+export default ChangeNameModal;
