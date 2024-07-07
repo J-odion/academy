@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { NextPageWithLayout } from '@/pages/_app'
 import DashboardSidebar from '@/components/layout/admin_dashboard/DashboardSidebar'
 import DashboardLayout from '@/components/layout/admin_dashboard/DashboardLayout'
-import supports from '@/data/supports.json'
+import { support } from '@/data/data'
 import SupportsHeaderTab from '@/components/tabs/admin_dashboard/SupportsHeaderTab'
 import { Table, TableHeader, TableHead, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Button } from '@/components/ui/button'
 import Moment from 'react-moment'
 import ViewModal from '@/components/modal/support/ViewModal'
+import { NoDataCard } from '@/components/dashboard/cards/NoDataCard'
 
 const Support: NextPageWithLayout = () => {
   const [viewSupport, setViewSupport] = useState(false);
@@ -31,6 +32,14 @@ const Support: NextPageWithLayout = () => {
         <div><h1 className='text-2xl font-medium'>Support</h1></div>
         <SupportsHeaderTab currentTab="all" />
         <div className="py-5 w-full">
+          {support.length <= 1 ? (
+            <NoDataCard
+              img="/images/no-data.png"
+              header="No support yet"
+              message="You have not received any support yet"
+              buttonText="Make a support request"
+            />
+          ) : (
           <Table className='w-full'>
             <TableHeader>
               <TableRow>
@@ -40,7 +49,7 @@ const Support: NextPageWithLayout = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {supports.map((support) => (
+              {support.map((support) => (
                 <TableRow key={support.id}>
                   <TableCell className='text-[#4F4F4F]'>
                     <Moment format="DD/M/YY">
@@ -60,6 +69,7 @@ const Support: NextPageWithLayout = () => {
               ))}
             </TableBody>
           </Table>
+          )}
         </div>
       </div>
       <ViewModal title="Support note" open={viewSupport} setOpen={setViewSupport} supportMessage={selectedSupport ? selectedSupport.message : ''} />

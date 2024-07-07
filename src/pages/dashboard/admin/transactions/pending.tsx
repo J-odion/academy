@@ -5,8 +5,9 @@ import TransactionHeaderTab from '@/components/tabs/admin_dashboard/TransactionH
 import { Table, TableHeader, TableHead, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import Moment from 'react-moment';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import transactions from '@/data/transactions.json';
+import { transactions } from '@/data/data';
 import Datapagination from '@/components/pagination/Data-Pagination';
+import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
 
 const itemsPerPage = 5;
 
@@ -24,6 +25,14 @@ const Pending = () => {
       <div className="w-full md:mt-10 mt-12 px-2">
         <TransactionHeaderTab currentTab={'pending'} />
         <div className="py-5 w-full">
+          {pendingTransactions.length <= 1 ? (
+            <NoDataCard
+              img='/images/no-data.png'
+              header='No pending transactions'
+              message='You have no pending transactions'
+              buttonText='View all transactions'
+            />
+          ) : (
           <Table className='w-full'>
             <TableHeader>
               <TableRow>
@@ -44,10 +53,10 @@ const Pending = () => {
                   <TableCell>{transaction.transactionRef}</TableCell>
                   <TableCell>{transaction.email}</TableCell>
                   <TableCell>{transaction.plan}</TableCell>
-                  <TableCell>{transaction.amount_paid}</TableCell>
+                  <TableCell>{transaction.amount}</TableCell>
                   <TableCell>
                     <Moment format="YYYY/MM/DD">
-                      {transaction.date_paid}
+                      {transaction.created_at}
                     </Moment>
                   </TableCell>
                   <TableCell>
@@ -70,6 +79,7 @@ const Pending = () => {
               ))}
             </TableBody>
           </Table>
+          )}
           <Datapagination
             totalItems={transactions.length}
             itemsPerPage={itemsPerPage}

@@ -1,15 +1,32 @@
 export const requests = [
-    
+
   ]
 
 
 export const transactions = [
- 
+ {
+  id: 1,
+  receiptNo: 'SPY-0001',
+  transactionRef: 'SPY-0001',
+  plan: '1 Month',
+  amount: '3,550',
+  email: 'millie@example.com',
+  status: 'success',
+  created_at: '2022-01-01',
+  time_paid: '12:00:00',
+ }
 ]
 
 
 export const support = [
-  
+  {
+    id: 1,
+    name: 'Olagunju Micheal',
+    email: 'olagunjumicheal@example.com',
+    date: '2022-01-01',
+    status: 'resolved',
+    message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget bibendum libero. Donec euismod sapien ac massa lacinia, a fermentum nunc ultricies. Nullam nec nunc nec nunc.'
+  }
 ]
 
 

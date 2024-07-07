@@ -28,7 +28,6 @@ import AddModal from "@/components/modal/tutors/AddModal";
 import { NoDataCard } from "@/components/dashboard/cards/NoDataCard";
 import Link from "next/link";
 
-
 type TutorRequestProps = {
   _id: string;
   firstName: string;
@@ -94,44 +93,36 @@ const Dashboard: NextPageWithLayout = () => {
   return (
     <DashboardSidebar>
       <div className="w-full mt-20 md:mt-20">
-        <div className="items-start justify-between md:flex gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* left section of the dashboard */}
-          <div className="flex flex-[0.58] flex-col">
-        <div className="items-start justify-between md:flex gap-10">
-          {/* left section of the dashboard */}
-          <div className="flex flex-[0.58] flex-col">
-            <div>
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {data.map((item) => (
-                  <>
-                    <Link href={item.link}>
-                      <div
-                        key={item.id}
-                        className="flex flex-col w-full h-[18 0px] p-1 rounded-lg shadow-md relative overflow-hidden"
-                        style={{ backgroundColor: item.color }}
-                      >
-                        <Image
-                          src="/images/blob.svg"
-                          alt="dashboard"
-                          fill
-                          className="absolute "
-                        />
-                        <div className="flex flex-col flex-grow justify-center items-center">
-                          <div className="w-8 h-8">
-                            <BookOpen size={20} />
-                          </div>
-                          <h6 className="text-xl text-center md:text-xl font-semibold">
-                            {item.text}
-                          </h6>
-                          <h1 className="text-2xl text-center md:text-2xl font-semibold">
-                            {item.value}
-                          </h1>
-                        </div>
+          <div className="flex flex-col">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {data.map((item) => (
+                <Link href={item.link} key={item.id}>
+                  <div
+                    className="flex flex-col w-full h-[180px] p-1 rounded-lg shadow-md relative overflow-hidden"
+                    style={{ backgroundColor: item.color }}
+                  >
+                    <Image
+                      src="/images/blob.svg"
+                      alt="dashboard"
+                      fill
+                      className="absolute"
+                    />
+                    <div className="flex flex-col flex-grow justify-center items-center">
+                      <div className="w-8 h-8">
+                        <BookOpen size={20} />
                       </div>
-                    </Link>
-                  </>
-                ))}
-              </div>
+                      <h6 className="text-xl text-center md:text-xl font-semibold">
+                        {item.text}
+                      </h6>
+                      <h1 className="text-2xl text-center md:text-2xl font-semibold">
+                        {item.value}
+                      </h1>
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
 
             <div>
@@ -141,18 +132,14 @@ const Dashboard: NextPageWithLayout = () => {
                     <p className="sm:text-md text-2xl">Recent transactions</p>
                     <Button
                       variant={"link"}
-                      className="text-[#A85334]  text-2xl md:text-lg"
-                      // onClick={toggleShowTransactions}
-                      onClick={() =>
-                        router.push("/dashboard/admin/transactions")
-                      }
+                      className="text-[#A85334] text-2xl md:text-lg"
+                      onClick={() => router.push("/dashboard/admin/transactions")}
                     >
-                      {/* {showAllTransactions ? "View less" : "View all"} */}
                       View all
                     </Button>
                   </div>
 
-                  {recentTransactions.length === 0 ? (
+                  {recentTransactions.length <= 1 ? (
                     <div>
                       <p>No recent transaction</p>
                     </div>
@@ -182,12 +169,8 @@ const Dashboard: NextPageWithLayout = () => {
                                   ></SelectValue>
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="success">
-                                    Success
-                                  </SelectItem>
-                                  <SelectItem value="pending">
-                                    Pending
-                                  </SelectItem>
+                                  <SelectItem value="success">Success</SelectItem>
+                                  <SelectItem value="pending">Pending</SelectItem>
                                   <SelectItem value="failed">Failed</SelectItem>
                                 </SelectContent>
                               </Select>
@@ -207,8 +190,8 @@ const Dashboard: NextPageWithLayout = () => {
           </div>
 
           {/* right section of the dashboard */}
-          <div className="flex flex-[0.4] flex-col h-full">
-            <div>
+          <div className="flex flex-col">
+            <div className="flex justify-end">
               <Button
                 className="bg-[#A85334] w-full lg:justify-center lg:w-[50%] items-center sm:text-md text-lg"
                 onClick={handleAddTutor}
@@ -222,11 +205,9 @@ const Dashboard: NextPageWithLayout = () => {
                 <p className="text-2xl md:text-lg">Tutor Requests</p>
                 <Button
                   variant={"link"}
-                  className="text-[#A85334]  text-2xl md:text-lg"
-                  // onClick={toggleShowTutorialRequests}
+                  className="text-[#A85334] text-2xl md:text-lg"
                   onClick={() => router.push("/dashboard/admin/tutors")}
                 >
-                  {/* redirects to tutor page */}
                   View All
                 </Button>
               </div>
@@ -278,44 +259,42 @@ const Dashboard: NextPageWithLayout = () => {
               )}
             </div>
 
-            <div>
-              <div className="mt-8 bg-[#FEF9F8] p-8 border-[#C4AAA1] border-2 rounded-md">
-                <div className="flex justify-between items-center">
-                  <p className="text-2xl md:text-lg">Support</p>
-                  <Button
-                    variant={"link"}
-                    className="text-[#A85334] text-2xl md:text-lg"
-                    onClick={() => router.push("/dashboard/admin/support")}
-                  >
-                    {/* {showAllSupport ? "View less" : "View all"} */}
-                    View all
-                  </Button>
-                </div>
-                {supports.length === 0 ? (
-                  <div>
-                    <p>No recent enquiry</p>
-                  </div>
-                ) : (
-                  <Table>
-                    <TableBody>
-                      {supports.map((support) => (
-                        <TableRow key={support?.id}>
-                          <TableCell>{support?.name}</TableCell>
-                          <TableCell>{support?.email}</TableCell>
-                          <TableCell>
-                            <Button
-                              className="border-[#A85334] text-[#A85334]"
-                              variant={"outline"}
-                            >
-                              View
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                )}
+            <div className="mt-8 bg-[#FEF9F8] p-8 border-[#C4AAA1] border-2 rounded-md">
+              <div className="flex justify-between items-center">
+                <p className="sm:text-md text-2xl">Support</p>
+                <Button
+                  variant={"link"}
+                  className="text-[#A85334] text-2xl md:text-lg"
+                  onClick={() => router.push("/dashboard/admin/support")}
+                >
+                  View All
+                </Button>
               </div>
+
+              {supports?.length <= 1 ? (
+                <div>
+                  <p>No recent support request</p>
+                </div>
+              ) : (
+                <Table>
+                  <TableBody>
+                  {supports.map((support) => (
+                            <TableRow key={support?.id}>
+                              <TableCell>{support?.name}</TableCell>
+                              <TableCell>{support?.email}</TableCell>
+                              <TableCell>
+                                <Button
+                                  className="border-[#A85334] text-[#A85334]"
+                                  variant={"outline"}
+                                >
+                                  View
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                  </TableBody>
+                </Table>
+              )}
             </div>
           </div>
         </div>
@@ -328,6 +307,7 @@ const Dashboard: NextPageWithLayout = () => {
     </DashboardSidebar>
   );
 };
+
 
 export default Dashboard;
 

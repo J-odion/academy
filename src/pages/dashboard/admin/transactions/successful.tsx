@@ -5,9 +5,10 @@ import TransactionHeaderTab from '@/components/tabs/admin_dashboard/TransactionH
 import { Table, TableHeader, TableHead, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import Moment from 'react-moment';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import transactions from '@/data/transactions.json';
+import { transactions } from '@/data/data';
 import Datapagination from '@/components/pagination/Data-Pagination';
 import { NextPageWithLayout } from '@/pages/_app';
+import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
 
 const itemsPerPage = 5;
 
@@ -25,6 +26,14 @@ const Successful: NextPageWithLayout = () => {
       <div className="w-full md:mt-10 mt-12 px-2">
         <TransactionHeaderTab currentTab={'successful'} />
         <div className="py-5 w-full">
+          {successfulTransactions.length <= 1 ? (
+            <NoDataCard
+              img='/images/no-data.png'
+              header='No successful transactions'
+              message='You have no successful transactions'
+              buttonText='View all transactions'
+            />
+          ) : (
           <Table className='w-full'>
             <TableHeader>
               <TableRow>
@@ -45,10 +54,10 @@ const Successful: NextPageWithLayout = () => {
                   <TableCell>{transaction.transactionRef}</TableCell>
                   <TableCell>{transaction.email}</TableCell>
                   <TableCell>{transaction.plan}</TableCell>
-                  <TableCell>{transaction.amount_paid}</TableCell>
+                  <TableCell>{transaction.amount}</TableCell>
                   <TableCell>
                     <Moment format="YYYY/MM/DD">
-                      {transaction.date_paid}
+                      {transaction.created_at}
                     </Moment>
                   </TableCell>
                   <TableCell>
@@ -71,12 +80,14 @@ const Successful: NextPageWithLayout = () => {
               ))}
             </TableBody>
           </Table>
+          )}
           <Datapagination
             totalItems={transactions.length}
             itemsPerPage={itemsPerPage}
             currentPage={currentPage}
             onPageChange={setCurrentPage}
           />
+
         </div>
       </div>
     </DashboardSidebar>

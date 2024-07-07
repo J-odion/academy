@@ -2,12 +2,13 @@ import React, {useState} from 'react'
 import { NextPageWithLayout } from '@/pages/_app'
 import DashboardSidebar from '@/components/layout/admin_dashboard/DashboardSidebar'
 import DashboardLayout from '@/components/layout/admin_dashboard/DashboardLayout'
-import supports from '@/data/supports.json'
+import { support } from '@/data/data'
 import SupportsHeaderTab from '@/components/tabs/admin_dashboard/SupportsHeaderTab'
 import { Table, TableHeader, TableHead, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Button } from '@/components/ui/button'
 import Moment from 'react-moment'
 import ViewModal from '@/components/modal/support/ViewModal'
+import { NoDataCard } from '@/components/dashboard/cards/NoDataCard'
 
 const Unresolved: NextPageWithLayout = () => {
 
@@ -25,6 +26,14 @@ const Unresolved: NextPageWithLayout = () => {
           <div className='py-4'><h1 className='text-2xl font-medium'>Support / Unresolved</h1></div>
         <SupportsHeaderTab currentTab="resolved" />
         <div className="py-5 w-full">
+          {support.filter((support) => support.status === 'unresolved').length <= 1 ? (
+            <NoDataCard
+              img="/images/no-data.png"
+              header="No unresolved support yet"
+              message="You have not unresolved any support yet"
+              buttonText="View all support"
+              />
+            ) : (
         <Table className='w-full'>
             <TableHeader>
               <TableRow>
@@ -34,7 +43,7 @@ const Unresolved: NextPageWithLayout = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {supports.filter((support) => support.status === 'unresolved').map((support) => (
+              {support.filter((support) => support.status === 'unresolved').map((support) => (
                 <TableRow key={support.id}>
                   <TableCell className='text-[#4F4F4F]'>
                     <Moment format="DD/M/YY">
@@ -52,6 +61,7 @@ const Unresolved: NextPageWithLayout = () => {
               ))}
             </TableBody>
           </Table>
+          )}
         </div>
       </div>
       <ViewModal title="Support note" open={viewSupport} setOpen={setViewSupport} supportMessage={selectedSupport ? selectedSupport.message : ''} />

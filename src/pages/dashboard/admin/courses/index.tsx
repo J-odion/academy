@@ -87,15 +87,7 @@ const Courses: NextPageWithLayout = () => {
         <CoursesHeaderTab currentTab={'category-courses'} />
 
         <div className="py-5 w-full overflow-x-auto">
-          <Table className='w-full'>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Category</TableHead>
-                <TableHead>Courses</TableHead>
-                <TableHead>Enrolled students</TableHead>
-              </TableRow>
-            </TableHeader>
-            {categories.length === 0 ? (
+        {categories.length <= 1 ? (
               <NoDataCard
                 img='/images/no-data.png'
                 header='No categories found'
@@ -104,6 +96,14 @@ const Courses: NextPageWithLayout = () => {
                 handleClick={handleAddCategoryModal}
               />
             ) : (
+          <Table className='w-full'>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Category</TableHead>
+                <TableHead>Courses</TableHead>
+                <TableHead>Enrolled students</TableHead>
+              </TableRow>
+            </TableHeader>
             <TableBody>
               {categories.map((category) => (
                 <TableRow key={category?.id}>
@@ -117,8 +117,8 @@ const Courses: NextPageWithLayout = () => {
                 </TableRow>
               ))}
             </TableBody>
-            )}
           </Table>
+          )}
         </div>
 
         <div className='py-4 flex flex-col gap-4 sm:flex-row lg:flex-row'>

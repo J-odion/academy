@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   PieChart,
   ChevronRight,
@@ -25,7 +25,12 @@ type DashboardSidebarProps = React.PropsWithChildren & {
 const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
   const router = useRouter();
   const { route } = useRouter();
-  const user = useStorage.getItem("firstName");
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUser = useStorage.getItem("firstName");
+    setUser(storedUser);
+  }, []);
 
   const handleLogout = () => {
     router.push("/");
@@ -35,7 +40,6 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
     <>
       <aside className="relative">
         <div className="fixed hidden h-screen w-72 bg-white lg:flex border-r">
-
           <div>
             <div className="flex items-center gap-3 justify-center h-20">
               <Link href='/dashboard/admin/account/profile'>
@@ -44,13 +48,10 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </Link>
-              {user ? (
-                <h1 className="text-2xl font-bold">{user}</h1>
-              ) : (
-                <h1 className="text-2xl font-bold">Admin</h1>
-              )}
+              <h1 className="text-2xl font-bold">
+                {user ? user : "Admin"}
+              </h1>
             </div>
-            {/* <nav className="flex-grow"> */}
             <ul className="flex flex-col py-2 px-4">
               <Link href="/dashboard/admin/account">
                 <li
@@ -205,7 +206,6 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                 </li>
               </Link>
             </ul>
-            {/* </nav> */}
             <div
               className="fixed bottom-10 pl-10 text-[#959190]"
               style={{ cursor: "pointer" }}
@@ -222,9 +222,6 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
             </div>
           </div>
         </div>
-        {/* <div className="h-full min-h-screen w-full pl-5 pr-5 pt-12 py-10 md:pt-12 lg:min-h-40 lg:pl-[32rem] lg:pr-10">
-                {children}
-            </div> */}
         <div className="h-full min-h-screen w-full pl-5 pr-5 pt-12 py-10 md:pt-10 lg:min-h-40 lg:pl-[19rem] lg:pr-2 pb-20">
           {children}
         </div>
