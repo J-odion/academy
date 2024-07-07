@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LogoutModal from "@/components/modal/student_dashboard/LogoutModal";
+import { useStorage } from "@/lib/useStorage";
 
 // ill use this for the avatar
 
@@ -27,7 +28,8 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
 
   // const router = useRouter();
   const { route } = useRouter();
-
+  const user = useStorage.getItem("studentFirstName");
+  console.log("User", user);
   // const handleLogout = () => {
   //   router.push("/auth/login");
   // };
@@ -49,7 +51,11 @@ const DashboardSidebar = ({ children }: DashboardSidebarProps) => {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </Link>
-              <h1 className="text-2xl font-bold">Student</h1>
+              {user ? (
+                <h1 className="text-2xl font-bold">{user}</h1>
+              ) : (
+                <h1 className="text-2xl font-bold">Student</h1>
+              )}
             </div>
             {/* <nav className="flex-grow"> */}
             <ul className="flex flex-col py-4 px-4">

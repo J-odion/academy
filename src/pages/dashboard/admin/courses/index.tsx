@@ -87,15 +87,7 @@ const Courses: NextPageWithLayout = () => {
         <CoursesHeaderTab currentTab={'category-courses'} />
 
         <div className="py-5 w-full overflow-x-auto">
-          <Table className='w-full'>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Category</TableHead>
-                <TableHead>Courses</TableHead>
-                <TableHead>Enrolled students</TableHead>
-              </TableRow>
-            </TableHeader>
-            {categories.length === 0 ? (
+        {categories.length <= 1 ? (
               <NoDataCard
                 img='/images/no-data.png'
                 header='No categories found'
@@ -104,12 +96,20 @@ const Courses: NextPageWithLayout = () => {
                 handleClick={handleAddCategoryModal}
               />
             ) : (
+          <Table className='w-full'>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Category</TableHead>
+                <TableHead>Courses</TableHead>
+                <TableHead>Enrolled students</TableHead>
+              </TableRow>
+            </TableHeader>
             <TableBody>
               {categories.map((category) => (
-                <TableRow key={category.id}>
+                <TableRow key={category?.id}>
                   <TableCell className='inline-flex items-center gap-4 capitalize md:text-base text-lg'>{category.category} <span className='cursor-pointer text-[#A85334]'><Pencil size={18} onClick={handleEditModal} /></span></TableCell>
-                  <TableCell className='sm:text-md text-lg'>{category.no_of_courses}</TableCell>
-                  <TableCell className='sm:text-md text-lg'>{category.enrolled_students}</TableCell>
+                  <TableCell className='sm:text-md text-lg'>{category?.no_of_courses}</TableCell>
+                  <TableCell className='sm:text-md text-lg'>{category?.enrolled_students}</TableCell>
                   <TableCell>
                     <Button variant={'outline'} className='border-[#A85334] border-[1px] text-[#A85334] sm:text-md text-lg' onClick={() => handleViewCategory(category.category.toLowerCase())}>View</Button>
                   </TableCell>
@@ -117,8 +117,8 @@ const Courses: NextPageWithLayout = () => {
                 </TableRow>
               ))}
             </TableBody>
-            )}
           </Table>
+          )}
         </div>
 
         <div className='py-4 flex flex-col gap-4 sm:flex-row lg:flex-row'>

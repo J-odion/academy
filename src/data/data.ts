@@ -1,146 +1,32 @@
 export const requests = [
-    {
-      id: 1,
-      name: 'Kristin Watson',
-      email: 'kristinwatson@gmail.com',
-      status:'Accept'
-    },
-    {
-      id: 2,
-      name: 'Kristin Watson',
-      email: 'kristinwatson@gmail.com',
-      status:'Accept'
-    },
-    {
-      id: 3,
-      name: 'Kristin Watson',
-      email: 'kristinwatson@gmail.com',
-      status:'Reject'
-    },
-    {
-      id: 4,
-      name: 'Kristin Watson',
-      email: 'kristinwatson@gmail.com',
-      status:'Accept'
-    },
-    {
-      id: 5,
-      name: 'Kristin Watson',
-      email: 'kristinwatson@gmail.com',
-      status:'Reject'
-    },
-    {
-      id: 6,
-      name: 'Kristin Watson',
-      email: 'kristinwatson@gmail.com',
-      status:'Accept'
-    }
+
   ]
 
 
 export const transactions = [
-  {
-    id: 1,
-    receiptNo: 'SGA.N4.78782108',
-    email: 'michelle.rivera@example.com',
-    plan: '12 month',
-    amount: 2000,
-    created_at: '2021-09-12',
-    status: 'Pending'
-  },
-  {
-    id: 2,
-    receiptNo: 'SGA.N4.78782108',
-    plan: '12 month',
-    amount: 2000,
-    created_at: '2021-09-12',
-    status: 'Pending'
-  },
-  {
-    id: 3,
-    receiptNo: 'SGA.N4.78782108',
-    plan: '12 month',
-    amount: 2000,
-    created_at: '2021-09-12',
-    status: 'Pending'
-  },
-  {
-    id: 4,
-    receiptNo: 'SGA.N4.78782108',
-    plan: '12 month',
-    amount: 2000,
-    created_at: '2021-09-12',
-    status: 'Recieved'
-  },
-  {
-    id: 5,
-    receiptNo: 'SGA.N4.78782108',
-    plan: '12 month',
-    amount: 2000,
-    created_at: '2021-09-12',
-    status: 'Recieved'
-  },
-  {
-    id: 6,
-    receiptNo: 'SGA.N4.78782108',
-    plan: '12 month',
-    amount: 2000,
-    created_at: '2021-09-12',
-    status: 'Recieved'
-  },
-  {
-    id: 7,
-    receiptNo: 'SGA.N4.78782108',
-    plan: '12 month',
-    amount: 2000,
-    created_at: '2021-09-12',
-    status: 'Received'
-  },
-  {
-    id: 8,
-    receiptNo: 'SGA.N4.78782108',
-    plan: '12 month',
-    amount: 2000,
-    created_at: '2021-09-12',
-    status: 'Pending'
-  },
-  {
-    id: 9,
-    receiptNo: 'SGA.N4.78782108',
-    plan: '12 month',
-    amount: 2000,
-    created_at: '2021-09-12',
-    status: 'Pending'
-  }
+ {
+  id: 1,
+  receiptNo: 'SPY-0001',
+  transactionRef: 'SPY-0001',
+  plan: '1 Month',
+  amount: '3,550',
+  email: 'millie@example.com',
+  status: 'success',
+  created_at: '2022-01-01',
+  time_paid: '12:00:00',
+ }
 ]
 
 
 export const support = [
   {
     id: 1,
-    name: 'Kristin Watson',
-    email: 'kristinwatson@gmail.com',
-  },{
-    id: 2,
-    name: 'Kristin Watson',
-    email: 'kristinwatson@gmail.com',
-  },{
-    id: 3,
-    name: 'Kristin Watson',
-    email: 'kristinwatson@gmail.com',
-  },{
-    id: 4,
-    name: 'Kristin Watson',
-    email: 'kristinwatson@gmail.com',
-  },{
-    id: 5,
-    name: 'Kristin Watson',
-    email: 'kristinwatson@gmail.com',
-  },{
-    id: 6,
-    name: 'Kristin Watson',
-    email: 'kristinwatson@gmail.com',
-  },
+    name: 'Olagunju Micheal',
+    email: 'olagunjumicheal@example.com',
+    date: '2022-01-01',
+    status: 'resolved',
+    message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget bibendum libero. Donec euismod sapien ac massa lacinia, a fermentum nunc ultricies. Nullam nec nunc nec nunc.'
+  }
 ]
 
 

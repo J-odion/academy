@@ -63,7 +63,7 @@ const Students: NextPageWithLayout = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = studentsData?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = studentsData?.allStudents?.slice(indexOfFirstItem, indexOfLastItem);
 
   const colors = ["#895543", "#BA751B", "#6B2B14", "#744911", "#200D06"];
 
@@ -156,7 +156,7 @@ const Students: NextPageWithLayout = () => {
             {isLoading && (
               <Skeleton className="h-[450px] w-full bg-slate-300 rounded-[6px]" />
             )}
-            {!isLoading && currentItems.map((student: StudentsProps) => (
+            {!isLoading && currentItems?.map((student: StudentsProps) => (
               <TableRow key={student?._id}>
                 <TableCell>{student?.firstName} {' '}{student?.lastName}</TableCell>
                 <TableCell>{student?.email}</TableCell>
