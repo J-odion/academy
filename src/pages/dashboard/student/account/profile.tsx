@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "@/components/layout/students_dashboard/DashboardLayout";
 import DashboardSidebar from "@/components/layout/students_dashboard/DashboardSidebar";
 import { NextPageWithLayout } from "@/pages/_app";
@@ -24,8 +24,6 @@ import {
 } from "../../../../../hooks/profile";
 import { useDeleteUserAccount } from "../../../../../hooks/deleteAccount";
 import { useStorage } from "@/lib/useStorage";
-import { useForm } from "react-hook-form";
-import { Form } from "react-hook-form";
 import ChangeProfilePictureModal from "@/components/modal/student_dashboard/ChangeProfilePictureModal";
 import ChangeNameModal from "@/components/modal/student_dashboard/ChangeNameModal";
 
@@ -48,8 +46,16 @@ const Profile: NextPageWithLayout = () => {
   const [newPassword, setNewPassword] = useState("");
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
 
-  const fullName =useStorage.getItem("studentFirstName") + " " + useStorage.getItem("studentLastName");
-  const email = useStorage.getItem("studentEmail");
+  const [fullName, setFullName] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    const firstName = useStorage.getItem("studentFirstName");
+    const lastName = useStorage.getItem("studentLastName");
+    const storedEmail = useStorage.getItem("studentEmail");
+    setFullName(`${firstName} ${lastName}`);
+    setEmail(storedEmail);
+  }, []);
 
   const handleSaveChanges = () => {
     if (newName) {
@@ -114,7 +120,7 @@ const Profile: NextPageWithLayout = () => {
             <div className="md:w-44 md:h-44 w-28 h-28 ">
               <Avatar className="w-full h-full rounded-[37px] md:rounded-[56px]">
                 <AvatarImage
-                  src={profilePictureData.png || "https://github.com/shadcn.png"}
+                  src={profilePictureData || "https://github.com/shadcn.png"}
                   alt="avatar"
                 />
                 <AvatarFallback>CN</AvatarFallback>
@@ -124,7 +130,7 @@ const Profile: NextPageWithLayout = () => {
               {fullName ? (
                 <h1 className="text-lg md:text-2xl font-bold">{fullName}</h1>
               ) : (
-                <h1 className="text-lg md:text-2xl font-bold">John doe</h1>
+                <h1 className="text-lg md:text-2xl font-bold">John Doe</h1>
               )}
               {email ? (
                 <p className="text-sm md:text-base text-[#A85334]">{email}</p>
@@ -165,25 +171,6 @@ const Profile: NextPageWithLayout = () => {
                   />
                 </AccordionContent>
               </AccordionItem>
-              {/* <AccordionItem
-                value="item-2"
-                className="bg-[#FDF4E9] border-[1px] border-[#C4AAA1] rounded-md pr-4 pl-6"
-              >
-                <AccordionTrigger className="font-normal text-sm">
-                  Change username
-                </AccordionTrigger>
-                <AccordionContent>Micheal79</AccordionContent>
-              </AccordionItem> */}
-              {/* <AccordionItem value="item-3" className='bg-[#FDF4E9] border-[1px] border-[#C4AAA1] rounded-md pr-4 pl-6'>
-                <AccordionTrigger className='font-normal text-sm'>Change profile image</AccordionTrigger>
-                <AccordionContent>
-                  <Input
-                    type="file"
-                    onChange={handleProfilePictureChange}
-                  />
-                </AccordionContent>
-              </AccordionItem> */}
-
               <div
                 className="border-[1px] border-[#C4AAA1] rounded-md pr-4 pl-6 flex justify-between items-center h-[3.1em] cursor-pointer"
                 onClick={handleProfilePictureModal}
@@ -191,7 +178,6 @@ const Profile: NextPageWithLayout = () => {
                 <p className="font-normal text-sm">Change profile image</p>
                 <ChevronRight size={14} className="text-[#D06B0D]" />
               </div>
-
               <div
                 className="border-[1px] border-[#C4AAA1] rounded-md pr-4 pl-6 flex justify-between items-center h-[3.1em] cursor-pointer"
                 onClick={handleChangePasswordModal}
@@ -201,7 +187,7 @@ const Profile: NextPageWithLayout = () => {
               </div>
             </Accordion>
 
-            <Button className="mt-6 bg-[#A85334]" >
+            <Button className="mt-6 bg-[#A85334]" onClick={handleSaveChanges}>
               Save Changes
             </Button>
           </div>
