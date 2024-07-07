@@ -6,15 +6,17 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Label } from '@/components/ui/label';
 import { useChangeName } from '../../../../hooks/profile';
+import { useStorage } from '@/lib/useStorage';
 
 type ModalProps = {
     className?: string;
     title: string;
     open: boolean;
+    setNewName: any;
     setOpen: (open: boolean) => void;
 };
 
-const ChangeNameModal = ({ title, open, setOpen, className }: ModalProps) => {
+const ChangeNameModal = ({ title, open, setOpen, className, setNewName }: ModalProps) => {
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const { mutate: changeName, isPending } = useChangeName();
@@ -28,6 +30,7 @@ const ChangeNameModal = ({ title, open, setOpen, className }: ModalProps) => {
                     setIsLoading(false);
                     console.log("Name changed successfully");
                     reset();
+                    setNewName(useStorage.getItem('studentFirstName') + " " + useStorage.getItem('studentLastName'));
                     setOpen(false);
                 },
                 onError: (error: any) => {

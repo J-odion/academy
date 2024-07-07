@@ -120,7 +120,9 @@ export const useChangeName = () => {
                     description: message,
                     className: "toast-success",
                 });
-                router.push("/dashboard/admin/account");
+                useStorage.setItem('studentFirstName', response.updatedName?.firstName);
+                useStorage.setItem('studentLastName', response.updatedName?.lastName);
+                router.push("/dashboard/student/account");
             } else {
                 toast({
                     title: "Something went wrong",

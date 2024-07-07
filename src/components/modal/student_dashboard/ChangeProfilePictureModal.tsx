@@ -18,6 +18,7 @@ const ChangeProfilePictureModal = ({ title, open, setOpen, className }: ModalPro
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [profilePicture, setProfilePicture] = useState<File | null>(null);
+
     const { mutate: changeProfilePicture, isPending } = useChangeProfilePicture();
 
     const handleProfilePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {

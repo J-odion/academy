@@ -76,7 +76,7 @@ const SignUp: NextPageWithLayout = () => {
         </p> */}
 
         <div className="flex justify-center flex-col mb-1 lg:mb-10 top-0">
-          <Link href="/" className="text-[#A85334]">
+          <Link href="/" className="text-[#A85334] pb-10 pb-6">
             <Image
               className="h-[100px] w-[100px] mx-auto lg:mx-0 mb-0 lg:mb-4 "
               src="/SGALOGO.svg"
