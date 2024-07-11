@@ -10,7 +10,7 @@ import { Table, TableHeader, TableHead, TableBody, TableCell, TableRow } from '@
 import Moment from 'react-moment';
 import Datapagination from '@/components/pagination/Data-Pagination';
 import AddModal from '@/components/modal/tutors/AddModal';
-import { useGetOnboardedAdmins, useDeleteAdmin } from '../../../../../hooks/account/superAdmin';
+import { useGetOnboardedAdmins, useDeleteAdmin, useAddAdmins } from '../../../../../hooks/account/superAdmin';
 import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import CustomButton from '@/components/CustomButton';
@@ -39,6 +39,7 @@ const Tutors: NextPageWithLayout = () => {
 
   const { data: onboardedAdmins,  isLoading: onboardedLoading } = useGetOnboardedAdmins();
   const { mutate: deleteAdmin, isPending } = useDeleteAdmin(selectedTutor?.adminId);
+  const { mutate: addAdmin } = useAddAdmins();
 
   const { toast } = useToast();
 
@@ -54,6 +55,11 @@ const Tutors: NextPageWithLayout = () => {
     deleteAdmin();
     setAddModal(false);
 };
+
+const handleAddAdmin = (data: any) => {
+  addAdmin(data);
+  setAddModal(false);
+}
 
 
   const getButtonBorderColor = (status: string) => {

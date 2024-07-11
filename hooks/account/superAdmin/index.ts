@@ -51,8 +51,10 @@ export const useDeleteAdmin = (adminId: any) => {
                 description: `${response.message}`,
                 className: "toast-success",
             });
-            router.push("/dashboard/admin/tutors");
-            // queryClient.invalidateQueries('getOnboardedAdmins');
+            queryClient.invalidateQueries({
+                queryKey: ["users"],
+                exact: true,
+            });
         },
         onError: (error: any) => {
             toast({
@@ -96,6 +98,7 @@ export const useOnboardPendingAdmin = (adminId: any) => {
     const { toast } = useToast();
     const router = useRouter();
 
+
     const mutationFn = async () => {
         const response = await axiosInstance.put(`/onboardPendingAdmin/${adminId}`);
         return response.data;
@@ -125,6 +128,7 @@ export const useOnboardPendingAdmin = (adminId: any) => {
 export const useAddAdmins = () => {
     const { toast } = useToast();
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const mutationFn = async (data: any) => {
         const response = await axiosInstance.post("/superAdminAddAdmin", data);
@@ -140,8 +144,10 @@ export const useAddAdmins = () => {
                     description: `${response.message}`,
                     className: "toast-success",
                 });
-                router.push("/dashboard/admin/admins");
-
+                queryClient.invalidateQueries({
+                    queryKey: ["getAllAdmins"],
+                    exact: true,
+                });
             } else {
                 toast({
                   title: "Something went wrong... Try Again",

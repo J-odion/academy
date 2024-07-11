@@ -6,12 +6,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogContent,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { useAddAdmin } from "../../../../hooks/tutors";
 
 type TutorsModalProps = {
   className?: string;
@@ -22,15 +21,15 @@ type TutorsModalProps = {
 
 const AddModal = ({ title, open, setOpen, className }: TutorsModalProps) => {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: addAdmins, isPending } = useAddAdmin();
 
-  const onSubmit = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      console.log("Form submitted with values:");
-      reset();
-    }, 1000);
+  const onSubmit = (data: any) => {
+    addAdmins(data, {
+      onSuccess: () => {
+        reset();
+        setOpen(false);
+      },
+    });
   };
 
   return (
@@ -39,7 +38,7 @@ const AddModal = ({ title, open, setOpen, className }: TutorsModalProps) => {
         <DialogHeader>
           <DialogTitle
             className={cn(
-              `font-bolder  text-center py-3 text-xl text-black`,
+              `font-bolder text-center py-3 text-xl text-black`,
               className
             )}
           >
@@ -48,40 +47,65 @@ const AddModal = ({ title, open, setOpen, className }: TutorsModalProps) => {
           <div>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="space-y-14"
+              className="space-y-8"
               autoComplete="off"
             >
-              <div className="mb-3 grid w-full items-center gap-1.5">
-                <Label htmlFor="name">Name</Label>
+              <div className="mb-2 grid w-full items-center gap-1.5">
+                <Label htmlFor="firstName">First Name</Label>
                 <Input
                   type="text"
                   className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                  id="name"
-                  {...register("name")}
-                  disabled={isLoading}
+                  id="firstName"
+                  {...register("firstName")}
+                  disabled={isPending}
                 />
               </div>
-              <div className="mb-3 grid w-full items-center gap-1.5">
-                <Label htmlFor="phone">Phone number</Label>
+              <div className="mb-2 grid w-full items-center gap-1.5">
+                <Label htmlFor="lastName">Last Name</Label>
                 <Input
                   type="text"
                   className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
-                  id="phone"
-                  {...register("phone")}
-                  disabled={isLoading}
+                  id="lastName"
+                  {...register("lastName")}
+                  disabled={isPending}
                 />
               </div>
-              <div className="mb-3 grid w-full items-center gap-1.5">
+              <div className="mb-2 grid w-full items-center gap-1.5">
+                <Label htmlFor="telephone">Phone number</Label>
+                <Input
+                  type="text"
+                  className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
+                  id="telephone"
+                  {...register("telephone")}
+                  disabled={isPending}
+                />
+              </div>
+              <div className="mb-2 grid w-full items-center gap-1.5">
                 <Label htmlFor="email">Email address</Label>
                 <Input
                   type="text"
                   className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
                   id="email"
                   {...register("email")}
-                  disabled={isLoading}
+                  disabled={isPending}
                 />
               </div>
-              <CustomButton className="bg-[#A85334] w-full" type="submit">Save</CustomButton>
+              <div className="mb-2 grid w-full items-center gap-1.5">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  type="password"
+                  className="py-5 bg-[#F2E9DF] outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-[#F2E9DF] focus:ring-[#A85334]"
+                  id="password"
+                  {...register("password")}
+                  disabled={isPending}
+                />
+              </div>
+              <CustomButton className="bg-[#A85334] w-full" type="submit"
+              isLoading={isPending}
+              disabled={isPending}
+              >
+                Save
+              </CustomButton>
             </form>
           </div>
         </DialogHeader>

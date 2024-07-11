@@ -63,37 +63,40 @@ export const useOnboardedAdmins = () => {
     });
 }
 
-
 export const useAddAdmin = () => {
     const { toast } = useToast();
     const queryClient = useQueryClient();
 
     const mutationFn = async (data: any) => {
-        const response = await axiosInstance.post("superAdminAddAdmin", data);
+        const response = await axiosInstance.post("/superAdminAddAdmin", data);
         return response.data;
     };
 
     return useMutation({
         mutationFn,
         onSuccess: (response: any) => {
-            if (response.status_code === 201 || response.status_code === 200) {
+            if(response.message){
                 toast({
-                    title: "Admin successfully added",
+                    title: "Admin added successfully",
                     description: `${response.message}`,
                     className: "toast-success",
                 });
-                queryClient.invalidateQueries({ queryKey: ["pendingAdmins"] });
-            } else {
-                console.log(response.error);
-                toast({
-                    title: "Something went wrong... Try Again",
-                    description: response.error,
-                    className: "toast-error",
+                queryClient.invalidateQueries({
+                    queryKey: ["onboardedAdmins"],
+                    exact: true,
                 });
-            }
-        },
+            } else {
+                toast({
+                  title: "Something went wrong... Try Again",
+                  description: `${response.error}`,
+                  className: "toast-error",
+                });
+              }
+        }
     });
+
 }
+
 
 
 export const useDeleteAdmin = (adminId: any) => {
