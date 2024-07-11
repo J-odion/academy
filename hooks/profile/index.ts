@@ -122,7 +122,7 @@ export const useChangeName = () => {
                 });
                 useStorage.setItem('studentFirstName', response.updatedName?.firstName);
                 useStorage.setItem('studentLastName', response.updatedName?.lastName);
-                router.push("/dashboard/student/account");
+                // router.push("/dashboard/student/account");
             } else {
                 toast({
                     title: "Something went wrong",

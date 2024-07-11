@@ -123,7 +123,7 @@ const Courses: NextPageWithLayout = () => {
 
         <div className='py-4 flex flex-col gap-4 sm:flex-row lg:flex-row'>
           <Button variant={'outline'} className='border-[1px] border-[#A85334] text-[#A85334] sm:ml-0 lg:ml-0 sm:text-md text-lg' onClick={handleAddCategoryModal}><span><Plus size={18} /></span>{" "}Add category</Button>
-          <Button className='bg-[#A85334] sm:text-md text-lg'><span><Plus size={18} /></span>{" "}Add course</Button>
+          {/* <Button className='bg-[#A85334] sm:text-md text-lg'><span><Plus size={18} /></span>{" "}Add course</Button> */}
         </div>
       </div>
 
@@ -148,7 +148,7 @@ const Courses: NextPageWithLayout = () => {
       <AddModal
         title='Add category'
         open={addCategoryModal}
-        setOpen={setAddModal}
+        setOpen={setAddCategoryModal}
       />
     </DashboardSidebar>
   )

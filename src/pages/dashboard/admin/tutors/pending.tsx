@@ -13,6 +13,7 @@ import AddModal from '@/components/modal/tutors/AddModal';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
 import { useGetPendingAdmins, useOnboardPendingAdmin } from '../../../../../hooks/account/superAdmin';
+import CustomButton from '@/components/CustomButton';
 
 type TutorsProps = {
   firstName: string;
@@ -36,7 +37,7 @@ const Pending: NextPageWithLayout = () => {
 
   const { data: pendingAdmins, isLoading: pendingLoading } = useGetPendingAdmins();
   console.log('Pending Admins:', pendingAdmins);
-  const { mutate: onboardPendingAdmin } = useOnboardPendingAdmin(selectedTutor?.adminId);
+  const { mutate: onboardPendingAdmin, isPending } = useOnboardPendingAdmin(selectedTutor?.adminId);
   console.log(selectedTutor);
 
   const handleAddModal = () => setAddModal(!addModal);
@@ -114,13 +115,15 @@ const Pending: NextPageWithLayout = () => {
                       </Moment>
                     </TableCell>
                     <TableCell>
-                      <Button
+                      <CustomButton
                         variant={'outline'}
                         className={getButtonBorderColor(tutor.status)}
                         onClick={() => handleOnboardAdmin(tutor)}
+                        isLoading={isPending}
+                        disabled={isPending}
                       >
                         {tutor.status === 'onboarded' ? 'Reject request' : 'Accept request'}
-                      </Button>
+                      </CustomButton>
                     </TableCell>
                   </TableRow>
                 ))}
