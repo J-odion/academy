@@ -73,7 +73,7 @@ export const useChangeProfilePicture = () => {
                     className: "toast-success",
                 });
 
-                router.push("/dashboard/student/account");
+                // router.push("/dashboard/student/account");
             } else {
                 toast({
                     title: "Something went wrong",
@@ -92,8 +92,6 @@ export const useChangeProfilePicture = () => {
         },
     });
 };
-
-
 
 export const useChangeName = () => {
     const { toast } = useToast();
@@ -167,7 +165,7 @@ export const useChangeEmail = () => {
                     description: message,
                     className: "toast-success",
                 });
-                router.push("/dashboard/admin/account");
+                // router.push("/dashboard/admin/account");
             } else {
                 toast({
                     title: "Something went wrong",
@@ -187,7 +185,6 @@ export const useChangeEmail = () => {
     });
 }
 
-
 export const useGetProfilePicture = () => {
     const queryFn = async () => {
         const response = await axiosInstance.get("/users/getProfilePicture");
@@ -198,5 +195,6 @@ export const useGetProfilePicture = () => {
         queryKey: ["profilePicture"],
         queryFn,
         retry: 1,
+        // refetchInterval: 60000,
     });
 }

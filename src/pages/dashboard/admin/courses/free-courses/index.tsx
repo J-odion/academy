@@ -78,9 +78,9 @@ const FreeCourses: NextPageWithLayout = () => {
     setEditModal(!editModal);
   }
 
-  const handleAddCategoryModal = () => {
-    setAddCategoryModal(!addCatergoryModal);
-  }
+  // const handleAddCategoryModal = () => {
+  //   setAddCategoryModal(!addCatergoryModal);
+  // }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

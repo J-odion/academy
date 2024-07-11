@@ -39,7 +39,7 @@ const Profile: NextPageWithLayout = () => {
   const { mutate: changeEmail } = useChangeEmail();
   const { mutate: changePassword } = useChangePassword();
   const { mutate: changeProfilePicture } = useChangeProfilePicture();
-  const { data: profilePictureData } = useGetProfilePicture();
+  const { data: profilePictureData, } = useGetProfilePicture();
   console.log('Profile Picture:', profilePictureData);
 
   const [newName, setNewName] = useState("");
