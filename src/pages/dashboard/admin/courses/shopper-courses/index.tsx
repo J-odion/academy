@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from "@/components/ui/checkbox";
 import Datapagination from '@/components/pagination/Data-Pagination';
 import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
-import { useGetShopperCourses, useDeleteShoppperCourse, useUpdateShopperCourses } from '../../../../../../hooks/account/admin';
+import { useGetShopperCourses, useDeleteShopperCourse, useUpdateShopperCourses } from '../../../../../../hooks/account/admin';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const itemsPerPage = 8;
@@ -40,7 +40,7 @@ const ShopperCourses: NextPageWithLayout = () => {
   const [selectedCourse, setSelectedCourse] = useState<ShopperCoursesProps | null>(null);
   const { data: shopperCourses, isLoading } = useGetShopperCourses();
   console.log(shopperCourses);
-  const { mutate: deleteShopperCourse, isPending } = useDeleteShoppperCourse(selectedCourse?.shopperCourseId);
+  const { mutate: deleteShopperCourse, isPending } = useDeleteShopperCourse(selectedCourse?.shopperCourseId);
   console.log(selectedCourse);
   const { mutate: updateShopperCourses } = useUpdateShopperCourses(selectedCourse?.shopperCourseId);
   console.log(updateShopperCourses);
