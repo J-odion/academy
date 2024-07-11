@@ -46,21 +46,20 @@ export const useDeleteAdmin = (adminId: any) => {
     return useMutation({
         mutationFn,
         onSuccess: (response: any) => {
-            if(response.message){
-                toast({
-                    title: "Admin deleted successfully",
-                    description: `${response.message}`,
-                    className: "toast-success",
-                });
-                router.push("/dashboard/admin/tutors");
-
-            } else {
-                toast({
-                  title: "Something went wrong... Try Again",
-                  description: `${response.error}`,
-                  className: "toast-error",
-                });
-              }
+            toast({
+                title: "Admin deleted successfully",
+                description: `${response.message}`,
+                className: "toast-success",
+            });
+            router.push("/dashboard/admin/tutors");
+            // queryClient.invalidateQueries('getOnboardedAdmins');
+        },
+        onError: (error: any) => {
+            toast({
+                title: "Tutor rejection failed",
+                description: 'Tutor rejection failed. Please try again',
+                className: "toast-error",
+            });
         }
     });
 
@@ -105,33 +104,20 @@ export const useOnboardPendingAdmin = (adminId: any) => {
     return useMutation({
         mutationFn,
         onSuccess: (response: any) => {
-            console.log('Response:', response);
-
-            const { message, error } = response;
-
-            if (message) {
-                toast({
-                    title: "Admin onboarded successfully",
-                    description: message,
-                    className: "toast-success",
-                });
-                router.push("/dashboard/admin/tutors");
-            } else {
-                toast({
-                    title: "Something went wrong",
-                    description: error || "An unexpected error occurred",
-                    className: "toast-error",
-                });
-            }
-        },
-        onError: (error) => {
-            console.error("Error:", error);
             toast({
-                title: "Error",
-                description: "An error occurred, please try again",
+                title: "Admin onboarded successfully",
+                description: `${response.message}`,
+                className: "toast-success",
+            });
+            router.push("/dashboard/admin/tutors");
+        },
+        onError: (response: any) => {
+            toast({
+                title: "Admin onboarding failed",
+                description: `${response.message}`,
                 className: "toast-error",
             });
-        },
+        }
     });
 }
 

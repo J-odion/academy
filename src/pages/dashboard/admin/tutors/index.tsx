@@ -13,6 +13,8 @@ import AddModal from '@/components/modal/tutors/AddModal';
 import { useGetOnboardedAdmins, useDeleteAdmin } from '../../../../../hooks/account/superAdmin';
 import { NoDataCard } from '@/components/dashboard/cards/NoDataCard';
 import { Skeleton } from '@/components/ui/skeleton';
+import CustomButton from '@/components/CustomButton';
+import { useToast } from '@/components/ui/use-toast';
 
 type TutorsProps = {
   firstName: string;
@@ -36,7 +38,9 @@ const Tutors: NextPageWithLayout = () => {
 
 
   const { data: onboardedAdmins,  isLoading: onboardedLoading } = useGetOnboardedAdmins();
-  const { mutate: deleteAdmin } = useDeleteAdmin(selectedTutor?.adminId);
+  const { mutate: deleteAdmin, isPending } = useDeleteAdmin(selectedTutor?.adminId);
+
+  const { toast } = useToast();
 
 
   useEffect(() => {
@@ -49,7 +53,8 @@ const Tutors: NextPageWithLayout = () => {
     setSelectedTutor(tutor);
     deleteAdmin();
     setAddModal(false);
-  }
+};
+
 
   const getButtonBorderColor = (status: string) => {
     return status === 'onboarded' ? 'border-red-500 text-red-500' : 'border-green-500 text-red-500';
@@ -110,12 +115,14 @@ const Tutors: NextPageWithLayout = () => {
                       <Moment format="DD/M/YY">{tutor?.submissionDate}</Moment>
                     </TableCell>
                     <TableCell>
-                      <Button variant={'outline'}
+                      <CustomButton variant={'outline'}
                         className={getButtonBorderColor(tutor.status)}
                         onClick={() => handleRejectAdmin(tutor)}
+                        isLoading={isPending}
+                        disabled={isPending}
                       >
                         {tutor?.status === 'onboarded' ? 'Reject request' : 'Accept request'}
-                      </Button>
+                      </CustomButton>
                     </TableCell>
                   </TableRow>
                 ))}
