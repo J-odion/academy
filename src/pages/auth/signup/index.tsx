@@ -22,6 +22,7 @@ import { QUERY_KEYS } from "@/lib/utils";
 import { useAuth } from "../../../../context/auth.context";
 import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const SignUp: NextPageWithLayout = () => {
   const [loading, setLoading] = useState(false);
@@ -66,6 +67,46 @@ const SignUp: NextPageWithLayout = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        when: "beforeChildren",
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  const floatingVariants = {
+    float: {
+      y: [0, 10, 0],
+      transition: {
+        duration: 3,
+        ease: "easeInOut",
+        repeat: Infinity,
+      },
+    },
+  };
+
+  const rotatingVariants = {
+    rotate: {
+      rotate: [0, 360],
+      transition: {
+        duration: 20,
+        ease: "linear",
+        repeat: Infinity,
+      },
+    },
   };
 
   return (
@@ -208,6 +249,29 @@ const SignUp: NextPageWithLayout = () => {
           className="rounded-lg"
         />
       </div>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          repeatType: "reverse",
+        }}
+        className="absolute top-1/4 left-1/4 w-32 h-32 bg-brown rounded-full filter blur-2xl opacity-20"
+        variants={floatingVariants}
+      ></motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          repeatType: "reverse",
+          delay: 0.5,
+        }}
+        className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-yellow-300 rounded-full filter blur-2xl opacity-20"
+        variants={floatingVariants}
+      ></motion.div>
     </div>
   );
 };
