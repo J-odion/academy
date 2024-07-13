@@ -39,10 +39,6 @@ const Tutors: NextPageWithLayout = () => {
 
   const { data: onboardedAdmins,  isLoading: onboardedLoading } = useGetOnboardedAdmins();
   const { mutate: deleteAdmin, isPending } = useDeleteAdmin(selectedTutor?.adminId);
-  const { mutate: addAdmin } = useAddAdmins();
-
-  const { toast } = useToast();
-
 
   useEffect(() => {
     setClientLoaded(true);
@@ -55,11 +51,6 @@ const Tutors: NextPageWithLayout = () => {
     deleteAdmin();
     setAddModal(false);
 };
-
-const handleAddAdmin = (data: any) => {
-  addAdmin(data);
-  setAddModal(false);
-}
 
 
   const getButtonBorderColor = (status: string) => {

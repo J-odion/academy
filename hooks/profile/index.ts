@@ -52,11 +52,7 @@ export const useChangeProfilePicture = () => {
     const queryClient = useQueryClient();
 
     const mutationFn = async (data: FormData) => {
-        const response = await axiosInstance.put('/users/changeProfilePicture', data, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+        const response = await axiosInstance.put('/users/changeProfilePicture', data)
         return response.data;
     };
 
@@ -72,8 +68,10 @@ export const useChangeProfilePicture = () => {
                     description: message,
                     className: "toast-success",
                 });
-
-                // router.push("/dashboard/student/account");
+                queryClient.invalidateQueries({
+                    queryKey: ["profile"],
+                    exact: true,
+                });
             } else {
                 toast({
                     title: "Something went wrong",
@@ -95,14 +93,10 @@ export const useChangeProfilePicture = () => {
 
 export const useChangeName = () => {
     const { toast } = useToast();
-    const router = useRouter();
+    const queryClient = useQueryClient();
 
     const mutationFn = async (data: any) => {
-        const response = await axiosInstance.put("/users/changeName", data, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        const response = await axiosInstance.put("/users/changeName", data)
         return response.data;
     };
     return useMutation({
@@ -117,6 +111,10 @@ export const useChangeName = () => {
                     title: "Name successfully changed",
                     description: message,
                     className: "toast-success",
+                });
+                queryClient.invalidateQueries({
+                    queryKey: ["profile"],
+                    exact: true,
                 });
                 useStorage.setItem('studentFirstName', response.updatedName?.firstName);
                 useStorage.setItem('studentLastName', response.updatedName?.lastName);
@@ -142,14 +140,10 @@ export const useChangeName = () => {
 
 export const useChangeEmail = () => {
     const { toast } = useToast();
-    const router = useRouter();
+    const queryClient = useQueryClient();
 
     const mutationFn = async (data: any) => {
-        const response = await axiosInstance.put("/users/changeEmail", data, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        const response = await axiosInstance.put("/users/changeEmail", data)
         return response.data;
     };
     return useMutation({
@@ -165,7 +159,10 @@ export const useChangeEmail = () => {
                     description: message,
                     className: "toast-success",
                 });
-                // router.push("/dashboard/admin/account");
+                queryClient.invalidateQueries({
+                    queryKey: ["profile"],
+                    exact: true,
+                });
             } else {
                 toast({
                     title: "Something went wrong",
@@ -192,7 +189,7 @@ export const useGetProfilePicture = () => {
     };
 
     return useQuery({
-        queryKey: ["profilePicture"],
+        queryKey: ["profile"],
         queryFn,
         retry: 1,
         // refetchInterval: 60000,

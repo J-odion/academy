@@ -21,6 +21,7 @@ import { AuthConfirmOtp } from "../../../../hooks/auth";
 import { QUERY_KEYS } from "@/lib/utils";
 import { useAuth } from "../../../../context/auth.context";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const SignUp: NextPageWithLayout = () => {
   const { toast } = useToast();
@@ -64,6 +65,46 @@ const SignUp: NextPageWithLayout = () => {
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        when: "beforeChildren",
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  const floatingVariants = {
+    float: {
+      y: [0, 10, 0],
+      transition: {
+        duration: 3,
+        ease: "easeInOut",
+        repeat: Infinity,
+      },
+    },
+  };
+
+  const rotatingVariants = {
+    rotate: {
+      rotate: [0, 360],
+      transition: {
+        duration: 20,
+        ease: "linear",
+        repeat: Infinity,
+      },
+    },
+  };
+
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center min-h-screen p-4 bg-gray-50">
       <div className="lg:w-1/2 flex flex-col items-center lg:items-start my-8 lg:mb-8 lg:pl-8 ">
@@ -76,7 +117,7 @@ const SignUp: NextPageWithLayout = () => {
         </p> */}
 
         <div className="flex justify-center flex-col mb-1 lg:mb-10 top-0">
-          <Link href="/" className="text-[#A85334] pb-10 pb-6">
+          <Link href="/" className="text-[#A85334] pb-6">
             <Image
               className="h-[100px] w-[100px] mx-auto lg:mx-0 mb-0 lg:mb-4 "
               src="/SGALOGO.svg"
@@ -202,6 +243,29 @@ const SignUp: NextPageWithLayout = () => {
           className="rounded-lg"
         />
       </div>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          repeatType: "reverse",
+        }}
+        className="absolute top-1/4 left-1/4 w-32 h-32 bg-brown rounded-full filter blur-2xl opacity-20"
+        variants={floatingVariants}
+      ></motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          repeatType: "reverse",
+          delay: 0.5,
+        }}
+        className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-yellow-300 rounded-full filter blur-2xl opacity-20"
+        variants={floatingVariants}
+      ></motion.div>
     </div>
   );
 };
